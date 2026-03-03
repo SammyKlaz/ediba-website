@@ -1,7 +1,7 @@
 import express from "express";
 import {sermonsPage, singleSermonPage} from "../controllers/sermonController.js";
 import { createSermonComment, toggleSermonLike } from "../controllers/sermonController.js";
-import { isLoggedIn } from "../middleware/authmiddleware.js";
+import { isLoggedIn } from "../middleware/authMiddleware.js";
 
 
 
