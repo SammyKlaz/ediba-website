@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+
+<h1 class="admin-homepage-title">Homepage Images</h1>
+<% if (success && success.length) { %>
+  <p class="auth-success"><%= success[0] %></p>
+<% } %>
+<div class="admin-homepage-images">
+  <a href="/admin" class="btn-secondary">← Back to Dashboard</a>
+  <table class="admin-table">
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Image</th>
+      <th>Alt Text</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% images.forEach(img => { %>
+      <tr>
+        <td><%= img.section %></td>
+        <td>
+          <% if (img.file_path) { %>
+            <img src="<%= img.file_path %>" alt="<%= img.alt_text %>" style="max-width:120px;">
+          <% } else { %>
+            <span class="text-muted">No image</span>
+          <% } %>
+        </td>
+        <td>
+          <form method="POST" action="/admin/homepage-images/<%= img.section %>/edit" enctype="multipart/form-data" style="display:flex;gap:8px;align-items:center;">
+            <input type="file" name="image" accept="image/*">
+            <input type="text" name="alt_text" placeholder="Alt text" value="<%= img.alt_text %>" style="padding:6px;">
+            <input type="hidden" name="current_file_path" value="<%= img.file_path %>">
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </form>
+        </td>
+        <td style="display:flex;gap:8px;align-items:center;">
+          <a href="/admin/homepage-images/<%= img.section %>/edit" class="btn btn-secondary">Edit Details</a>
+          <% if (img.file_path) { %>
+            <form method="POST" action="/admin/homepage-images/<%= img.section %>/delete" onsubmit="return confirm('Delete this image? This will remove the file from storage and the database.');" style="display:inline-block;margin:0;">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

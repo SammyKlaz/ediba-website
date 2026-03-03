@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+<h1 class = "admin-homepage-title">Edit Homepage Image: <%= section %></h1>
+<% if (error && error.length) { %>
+  <p class="auth-error"><%= error[0] %></p>
+<% } %>
+<div class="admin-edit-homepage-image">
+  <form method="POST" action="/admin/homepage-images/<%= section %>/edit" enctype="multipart/form-data" class="admin-form">
+  <div class="form-group">
+    <label>Current Image:</label><br>
+    <% if (image && image.file_path) { %>
+      <img src="<%= image.file_path %>" alt="<%= image.alt_text %>" style="max-width:200px;">
+      <input type="hidden" name="current_file_path" value="<%= image.file_path %>">
+    <% } else { %>
+      <span>No image uploaded yet.</span>
+    <% } %>
+  </div>
+  <div class="form-group">
+    <label>Upload New Image:</label>
+    <input type="file" name="image" accept="image/*">
+  </div>
+  <div class="form-group">
+    <label>Alt Text:</label>
+    <input type="text" name="alt_text" value="<%= image ? image.alt_text : '' %>" maxlength="255">
+  </div>
+  <button type="submit" class="btn-accent">Save</button>
+</form>
+ <a href="/admin/homepage-images" class="btn-secondary" id="back-to-images">← Back to Images</a>
+</div>
+
+<%- include('../partials/footer') %>

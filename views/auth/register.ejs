@@ -1,0 +1,73 @@
+<%- include("../partials/header") %>
+
+<% if (error) { %>
+  <p class="auth-error"><%= error %></p>
+<% } %>
+
+<% if (success) { %>
+  <p class="auth-success"><%= success %></p>
+<% } %>
+
+  <div class="register-row justify-content-center">
+    <div class="col-md-6">
+      <div  class="card p-4">
+        <h2 class="section-title text-center mb-4">Create Your Account</h2>
+
+        <form method="POST" action="/register" onsubmit="return validateForm(this)">
+          <div class="form-group">
+            <label for="first_name">👤 First Name</label>
+            <input type="text" id="first_name" name="first_name" required maxlength="50">
+          </div>
+
+          <div class="form-group">
+            <label for="last_name">👤 Last Name</label>
+            <input type="text" id="last_name" name="last_name" required maxlength="50">
+          </div>
+
+          <div class="form-group">
+            <label for="email">📧 Email Address</label>
+            <input type="email" id="email" name="email" required maxlength="100">
+          </div>
+
+          <div class="form-group">
+            <label for="password">🔒 Password</label>
+            <input type="password" class="password-field" name="password" required maxlength="100">
+             <small class="text-muted" id="password-limit">Must be at least 8 characters</small>
+          </div>
+           
+
+          <div class="form-group">
+            <label>🔒 Confirm Password</label>
+            <input type="password" name="confirmPassword" class="password-field" required>
+            <small class = "text-muted">Must match the password above</small>
+          </div>
+          
+           <div class="show-password">
+            <input type="checkbox" onclick="togglePasswords()" id="showPassword">
+            <label for="showPassword">Show password</label>
+          </div>
+
+          <button type="submit" class="btn-accent">Create Account</button>
+        </form>
+
+        <hr class="my-4">
+
+        <p class="text-center">
+          Already have an account?
+          <a href="/login" id="register-login-btn">Login here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function togglePasswords() {
+    const fields = document.querySelectorAll(".password-field");
+
+    fields.forEach(field => {
+      field.type = field.type === "password" ? "text" : "password";
+    });
+  }
+</script>
+
+<%- include("../partials/footer") %>

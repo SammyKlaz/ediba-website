@@ -1,0 +1,4721 @@
+.admin-search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 400px;
+  flex-wrap: wrap;
+}
+.admin-search-input {
+  flex: 1 1 200px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  min-width: 0;
+}
+.admin-search-form .btn {
+  padding: 8px 18px;
+  font-size: 1rem;
+  background: var(--green-dark);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.admin-search-form .btn:hover {
+  background: var(--green-light);
+}
+@media (max-width: 600px) {
+  .admin-search-form {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 100%;
+  }
+  .admin-search-input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .admin-search-form .btn {
+    width: 100%;
+  }
+}
+/* Autocomplete dropdown */
+.admin-autocomplete-list {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.admin-autocomplete-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.admin-autocomplete-item:hover {
+  background: var(--green-light);
+  color: #fff;
+}
+/* =========================
+   ADMIN USERS SEARCH BAR
+========================= */
+.admin-search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+.admin-search-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.admin-search-form .btn {
+  padding: 8px 18px;
+  font-size: 1rem;
+}
+
+/* =========================
+   COLOR VARIABLES
+========================= */
+:root {
+  --green-light: #6b8f71;
+  --green-dark: #2d5016;
+  --cream: #f7f4ee;
+  --gray-light: #f2f2f2;
+  --gray-dark: #555;
+  --white: #ffffff;
+}
+
+/* =========================
+   GLOBAL STYLES
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: var(--cream);
+  color: var(--gray-dark);
+  line-height: 1.6;
+}
+
+section {
+  padding: 60px 20px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--green-dark);
+  margin-bottom: 40px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+}
+
+/* =========================
+   HEADER & NAVBAR
+========================= */
+/* ============================
+   NAVBAR
+============================ */
+
+.navbar {
+  background: #ffffff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* brand */
+.nav-brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #1f5e2e;
+}
+
+/* menu */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  list-style: none;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #1f5e2e;
+}
+
+/* buttons */
+.btn-nav {
+  background: #1f5e2e;
+  color: #ffffff;
+  padding: 7px 7px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-nav:hover {
+  background: #174824;
+}
+
+.nav-user {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* ============================
+   MOBILE
+============================ */
+
+@media (max-width: 850px) {
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+
+  .nav-link,
+  .btn-nav {
+    width: 100%;
+    padding: 12px 4;
+  }
+
+  .nav-user {
+    padding: 10px 0;
+  }
+}
+
+
+
+
+
+/* =========================
+   HERO SECTION
+========================= */
+.hero-section {
+  height: 70vh; /* slightly smaller so background doesn't feel oversized */
+  max-height: 720px;
+  min-height: 420px;
+  background-image: url("/images/ediba.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+.hero-content {
+  position: relative;
+  color: var(--white);
+  text-align: center;
+  max-width: 700px;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 55vh;
+    min-height: 320px;
+  }
+}
+
+/* Background image element placed in the DOM for admin uploads. Keep it behind content */
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+  pointer-events: none; /* allow clicks on buttons over the image */
+}
+
+.hero-section::before { z-index: 1; }
+.hero-content { z-index: 2; }
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.hero-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+
+/* =========================
+   ABOUT SECTION
+========================= */
+.about-row {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  background: var(--white);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.about-img {
+  width: 100%;
+  height: 420px; /* enforce consistent crop to match layout */
+  object-fit: cover;
+  border-radius: 15px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .about-img {
+    height: 220px; /* smaller, landscape-like crop on mobile */
+  }
+}
+
+.about-col-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-col-text p {
+  margin-bottom: 15px;
+  line-height: 1.7;
+}
+
+.about-col-text a {
+  margin-top: 20px;
+  width: fit-content;
+}
+
+@media (max-width: 768px) {
+  .about-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-col-text {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .about-col-text a {
+    width: 100%;
+    text-align: center;
+  }
+  
+}
+/* =========================
+   SERVICE CARDS
+========================= */
+.grid-3 {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.service-card {
+  background: var(--white);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 768px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   MINISTRIES / ARMS
+========================= */
+.grid-4 {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.arm-card {
+  background: var(--white);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.arm-card:hover {
+  transform: translateY(-8px);
+}
+
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.arm-card-body {
+  padding: 20px;
+}
+
+@media (max-width: 992px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   LATEST SERMON & EVENTS
+========================= */
+
+.latest-content {
+  padding: 50px 20px;
+}
+
+/* TITLES */
+.latest-grid .section-title {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--green-dark);
+}
+
+/* =========================
+   SERMON
+========================= */
+
+.latest-grid {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.latest-grid .sermon-card {
+  width:600px;
+  max-width: 90%;
+  background: var(--white);
+  padding: 26px;
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+  text-align: left;
+}
+
+.latest-grid .sermon-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--green-dark);
+}
+
+.latest-grid .sermon-card p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.latest-grid .sermon-video {
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  margin: 15px 0;
+  object-fit: cover;
+}
+
+/* =========================
+   EVENTS
+========================= */
+
+.events-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-card {
+  display: flex;
+  gap: 22px;
+
+  width: 100%;
+  max-width: 750px;
+
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 28px;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.event-card img {
+  width: 240px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.event-text h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: var(--green-dark);
+}
+
+.event-text p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+
+.btn-group-center {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+  .sermon-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .event-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .event-card img {
+    width: 100%;
+    height: 190px;
+  }
+}
+
+
+/* =========================
+   ABOUT PAGE STYLING
+========================= */
+
+/* Page container */
+.centered {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px 80px;
+}
+
+#section-title {
+  margin-top: 20px;
+}
+
+/* Main title */
+.section-title {
+  text-align: center;
+  font-size: 2.4rem;
+  top: 2rem;
+  color: #2f6b3c;
+  margin-bottom: 40px;
+}
+
+/* Sub titles */
+.section-subtitle {
+  text-align: center;
+  font-size: 1.6rem;
+  color: #2f6b3c;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* Paragraph spacing */
+.centered p {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.8;
+  text-align: center;
+  max-width: 850px;
+  margin: auto;
+}
+
+/* Horizontal line */
+.centered hr {
+  margin: 50px auto;
+  border: none;
+  height: 1px;
+  background: #ddd;
+  width: 70%;
+}
+
+/* =========================
+   ARM CARDS
+========================= */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.arm-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.07);
+  transition: 0.3s ease;
+}
+
+.arm-card:hover {
+  transform: translateY(-8px);
+}
+
+.arm-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.arm-card-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.arm-card-body h3 {
+  color: #2f6b3c;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   MINISTER IN CHARGE
+========================= */
+/* Minister In-Charge Card */
+.minister-incharge-card {
+  background:#ffffff;
+  border-radius: 6px;
+  box-shadow: 0 20px 15px rgba(0,0,0,0.08);
+  margin: 30px auto;       /* auto centers the card horizontally */
+  max-width: 800px;        /* keeps card from being too wide */
+  padding: 20px;
+  overflow: hidden;
+}
+
+.minister-incharge-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center; /* ensures content is centered horizontally */
+}
+
+.minister-incharge-image {
+  flex: 1 1 35%;
+  min-width: 220px;
+  display: flex;
+  justify-content: center; /* centers the image horizontally */
+  align-items: center;     /* centers the image vertically */
+}
+
+.minister-incharge-image img {
+  max-width: 90%;          /* slightly smaller so it doesn’t dominate */
+  height: auto;
+  border-radius: 4px;
+}
+
+.minister-incharge-content {
+  flex: 1 1 65%;
+  padding: 20px;
+  text-align: center;      /* centers text and button */
+}
+
+.minister-incharge-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: var(--green-dark);
+}
+
+.minister-incharge-content p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  color: var(--gray-dark);
+}
+
+.btn-incharge {
+  display: inline-block;
+  padding: 8px 14px;
+  background: var(--green-dark);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-incharge:hover {
+  background: var(--green-light);
+}
+
+/* Alert box */
+.minister-incharge-alert {
+  background: #eaf4ff;
+  border: 1px solid #bcd0f7;
+  padding: 12px;
+  border-radius: 4px;
+  color: #003366;
+  margin: 20px auto;
+  text-align: center;
+  max-width: 600px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  .minister-incharge-row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .minister-incharge-content {
+    padding: 15px;
+  }
+
+  .minister-incharge-image img {
+    max-width: 100%; /* full width on mobile */
+  }
+}
+
+
+/* Alert box */
+.minister-incharge-alert {
+  background: #eaf4ff;
+  border: 1px solid #bcd0f7;
+  padding: 12px;
+  border-radius: 4px;
+  color: #003366;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  .minister-incharge-row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .minister-incharge-content {
+    padding: 15px;
+  }
+}
+
+
+/* =========================
+   OTHER MINISTERS
+========================= */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.grid-3 h4{
+  font-size: 1.2rem;
+}
+
+.minister-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.06);
+  transition: 0.3s ease;
+}
+
+.minister-card:hover {
+  transform: translateY(-6px);
+}
+
+.minister-card img {
+  width: 100%;
+  height: 230px;
+  border-radius: 14px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.minister-card h4 {
+  color: #2f6b3c;
+  margin-bottom: 5px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-4,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 1.9rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.4rem;
+  }
+}
+
+
+/* =========================
+   MINISTER BIOGRAPHY PAGE
+========================= */
+
+.minister-profile {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+}
+
+.minister-card-profile {
+  background: #ffffff;
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.minister-photo {
+  width: 260px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 18px;
+  margin-bottom: 25px;
+}
+
+.minister-name {
+  font-size: 2.2rem;
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+
+.minister-position {
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+
+
+.minister-biography {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #333;
+  margin-bottom: 35px;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+@media (max-width: 768px) {
+  .minister-card-profile {
+    padding: 30px 20px;
+  }
+
+  .minister-photo {
+    width: 250px;
+    height: 250px;
+  }
+
+  .minister-name {
+    font-size: 1.5rem;
+  }
+
+  .minister-position {
+    font-size: 1.1rem;
+  }
+
+  .minister-biography {
+    font-size: 1rem;
+  }
+}
+
+
+/* =========================
+   EVENTS PAGE WRAPPER
+========================= */
+.events-page {
+  padding: 40px 20px;
+}
+
+/* =========================
+   BIRTHDAYS SECTION
+========================= */
+
+.birthday-slider {
+  max-width: 420px;
+  margin: 30px auto 50px;
+  position: relative;
+}
+
+.birthday-slide {
+  display: none;
+  text-align: center;
+  background: #ffffff;
+  padding: 25px 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: opacity 0.6s ease;
+}
+
+.birthday-slide.active {
+  display: block;
+}
+
+.birthday-slide img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #e6f2e6;
+  margin-bottom: 15px;
+}
+
+.birthday-slide h4 {
+  margin: 8px 0 4px;
+  font-size: 1.3rem;
+  color: var(--green-dark);
+}
+
+.birthday-slide .arm {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #444;
+}
+
+.birthday-slide .position {
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+}
+
+.birthday-slide .date {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Birthday badge */
+.birthday-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.birthday-badge.today {
+  background: #2d8f4e;
+}
+
+.birthday-badge.upcoming {
+  background: #f0ad4e;
+}
+
+.birthday-badge.past {
+  background: #6c757d;
+}
+
+.no-birthday {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .birthday-slider {
+    max-width: 90%;
+  }
+
+  .birthday-slide img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+
+
+/* =========================
+   EVENTS GRID
+========================= */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  gap: 25px;
+}
+
+
+.event-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  height: 100%;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+}
+
+.event-card .event-img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  object-position: center;
+  background: #f4f4f4;
+  display: block;
+}
+
+.event-body {
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+
+.event-body {
+  padding: 20px;
+}
+
+.event-body h3 a {
+  color: var(--green-dark);
+  text-decoration: none;
+}
+
+.event-date {
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.event-desc {
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+.event-engagement {
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.event-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* =========================
+   MOBILE TWEAKS
+========================= */
+@media (max-width: 768px) {
+  .birthday-card {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 600px) {
+  .events-grid{
+    grid-template-columns: 1fr;
+   padding: 0;
+  }
+  .event-card .event-img {
+    height: 180px;
+  }
+
+  .event-body {
+    padding: 16px;
+  }
+
+  .event-body h3 {
+    font-size: 1rem;
+  }
+}
+
+
+/* =========================
+   LIKE & LOGIN TO LIKE BUTTONS
+========================= */
+
+.btn-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--green-dark);
+  color: var(--white);
+  border: 1px solid var(--green-dark);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+
+.btn-small:hover {
+  background: var(--green-light);
+  border-color: var(--green-light);
+  transform: translateY(-1px);
+}
+
+/* Login to like */
+a.btn-small {
+  background: transparent;
+  color: var(--green-dark);
+  border: 1px solid var(--green-dark);
+}
+
+a.btn-small:hover {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+/* Liked state */
+.btn-small.liked {
+  background: var(--cream);
+  color: var(--green-dark);
+  border-color: var(--green-dark);
+}
+
+/* Small pop animation when liked */
+.btn-small.liked {
+  animation: likePop 0.3s ease;
+}
+
+@keyframes likePop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Keep form inline */
+.card-footer form {
+  display: inline-block;
+}
+
+
+/* =========================
+   SINGLE EVENT PAGE
+========================= */
+
+.single-content-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.single-content-container h1 {
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 10px;
+}
+
+.event-meta {
+  text-align: center;
+  font: 1 rem;
+  color: var(--gray-dark);
+  margin-bottom: 20px;
+}
+
+.event-flyer-container {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.event-flyer {
+  max-width: 100%;
+  max-height: 420px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.event-description-full {
+  line-height: 1.7;
+  margin-bottom: 25px;
+  text-align: center;
+  color: var(--gray-dark);
+  font-size: 1.05rem;
+}
+
+/* Engagement */
+
+/* =========================
+   ENGAGEMENT SECTION
+========================= */
+
+.engagement-section {
+  margin: 30px 0;
+  padding: 15px 0;
+  border-top: 1px solid var(--gray-light);
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.engagement-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.engagement-stat {
+  font-weight: 600;
+}
+
+
+
+/* Comments */
+.comments-section {
+  margin-top: 30px;
+}
+
+
+.comment-item {
+  background: var(--gray-light);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.reply-item {
+  margin-left: 20px;
+  margin-top: 10px;
+  padding-left: 15px;
+  border-left: 2px solid var(--green-light);
+}
+
+.add-comment-title{
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+/* Forms */
+.comment-textarea-main,
+.reply-textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.btn-comment-submit,
+.btn-reply-submit {
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .engagement-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+/* =========================
+   EVENT MEDIA STYLING
+========================= */
+
+.evtmedia-section {
+  margin-top: 2rem;
+  padding: 1.2rem;
+  background-color: var(--white);
+  border-radius: 14px;
+  box-shadow: 5px 5px rgba(0,0,0,0.05);
+}
+
+.evtmedia-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+}
+
+.evtmedia-no-media {
+  text-align: center;
+  color: var(--gray-dark);
+  font-style: italic;
+}
+
+/* =========================
+   SLIDER STRUCTURE
+========================= */
+.evtmedia-slider {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+  
+}
+
+.evtmedia-wrapper {
+  position: relative;
+}
+
+.evtmedia-slide {
+  display: none;
+}
+
+.evtmedia-active {
+  display: block;
+}
+
+/* =========================
+   SQUARE MEDIA CONTAINER
+========================= */
+.evtmedia-image,
+.evtmedia-video {
+  width: 100%;
+  height: 420px;
+  object-fit: contain;
+  border-radius: 14px;
+  display: block;
+}
+
+/* =========================
+   NAVIGATION BUTTONS
+========================= */
+.evtmedia-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--green-dark);
+  border: 2px solid var(--green-dark);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  font-weight: bold;
+}
+
+.evtmedia-prev {
+  left: 0px;
+}
+
+.evtmedia-next {
+  right: 0px;
+}
+
+.evtmedia-nav:hover {
+  background-color: rgba(45, 80, 22, 0.9);
+  color: var(--white);
+}
+
+/* ZOOM ON HOVER */
+.evtmedia-item:hover .evtmedia-thumb {
+  transform: scale(1.08);
+}
+
+/* VIDEO FIX */
+.evtmedia-item video {
+  display: block;
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+@media (max-width: 600px) {
+  .evtmedia-slider {
+    max-width: 100%;
+  }
+
+  .evtmedia-image,
+  .evtmedia-video {
+    height: 300px;
+  }
+
+  .evtmedia-prev {
+    left: 8px;
+  }
+
+  .evtmedia-next {
+    right: 8px;
+  }
+}
+
+
+/* =========================
+   SERMONS LIST PAGE
+========================= */
+.sermon-title{
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 30px;
+  margin-top: 2rem;
+}
+
+
+.sermons-grid {
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin: auto;
+}
+
+.sermon-list-card {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  padding: 16px;
+  border-radius: 5px;
+}
+
+.sermon-title-list {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.sermon-title-list a {
+  color: var(--green-dark);
+  text-decoration: none;
+}
+
+.sermon-title-list a:hover {
+  text-decoration: underline;
+}
+
+.sermon-passage-list,
+.sermon-date-list,
+.sermon-speaker-list {
+  font-size: 14px;
+  color: var(--gray-dark);
+  margin: 4px 0;
+}
+
+.sermon-video-list {
+  margin-top: 10px;
+  border: 1px solid var(--gray-light);
+}
+
+.sermon-list-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  gap: 10px;
+}
+
+.sermon-engagement-list {
+  font-size: 13px;
+  color: var(--gray-dark);
+}
+
+.sermon-btn {
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+@media (max-width: 500px) {
+  .sermon-list-card {
+    margin: 10px;
+    padding: 12px;
+    grid-template-columns: 1fr; /* Ensures single column */
+    overflow: auto;
+  }
+}
+
+@media (min-width: 501px) {
+  .sermon-list-card {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+
+
+/* =========================
+   SINGLE SERMON PAGE
+========================= */
+
+.single-content-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.sermonHeader {
+  background: var(--white);
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+ 
+}
+.sermonHeader h1 {
+  font-size: 1.7rem;
+  text-transform: capitalize;
+  color: var(--green-dark);
+  margin-bottom: 10px;
+}
+
+.sermonHeader p {
+  font-size: 1.05rem;
+  color: var(--gray-dark);
+  margin-bottom: 15px;
+}
+
+.sermonHeader video {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 20px;
+  height: 400px;
+  object-fit: cover;
+}
+
+.single-content-container h1 {
+  margin-bottom: 10px;
+  color: var(--green-dark);
+}
+
+.sermon-meta {
+  font-size: 14px;
+  color: var(--gray-dark);
+  margin-bottom: 15px;
+}
+
+.sermon-video-container {
+  margin: 15px 0;
+}
+
+.sermon-video-player {
+  border: 1px solid var(--gray-light);
+}
+
+@media (max-width: 600px) {
+  .sermon-list-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .engagement-header {
+    gap: 12px;
+  }
+
+  .reply-input-group {
+    flex-direction: column;
+  }
+
+  .sermonHeader {
+    padding: 10px;
+  }
+
+  .sermonHeader video {
+    height: 250px;
+    padding: 0;
+  }
+  
+}
+
+/* =========================
+   ADD COMMENT
+========================= */
+
+.add-comment-section {
+  margin-top: 30px;
+}
+
+.comment-textarea-main {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border: 1px solid var(--gray-light);
+  resize: vertical;
+}
+
+.comment-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.btn-comment-submit {
+  padding: 8px 14px;
+  border: none;
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+/* =========================
+   REPLIES
+========================= */
+
+.reply-item {
+  margin-left: 20px;
+  padding: 8px 0;
+  border-left: 2px solid var(--gray-light);
+}
+
+.reply-header {
+  font-size: 12px;
+  color: var(--gray-dark);
+}
+
+.reply-text {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.reply-form-inline {
+  display: none;
+  margin-top: 8px;
+}
+
+.reply-form-inline.show {
+  display: block;
+}
+
+.reply-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.reply-textarea {
+  flex: 1;
+  resize: none;
+  padding: 6px;
+  border: 1px solid var(--gray-light);
+}
+
+.btn-reply-submit {
+  padding: 6px 10px;
+  border: 1px solid var(--green-dark);
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comments-section {
+  margin-top: 25px;
+}
+
+.comments-title {
+  margin-bottom: 10px;
+}
+
+.comment-item {
+  border-bottom: 1px solid var(--gray-light);
+  padding: 12px 0;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--gray-dark);
+}
+
+.comment-text {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.comment-footer {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.btn-reply-small {
+  background: none;
+  border: none;
+  color: var(--green-dark);
+  cursor: pointer;
+  padding: 0;
+}
+
+.reply-count {
+  color: var(--gray-dark);
+}
+
+
+
+/* =========================
+   AUTH PAGES (LOGIN & REGISTER)
+========================= */
+
+.auth-container {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--cream);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 18px;
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  padding: 30px;
+}
+
+.auth-title,
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 20px;
+}
+
+/* Forms */
+
+.auth-form,
+.card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: var(--gray-dark);
+}
+
+
+.form-group input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid var(--gray-light);
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--green-dark);
+}
+
+/* Buttons */
+
+.btn-auth  {
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  background: var(--green-dark);
+  color: var(--white);
+  cursor: pointer;
+}
+
+.btn-auth:hover {
+  opacity: 0.9;
+}
+
+/* Links */
+
+.auth-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.auth-link a {
+  color: var(--green-dark);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-error {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.auth-success {
+  background: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.auth-link a:hover,
+.card a:hover {
+  text-decoration: underline;
+}
+
+
+
+.card {
+  border: 1px solid var(--gray-light);
+  background: var(--white);
+}
+
+
+
+/* Small text */
+
+.text-muted {
+  font-size: 12px;
+  color: var(--gray-dark);
+}
+
+
+.register-row{
+  margin: 3rem auto;
+  max-width: 600px;
+}
+
+.register-row .card{
+  padding: 30px;
+}
+
+
+#register-login-btn{
+  color: var(--green-dark);
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#password-limit{
+  font-size: 12px;
+  color: var(--gray-dark);
+}
+
+
+.form-group .show-password {
+margin-top: 0;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .auth-card,
+  .card {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .auth-title,
+  .section-title {
+    font-size: 1.8rem;
+  }
+}
+
+
+/* =========================
+    FORGOT PASSWORD PAGE 
+========================= */
+.forgot-password-link {
+  text-align: right;
+}
+
+.forgot-password-link a {
+  color: var(--green-dark);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.forgot-password-container {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--cream);
+}
+
+.forgot-password-container .auth-title {
+  margin-bottom: 30px;
+}
+
+.forgot-password-container .auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* =========================
+   GIVE PAGE
+========================= */
+
+.centered {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+/* Titles */
+
+.section-title {
+  font-size: 2rem;
+  color: var(--green-dark);
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.5rem;
+  margin: 30px 0 20px;
+  color: var(--green-dark);
+}
+
+/* Account Cards */
+
+.account-card {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  padding: 25px;
+}
+
+.main-account-card {
+  max-width: 480px;
+  margin: 0 auto 30px;
+}
+
+.project-account-card {
+  text-align: left;
+}
+
+/* Card content */
+
+.account-title {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--green-dark);
+}
+
+.account-details {
+  margin-bottom: 15px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: var(--gray-dark);
+  margin-bottom: 1rem;
+}
+
+.detail-value {
+  color: #000;
+}
+
+.account-number {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Purpose text */
+
+.account-purpose {
+  font-size: 14px;
+  color: var(--gray-dark);
+  margin-top: 10px;
+}
+
+/* Grids */
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Reasons */
+
+.reason-card {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  padding: 20px;
+  text-align: center;
+}
+
+.reason-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.reason-card h4 {
+  margin-bottom: 10px;
+  color: var(--green-dark);
+}
+
+/* Alerts */
+
+.alert {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--gray-light);
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .detail-value {
+    margin-top: 3px;
+  }
+}
+
+/* =========================
+   AUTH PAGES SPACING
+========================= */
+
+.auth-container,
+.container {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+
+/* =========================
+   ADMIN DASHBOARD
+========================= */
+
+/* Page spacing */
+.container {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+/* Headings */
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--green-dark);
+}
+
+.lead {
+  text-align: center;
+  color: var(--gray-dark);
+  margin-bottom: 45px;
+}
+
+/* Dashboard grid */
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* Dashboard card */
+.dashboard-card {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 22px 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 190px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+}
+
+.dashboard-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: var(--green-dark);
+}
+
+.dashboard-card p {
+  font-size: 0.95rem;
+  color: var(--gray-dark);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+
+
+/* Tablet */
+@media (max-width: 992px) {
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .container {
+    margin: 40px auto;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+}
+
+/* =========================
+   ADMIN HOME PAGE
+========================= */
+.admin-home-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.btn-admin {
+  padding: 10px 20px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* =========================
+   ADMIN ABOUT PAGE
+========================= */
+
+.admin-about-page .admin-about {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.admin-about-page .admin-title {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.admin-about-page .admin-section {
+  margin-bottom: 2.5rem;
+}
+
+/* CENTERED SECTIONS */
+.admin-about-page .centered-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--white);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 3rem;
+}
+
+/* ===== FORMS ===== */
+
+.admin-about-page .admin-form {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 400px;
+  width: 100%;
+}
+
+hr {
+  border-top: 1px solid var(--gray-light);
+  margin: 1rem;
+}
+
+.admin-about-page .admin-form input,
+.admin-about-page .admin-form select,
+.admin-about-page .admin-form textarea {
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.admin-about-page .admin-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ===== CURRENT INFO ===== */
+
+.admin-about-page .current-info {
+  margin-top: 0.8rem;
+  text-align: center;
+}
+
+/* ===== MINISTER LIST ===== */
+
+.admin-about-page .minister-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.admin-about-page .minister-card {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+/* ===== ACTION BUTTONS RESET ===== */
+
+.admin-about-page .minister-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.admin-about-page .minister-actions form {
+  margin: 0;
+}
+
+/* ===== IN CHARGE LABEL ===== */
+
+.admin-about-page .in-charge {
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+
+
+/* =========================
+   ADMIN BUTTONS RESET
+========================= */
+
+.admin-about-page .admin-btn {
+  all: unset;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--green-dark);
+  color: var(--green-dark);
+  transition: background 0.2s ease, color 0.2s ease;
+  text-align: center;
+  font-weight: bold;
+}
+
+.admin-about-page .admin-btn:hover {
+  background: var(--green-dark);
+  color: var(--white);
+  font-weight: bold;
+}
+
+.admin-about-page .admin-btn.danger {
+  border-color: #7a1e1e;
+  color: #7a1e1e;
+  font-weight: bold;
+}
+
+.admin-about-page .admin-btn.danger:hover {
+  background: #7a1e1e;
+  color: var(--white);
+}
+
+@media (max-width: 600px) {
+ .admin-about-page .centered-section {
+    padding: 5px;
+    margin: 1rem;
+  }
+  .admin-about-page .admin-form {
+    gap: 1rem;
+  }
+}
+
+/* =========================
+   ADMIN BIRTHDAYS PAGE
+========================= */
+
+.admin-birthdays {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.admin-birthday-page .admin-title {
+  text-align: center;
+  margin-bottom: 1.2rem;
+  color: var(--gray-dark);
+}
+
+.admin-birthday-page .admin-top-action {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* ===== BIRTHDAY LIST ===== */
+
+ .admin-birthday-page .birthday-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.admin-birthday-page .birthday-card {
+  background: var(--white);
+  box-shadow: 0 6px 6px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 0.8rem;
+  flex-direction: column;
+  padding: 0.8rem;
+  border-radius: 10px;
+  align-items: center;
+}
+
+
+/* ===== IMAGE ===== */
+
+.admin-birthday-page .birthday-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== INFO ===== */
+
+.admin-birthday-page .birthday-info {
+  flex: 1;
+}
+
+.admin-birthday-page .birthday-name {
+  display: block;
+}
+
+.admin-birthday-page .birthday-arm {
+  font-size: 0.8rem;
+}
+
+.admin-birthday-page .birthday-position {
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+/* ===== ACTIONS ===== */
+
+.admin-birthday-page .birthday-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.admin-birthday-page .birthday-actions form {
+  margin: 0;
+}
+
+.delete-birthday{
+  background: var(--gray-dark);
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 600px) {
+  .admin-birthday-page .birthday-card {
+    flex-direction: column;
+    align-items: flex-start;
+ 
+  }
+
+  .admin-birthday-page .birthday-actions {
+    margin-top: 0.5rem;
+  }
+}
+
+
+
+/* ==============================
+   ADMIN CREATE BIRTHDAY FORM
+============================== */
+
+.admin-birthday-create {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 1rem;
+}
+
+.admin-birthday-create form {
+  width: 100%;
+  max-width: 420px; /* keeps it short on laptop */
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.admin-birthday-create h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs and select */
+.admin-birthday-create input,
+.admin-birthday-create select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-birthday-create input:focus,
+.admin-birthday-create select:focus {
+  outline: none;
+  border-color: var(--green-light);
+}
+
+/* File input spacing */
+.admin-birthday-create input[type="file"] {
+  padding: 0.4rem;
+}
+
+/* Submit button */
+.admin-birthday-create button {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.admin-birthday-create button:hover {
+  opacity: 0.9;
+}
+
+/* Mobile breathing space */
+@media (max-width: 480px) {
+  .admin-birthday-create {
+    margin: 2rem 0.75rem;
+  }
+
+  .admin-birthday-create form {
+    padding: 1.5rem;
+  }
+}
+
+
+/* ==============================
+   ADMIN EDIT BIRTHDAY
+============================== */
+
+.admin-birthday-edit {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 1rem;
+}
+
+.admin-birthday-edit form {
+  width: 100%;
+  max-width: 420px;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.admin-birthday-edit h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs and select */
+.admin-birthday-edit input[type="text"],
+.admin-birthday-edit input[type="date"],
+.admin-birthday-edit input[type="file"],
+.admin-birthday-edit select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-birthday-edit input:focus,
+.admin-birthday-edit select:focus {
+  outline: none;
+  border-color: var(--green-light);
+}
+
+/* Active checkbox */
+.admin-birthday-edit label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  color: var(--gray-dark);
+}
+
+/* Submit button */
+.admin-birthday-edit button {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.admin-birthday-edit button:hover {
+  opacity: 0.9;
+}
+
+/* Mobile spacing */
+@media (max-width: 480px) {
+  .admin-birthday-edit {
+    margin: 2rem 0.75rem;
+  }
+
+  .admin-birthday-edit form {
+    padding: 1.5rem;
+  }
+}
+
+
+
+/* ==============================
+   ADMIN EDIT BIRTHDAY
+============================== */
+
+.admin-birthday-edit {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 1rem;
+}
+
+.admin-birthday-edit form {
+  width: 100%;
+  max-width: 420px;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.admin-birthday-edit h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs and select */
+.admin-birthday-edit input[type="text"],
+.admin-birthday-edit input[type="date"],
+.admin-birthday-edit input[type="file"],
+.admin-birthday-edit select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-birthday-edit input:focus,
+.admin-birthday-edit select:focus {
+  outline: none;
+  border-color: var(--green-light);
+}
+
+/* Active checkbox */
+.admin-birthday-edit label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.2rem;
+  color: var(--gray-dark);
+}
+
+/* Submit button */
+.admin-birthday-edit button {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.admin-birthday-edit button:hover {
+  opacity: 0.9;
+}
+
+/* Mobile spacing */
+@media (max-width: 480px) {
+  .admin-birthday-edit {
+    margin: 2rem 0.75rem;
+  }
+
+  .admin-birthday-edit form {
+    padding: 1.5rem;
+  }
+}
+
+
+
+/* ==============================
+   ADMIN EDIT EVENT PAGE
+============================== */
+
+.admin-event-edit {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 1rem;
+}
+
+.admin-event-edit-inner {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Title */
+.admin-event-edit h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Form */
+.admin-event-edit form {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Inputs and textarea */
+.admin-event-edit input[type="text"],
+.admin-event-edit input[type="date"],
+.admin-event-edit input[type="file"],
+.admin-event-edit textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-event-edit textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.admin-event-edit input:focus,
+.admin-event-edit textarea:focus {
+  outline: none;
+  border-color: var(--green-light);
+}
+
+/* Current flyer section */
+.current-flyer {
+  margin-bottom: 1rem;
+}
+
+.current-flyer p {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--gray-dark);
+}
+
+.current-flyer img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--gray-light);
+}
+
+.no-flyer {
+  font-size: 0.85rem;
+  color: var(--gray-dark);
+}
+
+/* Submit button */
+.admin-event-edit button {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.admin-event-edit button:hover {
+  opacity: 0.9;
+}
+
+.evtmedia-upload-title{
+  color: var(--gray-dark);
+  margin-top : 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .admin-event-edit {
+    margin: 2rem 0.75rem;
+  }
+
+  .admin-event-edit form {
+    padding: 1.5rem;
+  }
+}
+
+/* =========================
+   ADMIN EVENT MEDIA
+========================= */
+.admin-event-media-section {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+}
+
+.evtmedia-upload-title {
+  font-size: 1.3rem;
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+}
+
+.evtmedia-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.evtmedia-file-input {
+  padding: 0.4rem;
+}
+
+.evtmedia-upload-note {
+  font-size: 0.85rem;
+  color: var(--gray-dark);
+}
+
+/* ===== MEDIA GRID ===== */
+.evtmedia-current {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+/* ===== MEDIA ITEM ===== */
+.evtmedia-item {
+  position: relative;
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ===== THUMBNAIL ===== */
+.evtmedia-thumb {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  background-color: var(--gray-light);
+  display: block;
+}
+
+/* ===== VIDEO BACKGROUND ===== */
+.evtmedia-item video {
+  background-color: #000;
+}
+
+/* ===== DELETE BUTTON (VISUAL ONLY) ===== */
+.evtmedia-item {
+  position: relative;
+}
+
+.admin-event-edit-inner .evtmedia-delete-btn {
+  position: absolute;
+  bottom: 0;
+  right: 6px;
+  border-radius: 5px;
+  background: var(--gray-dark);;
+  color: var(--white);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.evtmedia-delete-btn:hover {
+  background: red;
+}
+
+
+/* ===== NO MEDIA ===== */
+.evtmedia-no-media {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--gray-dark);
+  font-style: italic;
+}
+
+
+
+/* ==============================
+   ADMIN EDIT GIVE PAGE
+============================== */
+
+.admin-give-edit {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 1rem;
+}
+
+.admin-give-edit-inner {
+  width: 100%;
+  max-width: 480px;
+}
+
+.admin-give-edit h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Form */
+.admin-give-edit form {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Inputs */
+.admin-give-edit input[type="text"],
+.admin-give-edit input[type="number"],
+.admin-give-edit textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-give-edit textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.admin-give-edit input:focus,
+.admin-give-edit textarea:focus {
+  outline: none;
+  border-color: var(--green-light);
+}
+
+/* Checkbox group */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.checkbox-group label {
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+}
+
+/* Button */
+.admin-give-edit button {
+  width: 100%;
+  padding: 0.7rem;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.admin-give-edit button:hover {
+  opacity: 0.9;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .admin-give-edit {
+    margin: 2rem 0.75rem;
+  }
+
+  .admin-give-edit form {
+    padding: 1.5rem;
+  }
+}
+
+
+
+/* =========================
+   ADMIN EDIT EVENT PAGE
+========================= */
+
+.admin-event-edit {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.admin-event-edit-inner {
+  width: 100%;
+  max-width: 650px;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.admin-event-edit-inner h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--green-dark);
+}
+
+/* ---------- FORM ---------- */
+
+.admin-event-edit-inner form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-event-edit-inner input[type="text"],
+.admin-event-edit-inner input[type="date"],
+.admin-event-edit-inner input[type="file"],
+.admin-event-edit-inner textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray-light);
+  outline: none;
+}
+
+.admin-event-edit-inner textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ---------- CURRENT FLYER ---------- */
+
+.current-flyer {
+  margin-top: 0.5rem;
+}
+
+.current-flyer p {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--gray-dark);
+}
+
+.current-flyer img {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 6px;
+  display: block;
+}
+
+.no-flyer {
+  font-size: 0.85rem;
+  color: var(--gray-dark);
+}
+
+/* ---------- BUTTON ---------- */
+
+.admin-event-edit-inner button {
+  margin-top: 1rem;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  background-color: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-event-edit-inner button:hover {
+  opacity: 0.9;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 600px) {
+  .admin-event-edit-inner {
+    padding: 1.5rem 1rem;
+  }
+
+  .current-flyer img {
+    max-width: 100%;
+  }
+}
+
+
+
+/* =========================
+   ADMIN EDIT GIVE PAGE
+========================= */
+
+.admin-give-edit {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.admin-give-edit-inner {
+  width: 100%;
+  max-width: 650px;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.admin-give-edit-inner h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--green-dark);
+}
+
+.admin-give-edit-inner form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-give-edit-inner input[type="text"],
+.admin-give-edit-inner input[type="number"],
+.admin-give-edit-inner textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray-light);
+}
+
+.admin-give-edit-inner textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* ---------- CHECKBOXES ---------- */
+
+.checkbox-group {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ---------- BUTTON ---------- */
+
+.admin-give-edit-inner button {
+  margin-top: 1rem;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  background-color: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-give-edit-inner button:hover {
+  opacity: 0.9;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 600px) {
+  .admin-give-edit-inner {
+    padding: 1.5rem 1rem;
+  }
+
+  .checkbox-group {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+
+
+/* =========================
+   ADMIN EDIT MINISTER PAGE
+========================= */
+
+.admin-minister-edit {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.admin-minister-edit-inner {
+  width: 100%;
+  max-width: 700px;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.admin-minister-edit-inner h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--green-dark);
+}
+
+.admin-minister-edit-inner form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-minister-edit-inner label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: var(--gray-dark);
+}
+
+.admin-minister-edit-inner input[type="text"],
+.admin-minister-edit-inner select,
+.admin-minister-edit-inner textarea,
+.admin-minister-edit-inner input[type="file"] {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray-light);
+  margin-bottom: 1rem;
+}
+
+.admin-minister-edit-inner textarea {
+  resize: vertical;
+}
+
+/* ---------- CURRENT PHOTO ---------- */
+
+.admin-minister-edit-inner img {
+  display: block;
+  max-width: 150px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* ---------- BUTTON ---------- */
+
+.admin-minister-edit-inner button {
+  margin-top: 0.5rem;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  background-color: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-minister-edit-inner button:hover {
+  opacity: 0.9;
+}
+
+/* ---------- BACK LINK ---------- */
+
+.admin-minister-back {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 600px) {
+  .admin-minister-edit-inner {
+    padding: 1.5rem 1rem;
+  }
+}
+
+
+
+/* =========================
+   ADMIN EDIT SERMON PAGE
+========================= */
+
+.admin-page .admin-sermon-edit {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.admin-page .admin-sermon-edit-inner {
+  width: 100%;
+  max-width: 700px;
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- HEADINGS ---------- */
+
+.admin-page .admin-sermon-edit-inner h1 {
+  text-align: center;
+  margin-bottom: 0.3rem;
+  color: var(--green-dark);
+}
+
+.admin-page .admin-sermon-edit-inner p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- FORM ---------- */
+
+.admin-page .admin-sermon-edit-inner form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-page .admin-sermon-edit-inner input[type="text"],
+.admin-page .admin-sermon-edit-inner input[type="date"],
+.admin-page .admin-sermon-edit-inner textarea,
+.admin-page .admin-sermon-edit-inner input[type="file"] {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray-light);
+}
+
+.admin-page .admin-sermon-edit-inner textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* ---------- CURRENT VIDEO ---------- */
+
+.admin-page .admin-sermon-edit-inner p a {
+  font-size: 0.9rem;
+  color: var(--green-dark);
+  text-decoration: underline;
+}
+
+/* ---------- BUTTON ---------- */
+
+.admin-page .admin-sermon-edit-inner button {
+  margin-top: 0.8rem;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  background-color: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-page .admin-sermon-edit-inner button:hover {
+  opacity: 0.9;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 600px) {
+  .admin-page .admin-sermon-edit-inner {
+    padding: 1.5rem 1rem;
+  }
+}
+
+
+/* ===============================
+   ADMIN EVENTS PAGE 
+================================ */
+.admin-container {
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   CREATE EVENT CARD
+================================ */
+.admin-event-page .adminCard {
+  margin-bottom: 1.5rem;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem; /* reduced padding */
+  align-items: stretch; /* stretch instead of center */
+  margin: auto;
+  width: 100%;
+  max-width: 700px; /* responsive cap */
+}
+
+/* ===============================
+   PAGE TITLES
+================================ */
+.section-title {
+  color: var(--green-dark);
+  margin-bottom: 1.5rem;
+}
+
+.section-subtitle {
+  color: var(--green-dark);
+  margin-bottom: 1rem;
+}
+
+/* ===============================
+   CARD BASE STYLE
+================================ */
+.adminCard,
+.admin-event-card {
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem; /* reduced padding */
+  margin: 0 auto;
+}
+
+/* ===============================
+   FORM GROUPS
+================================ */
+.form-group {
+  margin-bottom: 1rem; /* tighter spacing */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--gray-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem; /* reduced padding */
+  border-radius: 4px;
+  border: 1px solid var(--gray-light);
+  font-size: 0.9rem; /* slightly smaller */
+  background: var(--white);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.text-muted {
+  font-size: 0.8rem;
+  color: var(--gray-dark);
+}
+
+
+/* ===============================
+   EVENTS LIST
+================================ */
+.admin-events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+/* ===============================
+   EVENT CARD HEADER
+================================ */
+.admin-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.admin-event-header h3 a {
+  color: var(--green-dark);
+  text-decoration: none;
+}
+
+.admin-event-header h3 a:hover {
+  text-decoration: underline;
+}
+
+.flyer-badge {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+
+/* ===============================
+   EVENT DATE
+================================ */
+.admin-event-date {
+  color: var(--gray-dark);
+  font-size: 0.9rem;
+  margin-bottom: 0.7rem;
+}
+
+/* ===============================
+   EVENT STATS
+================================ */
+.admin-event-stats {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.stat-badge {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* ===============================
+   EVENT ACTIONS
+================================ */
+.admin-event-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+
+
+/* ===============================
+   EVENT TITLE COLOR FIX
+================================ */
+.admin-event-header a {
+  color: var(--green-dark);
+}
+
+.admin-event-header a:hover {
+  color: var(--green-light);
+}
+
+/* ===============================
+   RESPONSIVE TWEAKS
+================================ */
+@media (max-width: 1024px) {
+  .admin-event-page .adminCard {
+    max-width: 90%;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-event-page .adminCard {
+    max-width: 100%;
+    padding: 0.8rem;
+  }
+  .admin-events-list {
+    grid-template-columns: 2fr;
+  }
+}
+
+
+
+/* ===============================
+   ADMIN GIVE PAGE BASE
+================================ */
+.admin-give-page {
+  background: var(--cream);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* ===============================
+   PAGE TITLE
+================================ */
+.admin-give-page h1,
+.admin-give-page h2 {
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 1.5rem;
+}
+
+/* ===============================
+   CREATE GIVE FORM CARD
+================================ */
+.admin-give-form {
+  background: var(--white);
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  padding: 1.8rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.admin-give-form input,
+.admin-give-form textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--gray-light);
+}
+
+.admin-give-form textarea {
+  resize: vertical;
+}
+
+.admin-give-form label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  color: var(--gray-dark);
+}
+
+.admin-give-form input[type="checkbox"] {
+  width: auto;
+  padding: 0;
+  margin:0;
+  align-self: center;
+}
+
+.admin-give-form button {
+  background: var(--green-dark);
+  color: var(--white);
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+}
+
+.admin-give-form button:hover {
+  background: var(--green-light);
+}
+
+/* ===============================
+   GIVING RECORDS WRAPPER
+================================ */
+.give-records {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===============================
+   MAIN ACCOUNT CARD
+================================ */
+.give-main-card {
+  background: var(--white);
+  border-left: 6px solid var(--green-dark);
+  padding: 1.8rem;
+  margin-bottom: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.give-main-card h3 {
+  color: var(--green-dark);
+  margin-bottom: 0.5rem;
+}
+
+.give-main-card p {
+  color: var(--gray-dark);
+  margin-bottom: 0.3rem;
+}
+
+/* ===============================
+   OTHER ACCOUNTS GRID
+================================ */
+.give-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ===============================
+   ACCOUNT CARD
+================================ */
+.give-card {
+  background: var(--white);
+  padding: 1.4rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.give-card strong {
+  color: var(--green-dark);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.give-card p {
+  color: var(--gray-dark);
+  margin-bottom: 0.3rem;
+  word-break: break-word;
+}
+
+/* ===============================
+   CARD ACTIONS
+================================ */
+.give-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.give-actions a,
+.give-actions button {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 4px;
+}
+
+.give-actions a {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.give-actions a:hover {
+  background: var(--green-dark);
+}
+
+.give-actions button {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+
+.give-actions button:hover {
+  opacity: 0.9;
+}
+
+/* ===============================
+   MOBILE SPACING
+================================ */
+@media (max-width: 600px) {
+  .admin-give-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-give-form {
+    padding: 1.3rem;
+  }
+
+  .give-main-card {
+    padding: 1.4rem;
+  }
+}
+
+/* ===============================
+   ADMIN SERMONS PAGE BASE
+================================ */
+.admin-sermons-page {
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sermons-page h1 {
+  text-align: center;
+}
+
+.admin-sermon-container .admin-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* ===============================
+   ADMIN CARD (FORM WRAPPER)
+================================ */
+.admin-sermon-container .admin-card {
+  background: var(--white);
+  margin-bottom: 2rem;
+  max-width: 600px; /* reduced from 700px */
+  margin: auto;
+  display: flex;
+  align-items: stretch; /* ensures form fills width */
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+/* ===============================
+   FORM STYLING
+================================ */
+.admin-sermon-container .admin-form {
+  width: 100%;
+  padding: 1.2rem; /* reduced from 2rem */
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-sermon-container .admin-form input,
+.admin-sermon-container .admin-form textarea,
+.admin-sermon-container .admin-form button {
+  width: 100%;
+  padding: 0.65rem; /* lighter padding */
+  border-radius: 6px;
+  border: 1px solid var(--gray-light);
+  font-size: 0.95rem;
+}
+
+
+.admin-sermon-container .admin-form button {
+  margin-top: 0.5rem;
+}
+
+/* ===============================
+   SECTION TITLES
+================================ */
+.admin-sermon-container .admin-section-title {
+  text-align: center;
+  margin: 2.5rem 0;
+}
+
+/* ===============================
+   SERMON GRID
+================================ */
+.admin-sermon-container .admin-sermon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-sermon-card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  min-width: 0; /* allows content to shrink properly */
+}
+
+.admin-sermon-card h3 a {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+.admin-sermon-card h3 a {
+  color: var(--green-dark);
+  text-decoration: none;
+}
+
+.admin-sermon-card h3 a:hover {
+  text-decoration: underline;
+}
+
+.admin-sermon-container .sermon-speaker {
+  color: var(--gray-dark);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.admin-sermon-container .sermon-passage {
+  margin-bottom: 1rem;
+}
+
+.admin-sermon-container .admin-sermon-card video {
+  width: 100%;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.admin-sermon-container .sermon-date,
+.admin-sermon-container .sermon-stats {
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+}
+
+/* ===============================
+   SERMON ACTIONS
+================================ */
+.admin-sermon-container .sermon-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-sermon-container .sermon-actions button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+/* ===============================
+   RESPONSIVE TWEAKS
+================================ */
+@media (max-width: 500px) {
+  .admin-sermon-container .admin-sermon-grid {
+    grid-template-columns: 1fr; /* single column on very small screens */
+    padding: 0;
+  }
+
+  .admin-sermon-container .admin-card {
+    max-width: 100%; /* shrink on smaller screens */
+    padding: 0.5rem; /* reduce padding */ } .admin-sermon-container .admin-form { padding: 0.8rem; /* reduce form padding */
+  }
+}
+
+/* ADMIN MANAGE USERS  */
+
+
+/* PAGE WRAPPER */
+.admin-wrapper {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* ADMIN CARD */
+.admin-card {
+  background: var(--white);
+  width: 100%;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* TITLES */
+.admin-title {
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 0.3rem;
+}
+
+.admin-subtitle {
+  text-align: center;
+  color: var(--gray-dark);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* TABLE */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--gray-light);
+  font-size: 0.9rem;
+}
+
+.admin-table th {
+  background: var(--cream);
+  color: var(--green-dark);
+  font-weight: 600;
+}
+
+.admin-table tr:hover {
+  background: var(--gray-light);
+}
+
+/* INLINE FORM */
+.inline-form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* SELECT */
+.role-select {
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--gray-light);
+  background: var(--white);
+  font-size: 0.85rem;
+}
+
+/* STATUS */
+.status {
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-active {
+  background: var(--green-light);
+  color: var(--white);
+}
+
+.status-inactive {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+
+/* BUTTONS */
+.btn {
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+
+
+.btn-success {
+  background: var(--green-light);
+  color: var(--white);
+}
+
+.btn-danger {
+  background: #a94442;
+  color: var(--white);
+}
+
+/* ADMIN FORM IMPROVEMENT */
+.admin-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .admin-table th,
+  .admin-table td {
+    font-size: 0.8rem;
+    padding: 0.6rem;
+  }
+
+  .inline-form {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* =========================
+   ADMIN RECEIPTS
+========================= */
+
+/* =========================
+   Index Page Styling
+========================= */
+
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 20px;
+  margin-top: 2rem;
+}
+
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  background: var(--cream);
+  padding: 30px;
+  border-radius: 8px;
+  margin-top: 20px;
+  color: var(--gray-dark);
+}
+
+/* Grid layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 25px auto;
+}
+
+/* Receipt card */
+.receipt-card {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.receipt-card:hover {
+  transform: translateY(-3px);
+}
+
+.receipt-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.receipt-card h4 {
+  font-size: 1.1rem;
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+
+..receipt-card p {
+  font-size: 0.95rem;
+  color: var(--gray-dark);
+  margin-bottom: 12px;
+}
+
+/* Links and buttons inside card */
+.receipt-card a {
+  display: inline-block;
+  margin: 5px;
+  color: var(--green-dark);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.receipt-card a:hover {
+  text-decoration: underline;
+}
+
+.btn-danger {
+  background: #c0392b;
+  color: var(--white);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: #e74c3c;
+}
+
+.add-receipt{
+  margin: 20px;
+}
+
+/* =========================
+   Mobile Rules
+========================= */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .btn-accent {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr; /* single column on small screens */
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+
+/* =========================
+   CREATE ADMIN RECEIPT PAGE
+========================= */
+/* =========================
+   Add Receipt Form Styling
+========================= */
+
+.receipt-form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 25px;
+}
+
+.receipt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.receipt-form input,
+.receipt-form textarea {
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  outline: none;
+}
+
+.receipt-form input:focus,
+.receipt-form textarea:focus {
+  border-color: var(--green-dark);
+}
+
+.receipt-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.btn-accent {
+  background: var(--green-dark);
+  color: var(--white);
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-accent:hover {
+  background: var(--green-light);
+}
+
+/* =========================
+   Mobile Rules
+========================= */
+@media (max-width: 600px) {
+  .receipt-form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .btn-accent {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+/* =========================
+   EDIT ADMIN RECEIPTS PAGE
+========================= */
+/* =========================
+   Edit Receipt Form Styling
+========================= */
+
+.receipt-form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--green-dark);
+  margin-bottom: 25px;
+}
+
+.receipt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.receipt-form input,
+.receipt-form textarea {
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid var(--gray-light);
+  border-radius: 6px;
+  outline: none;
+}
+
+.receipt-form input:focus,
+.receipt-form textarea:focus {
+  border-color: var(--green-dark);
+}
+
+.receipt-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Image preview */
+.image-preview {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.image-preview img {
+  max-width: 150px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-light);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+.btn-accent {
+  background: var(--green-dark);
+  color: var(--white);
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-accent:hover {
+  background: var(--green-light);
+}
+
+/* =========================
+   Mobile Rules
+========================= */
+@media (max-width: 600px) {
+  .receipt-form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .btn-accent {
+    width: 100%;
+    text-align: center;
+  }
+
+  .image-preview img {
+    max-width: 100%;
+  }
+}
+
+
+
+/* =========================
+   FOOTER
+========================= */
+footer { 
+  background-color: var(--green-dark); 
+  color: var(--cream); 
+  padding: 40px 20px; /* added horizontal padding so content isn’t glued to the edge */
+  font-size: 0.95rem; 
+} 
+  
+footer h5 { 
+  color: var(--white); 
+  font-weight: 600; 
+  margin-bottom: 15px; 
+} 
+
+footer p {
+  color: var(--cream); 
+  line-height: 1.6; 
+} 
+  
+footer ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0;
+} 
+
+footer ul li { 
+  margin-bottom: 8px; 
+} 
+
+footer ul li a { 
+  color: var(--cream); 
+  text-decoration: none; 
+  transition: color 0.3s ease; 
+} 
+
+footer ul li a:hover { 
+  color: var(--green-light); 
+} 
+
+footer hr { 
+  border-top: 1px solid var(--green-light); 
+  margin: 20px 0; 
+} 
+  
+footer .container > p { 
+  text-align: center; 
+  color: var(--gray-light); 
+  font-size: 0.85rem; 
+  margin-top: 10px;
+}
+
+/* Layout control */
+footer .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly; /* equal spacing between items */
+}
+
+/* Desktop: three sections side by side */
+footer .col-md-4 {
+  flex: 1;
+  min-width: 250px; /* ensures they don’t shrink too much */
+  margin: 0 10px;   /* small margin between columns */
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  footer .row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  footer .col-md-4 {
+    margin-bottom: 20px;
+  }
+}
+
+
+/* ===============================
+   SMALL BUTTONS
+================================ */
+.btn-small {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  background: var(--gray-light);
+  color: var(--gray-dark);
+}
+
+.btn-small:hover {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+
+/* ===============================
+   TOGGLE BUTTON
+================================ */
+.btn-toggle {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+  border: 1px solid var(--gray-dark);
+}
+
+.btn-toggle:hover {
+  background: var(--cream);
+}
+
+/* ===============================
+   EDIT BUTTON
+================================ */
+.btn-accent {
+  background: var(--green-dark);
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn-accent:hover {
+  background: var(--green-light);
+}
+
+/* ===============================
+   DELETE BUTTON
+================================ */
+.btn-danger {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  opacity: 0.9;
+}
+
+/* ===============================
+   ALERT INFO
+================================ */
+.alert-info {
+  background: var(--white);
+  border-left: 4px solid var(--green-dark);
+  padding: 1rem;
+  border-radius: 6px;
+  color: var(--gray-dark);
+}
+
+/* ===============================
+   HR
+================================ */
+.my-5 {
+  margin: 2.5rem 0;
+}
+
+/* ===============================
+   LOGIN BUTTON RESTORE
+================================ */
+.auth-form button,
+.login-form button {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.auth-form button:hover,
+.login-form button:hover {
+  opacity: 0.9;
+}
+
+
+
+/* Like button */
+.btn-like-small {
+  background: var(--white);
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--green-dark);
+  color: var(--green-dark);
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-like-small:hover {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.btn-like-small.liked {
+  background: var(--cream);
+  color: var(--green-dark);
+}
+
+/* Engagement counts (non-interactive) should not respond to hover or show pointer cursor.
+   Elements that display counts use the `engagement-count` class. Override hover effects
+   so the visual stays static while keeping actual like buttons interactive. */
+.engagement-count {
+  cursor: default;
+  pointer-events: none; /* ensure counts are non-clickable */
+  background: transparent; /* keep neutral background */
+  color: inherit;
+  border: none;
+  padding: 0; /* remove button padding when used together with btn-like-small */
+}
+
+.engagement-count:hover {
+  background: transparent;
+  color: inherit;
+  transform: none;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: var(--white);
+  color: var(--green-dark);
+  margin-top: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+}
+
+
+/* =========================
+   ADMIN: Manage Homepage Images
+   Styles for `views/admin/homepage-images.ejs` and
+   `views/admin/edit-homepage-image.ejs`
+========================= */
+.admin-homepage-title{
+  text-align: center;
+  color: var(--green-dark);
+  margin-top: 2rem;
+}
+
+.admin-homepage-images {
+  max-width: 1000px;
+  margin: 20px auto 60px;
+  padding: 0 16px;
+}
+.admin-homepage-images .admin-table img {
+  border-radius: 6px;
+  max-height: 80px;
+  object-fit: cover;
+}
+.admin-edit-homepage-image {
+  max-width: 700px;
+  margin: 20px auto 60px;
+  padding: 0 16px;
+}
+.admin-edit-homepage-image img {
+  display: block;
+  margin-bottom: 12px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+.admin-edit-homepage-image .admin-form {
+  background: var(--white);
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.admin-edit-homepage-image .form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+#back-to-images{
+  display: inline-block;
+  margin-top: 15px;
+  margin-left:35px;
+  color: var(--green-dark);
+  text-decoration: none
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-card { min-height: 160px; }
+  .admin-homepage-images { padding: 0 12px; }
+  .admin-edit-homepage-image { padding: 0 12px; }
+  .row { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .row { grid-template-columns: 1fr; }
+  .dashboard-card { min-height: 140px; }
+  .admin-homepage-images .admin-table img { max-height: 60px; }
+}
+
+

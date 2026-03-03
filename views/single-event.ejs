@@ -1,0 +1,235 @@
+
+
+<%- include("partials/header") %>
+
+<% if (error && error.length) { %>
+  <p class="auth-error"><%= error[0] %></p>
+<% } %>
+<% if (success && success.length) { %>
+  <p class="auth-success"><%= success[0] %></p>
+<% } %>
+
+<div class="single-content-container">
+  <h1><%= event.title %></h1>
+  <p class="event-meta">
+    <strong>📅 Date:</strong> <%= new Date(event.event_date).toDateString() %>
+  </p>
+
+  <% if (event.flyer) { %>
+    <div class="event-flyer-container">
+      <img src="/uploads/events/<%= event.flyer %>" alt="<%= event.title %>" class="event-flyer">
+    </div>
+  <% } %>
+
+  <p class="event-description-full"><%= event.description %></p>
+
+
+  <div class="evtmedia-section">
+  <h3 class="evtmedia-title">Event Moments</h3>
+
+  <% if (media.length === 0) { %>
+    <p class="evtmedia-no-media">No media available for this event.</p>
+  <% } else { %>
+
+    <div class="evtmedia-slider">
+
+      <button class="evtmedia-nav evtmedia-prev" onclick="evtmediaPrev()">‹</button>
+
+      <div class="evtmedia-wrapper">
+        <% media.forEach((item, index) => { %>
+          <div class="evtmedia-slide <%= index === 0 ? 'evtmedia-active' : '' %>">
+
+            <% if (item.media_type === 'image') { %>
+              <img
+                src="/uploads/events/media/<%= item.file_name %>"
+                alt="Event media"
+                class="evtmedia-image"
+              >
+            <% } else { %>
+              <video controls class="evtmedia-video">
+                <source
+                  src="/uploads/events/media/<%= item.file_name %>"
+                  type="video/mp4"
+                >
+                Your browser does not support video playback.
+              </video>
+            <% } %>
+
+          </div>
+        <% }) %>
+      </div>
+
+      <button class="evtmedia-nav evtmedia-next" onclick="evtmediaNext()">›</button>
+
+    </div>
+
+  <% } %>
+</div>
+
+
+  <hr>
+
+  <!-- EVENT: Like and comment counts (engagement header) -->
+  <div class="engagement-section">
+    <div class="engagement-header">
+      <div class="engagement-stat">
+        👍 <span class="engagement-count"><%= likeCount || 0 %> <%= (likeCount || 0) == 1 ? "like" : "likes" %></span>
+      </div>
+      <div class="engagement-stat">
+        💬 <span class="engagement-count"><%= commentCount || 0 %> <%= (commentCount || 0) == 1 ? "comment" : "comments" %></span>
+      </div>
+      <% if (user) { %>
+        <form method="POST" action="/events/<%= event.slug %>/like" id="like-form-event" class="like-form-inline">
+          <button type="button" class="btn-like-small" data-like-form="like-form-event">👍 Like</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn-like-small btn-small">👍 Like</a>
+      <% } %>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EVENT: Comments section -->
+  <div class="comments-section">
+    <h3 class="comments-title">Comments</h3>
+
+    <div class="comment-list">
+      <% if (comments.filter(c => c.parent_comment_id === null).length === 0) { %>
+        <p class="no-comments">No comments yet. Be the first to comment!</p>
+      <% } %>
+
+      <% comments
+        .filter(c => c.parent_comment_id === null)
+        .forEach(comment => { 
+
+          const replies = comments.filter(r => r.parent_comment_id === comment.id);
+      %>
+
+        <div class="comment-item">
+          <div class="comment-header">
+            <strong class="comment-name"><%= comment.first_name %> <%= comment.last_name %></strong>
+            <small class="comment-date"><%= new Date(comment.created_at).toDateString() %></small>
+          </div>
+
+          <p class="comment-text"><%= comment.comment %></p>
+
+          <div class="comment-footer">
+            <% if (user) { %>
+              <button type="button" onclick="toggleReplyForm('<%= comment.id %>')" class="btn-reply-small">Reply</button>
+            <% } %>
+            <% if (replies.length > 0) { %>
+              <span class="reply-count">💬 <%= replies.length %> <%= replies.length == 1 ? "reply" : "replies" %></span>
+            <% } %>
+          </div>
+
+          <!-- EVENT: Reply form -->
+          <% if (user) { %>
+            <form
+              id="reply-form-<%= comment.id %>"
+              method="POST"
+              action="/events/<%= event.slug %>/comments"
+              class="reply-form-inline"
+            >
+              <input type="hidden" name="parent_comment_id" value="<%= comment.id %>">
+              <div class="reply-input-group">
+                <textarea name="comment" maxlength="300" required placeholder="Write a reply..." class="reply-textarea"></textarea>
+                <button type="submit" class="btn-reply-submit">Send</button>
+              </div>
+            </form>
+          <% } %>
+
+          <!-- EVENT: Replies display -->
+          <% replies.forEach(reply => { %>
+            <div class="reply-item">
+              <div class="reply-header">
+                <strong class="reply-name"><%= reply.first_name %> <%= reply.last_name %></strong>
+                <small class="reply-date"><%= new Date(reply.created_at).toDateString() %></small>
+              </div>
+              <p class="reply-text"><%= reply.comment %></p>
+            </div>
+          <% }) %>
+        </div>
+
+      <% }) %>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- EVENT: Add comment section -->
+  <div class="add-comment-section">
+    <h4 class="add-comment-title">Add a Comment</h4>
+
+    <div class="comment-form-container">
+      <% if (event.comment_enabled === true) { %>
+        <% if (user) { %>
+          <form method="POST" action="/events/<%= event.slug %>/comments" class="add-comment-form">
+            <textarea
+              name="comment"
+              maxlength="300"
+              placeholder="Write your comment here..."
+              required
+              class="comment-textarea-main"
+            ></textarea>
+            <div class="comment-form-footer">
+              <small class="char-count">0 / 300 characters</small>
+              <button type="submit" class="btn-comment-submit">Comment</button>
+            </div>
+          </form>
+        <% } else { %>
+          <p><a href="/login" class="btn-accent">Login</a> to add a comment</p>
+        <% } %>
+      <% } else { %>
+        <p class="comments-disabled">Comments are disabled for this event.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  let evtmediaCurrent = 0;
+  const evtmediaSlides = document.querySelectorAll(".evtmedia-slide");
+
+  function evtmediaShow(index) {
+    evtmediaSlides.forEach(slide => slide.classList.remove("evtmedia-active"));
+    evtmediaSlides[index].classList.add("evtmedia-active");
+  }
+
+  function evtmediaNext() {
+    evtmediaCurrent = (evtmediaCurrent + 1) % evtmediaSlides.length;
+    evtmediaShow(evtmediaCurrent);
+  }
+
+  function evtmediaPrev() {
+    evtmediaCurrent = (evtmediaCurrent - 1 + evtmediaSlides.length) % evtmediaSlides.length;
+    evtmediaShow(evtmediaCurrent);
+  }
+</script>
+
+
+<script>
+function toggleReplyForm(commentId) {
+  const form = document.getElementById(`reply-form-${commentId}`);
+  form.classList.toggle('show');
+}
+
+// Character counter for comments
+document.querySelectorAll('.comment-textarea-main').forEach(textarea => {
+  textarea.addEventListener('input', function() {
+    const counter = this.closest('.add-comment-form').querySelector('.char-count');
+    counter.textContent = `${this.value.length} / 300 characters`;
+  });
+});
+
+// Like form submission
+document.querySelectorAll('[data-like-form]').forEach(button => {
+  button.addEventListener('click', function() {
+    const formId = this.getAttribute('data-like-form');
+    document.getElementById(formId).submit();
+  });
+});
+</script>
+
+<%- include("partials/footer") %>

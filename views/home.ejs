@@ -1,0 +1,190 @@
+<%- include("partials/header") %>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+  <div class="hero-content">
+    <h1>Welcome to PCN Ediba Qua Parish</h1>
+    <p>A place of worship, fellowship, and spiritual growth</p>
+    <div class="hero-buttons">
+      <a href="/sermons" class="btn-secondary">Watch Sermon</a>
+      <a href="/events" class="btn-secondary">See Events</a>
+    </div>
+  </div>
+  <img src="<%= homepageImages.hero ? homepageImages.hero.file_path : '/images/default-hero.jpg' %>" alt="<%= homepageImages.hero ? homepageImages.hero.alt_text : 'Hero Image' %>" class="hero-bg-img">
+</div>
+
+<!-- ABOUT SECTION: Picture Left, Text Right -->
+<section class="mb-5">
+  <h2 class="section-title">Welcome to Our Church</h2>
+  <div class="about-row">
+    <div class="about-col-image">
+      <img src="<%= homepageImages.about ? homepageImages.about.file_path : '/images/debby-91.jpg' %>" alt="<%= homepageImages.about ? homepageImages.about.alt_text : 'Church Members' %>" class="about-img">
+    </div>
+    <div class="about-col-text">
+      <p>
+        The Presbyterian Church of Nigeria, Ediba Qua Parish, is committed to the preaching of the Gospel, discipleship, and service to God and humanity.
+      </p>
+      <p>
+        To raise faithful believers, teach the Word of God, and build a Christ centered community.
+      </p>
+      <a href="/about" id="learnMore" class="btn-accent">Learn More About Us</a>
+    </div>
+  </div>
+</section>
+
+<hr class="my-5">
+
+<!-- SERVICE TIMES & LOCATION -->
+<section class="mb-5">
+  <h2 class="section-title">Service Times & Location</h2>
+  <div class="grid-3">
+    <div class="service-card">
+      <h3>⏰ Sunday Schools & Church Service</h3>
+      <p>Sundays<br>8:00am - Sunday Schools<br>9:00am - Church Service</p>
+    </div>
+    <div class="service-card">
+      <h3>📖 Bible Studies</h3>
+      <p>Wednesdays<br>5:00pm</p>
+    </div>
+    <div class = "service-card">
+      <h3>🙏 Fasting and Prayer</h3>
+      <p>First Saturday of every month<br>7:00am</p>
+    </div>
+    <div class="service-card">
+      <h3>📍 Location</h3>
+      <p>25, Ediba Road<br>Off Marian workover<br>Calabar</p>
+    </div>
+  </div>
+</section>
+
+<hr class="my-5">
+
+<!-- OUR ARMS/MINISTRIES -->
+<section class="mb-5">
+  <h2 class="section-title">Our Arms (Ministries)</h2>
+  <div class="grid-4">
+    <div class="arm-card">
+      <img src="<%= homepageImages.mca ? homepageImages.mca.file_path : '/images/debby-186.jpg' %>" alt="<%= homepageImages.mca ? homepageImages.mca.alt_text : 'MCA' %>" class="card-img">
+      <div class="arm-card-body">
+        <h3>MCA</h3>
+        <p>Men Christian Association. This arm focuses on the spiritual growth and responsibility of men in the church.</p>
+      </div>
+    </div>
+    <div class="arm-card">
+      <img src="<%= homepageImages.womens_guild ? homepageImages.womens_guild.file_path : '/images/debby-149.jpg' %>" alt="<%= homepageImages.womens_guild ? homepageImages.womens_guild.alt_text : 'Women\'s Guild' %>" class="card-img">
+      <div class="arm-card-body">
+        <h3>Women's Guild</h3>
+        <p>The Women's Guild is dedicated to nurturing godly women through prayer, service, and leadership.</p>
+      </div>
+    </div>
+    <div class="arm-card">
+      <img src="<%= homepageImages.cgit ? homepageImages.cgit.file_path : '/images/debby-149.jpg' %>" alt="<%= homepageImages.cgit ? homepageImages.cgit.alt_text : 'C.G.I.T' %>" class="card-img">
+      <div class="arm-card-body">
+        <h3>C.G.I.T</h3>
+        <p>Christian Girls in Training. This arm mentors young girls in Christian values, discipline, and faith.</p>
+      </div>
+    </div>
+    <div class="arm-card">
+      <img src="<%= homepageImages.pypan ? homepageImages.pypan.file_path : '/images/miami.jpeg' %>" alt="<%= homepageImages.pypan ? homepageImages.pypan.alt_text : 'PYPAN' %>" class="card-img">
+      <div class="arm-card-body">
+        <h3>PYPAN</h3>
+        <p>Presbyterian Young People Association of Nigeria. This group empowers youths spiritually, socially, and morally.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="my-5">
+
+<section class="latest-content mb-5">
+
+  <!-- SERMON -->
+  <h2 class="section-title">Latest Sermon</h2>
+
+  <div class="latest-grid">
+
+    <% if (sermons && sermons.length > 0) { %>
+      <% sermons.forEach((sermon) => { %>
+        <div class="card sermon-card">
+
+          <h3><%= sermon.title %></h3>
+
+          <p><strong>📖 Bible Passage:</strong> <%= sermon.bible_passage %></p>
+
+          <p><strong>📅 Date:</strong>
+            <%= new Date(sermon.sermon_date).toDateString() %>
+          </p>
+
+          <% if (sermon.speaker) { %>
+            <p><strong>🎤 Speaker:</strong> <%= sermon.speaker %></p>
+          <% } %>
+
+          <% if (sermon.video) { %>
+            <video class="sermon-video" controls>
+              <source src="/uploads/sermons/<%= sermon.video %>" type="video/mp4">
+            </video>
+          <% } %>
+
+          <a href="/sermons/<%= sermon.slug %>" class ="btn-accent">
+            View Full Sermon
+          </a>
+
+        </div>
+      <% }) %>
+    <% } %>
+
+  </div>
+
+  <!-- EVENTS -->
+  <h2 class="section-title">Upcoming Events</h2>
+
+  <div class="events-wrapper">
+
+    <% if (events && events.length > 0) { %>
+      <% events.forEach((event) => { %>
+
+        <div class="event-card">
+
+          <% if (event.flyer) { %>
+            <a href="/events/<%= event.slug %>">
+              <img
+                src="/uploads/events/<%= event.flyer %>"
+                alt="<%= event.title %>"
+              >
+            </a>
+          <% } %>
+
+          <div class="event-text">
+            <h3><%= event.title %></h3>
+
+            <p>
+              <strong>📅 Date:</strong>
+              <%= new Date(event.event_date).toDateString() %>
+            </p>
+
+            <p>
+              <%= event.description.substring(0, 120) %>...
+            </p>
+
+            <a href="/events/<%= event.slug %>" class="btn-accent">
+              View Details
+            </a>
+          </div>
+
+        </div>
+
+      <% }) %>
+    <% } %>
+
+  </div>
+
+  <div class="text-center mt-4 btn-group-center">
+    <a href="/sermons" class="btn-like-small">View All Sermons</a>
+    <a href="/events" class="btn-like-small">View All Events</a>
+  </div>
+
+</section>
+
+
+
+<%- include("partials/footer") %>

@@ -1,0 +1,39 @@
+<%- include("../../partials/header") %>
+
+<h2 class="section-title">Receipts</h2>
+
+
+
+<% if (receipts.length === 0) { %>
+
+  <div class="empty-state">
+    <p>No receipts uploaded yet.</p>
+    <p>Click "Add Receipt" to upload the first receipt.</p>
+  </div>
+
+<% } else { %>
+
+  <div class="grid">
+    <% receipts.forEach(r => { %>
+      <div class="receipt-card">
+        <img src="/uploads/receipts/<%= r.image %>" alt="Receipt image">
+
+        <h4><%= r.title %></h4>
+
+        <% if (r.amount) { %>
+          <p>₦<%= r.amount %></p>
+        <% } %>
+
+        <a href="/admin/receipts/<%= r.id %>/edit">Edit</a>
+
+        <form method="POST" action="/admin/receipts/<%= r.id %>/delete">
+          <button class="btn-danger">Delete</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+  <p class = "add-receipt"><a href="/admin/receipts/create" class="btn-accent">Add Receipt</a></p>
+
+<% } %>
+
+<%- include("../../partials/footer") %>

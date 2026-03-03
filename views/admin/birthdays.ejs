@@ -1,0 +1,66 @@
+<%- include("../partials/header") %>
+
+<div class="admin-birthday-page admin-birthdays">
+
+  <h1 class="admin-title">Birthdays</h1>
+
+  <div class="admin-top-action">
+    <a href="/admin/birthdays/create" class="btn-accent outline">
+      Add Birthday
+    </a>
+  </div>
+
+  <% if (birthdays.length === 0) { %>
+    <p class="empty-state">No birthdays added yet.</p>
+  <% } %>
+
+  <div class="birthday-list">
+    <% birthdays.forEach(b => { %>
+      <div class="birthday-card">
+
+        <img
+          src="/uploads/birthdays/<%= b.photo %>"
+          alt="<%= b.name %>"
+          class="birthday-photo"
+        >
+
+        <div class="birthday-info">
+          <strong class="birthday-name"><%= b.name %></strong>
+          <span class="birthday-arm">(<%= b.arm %>)</span>
+
+          <!-- BIRTH DATE -->
+          <div class="birthday-date">
+            🎂 <%= new Date(b.birth_date).toDateString() %>
+          </div>
+
+          <% if (b.position) { %>
+            <div class="birthday-position"><%= b.position %></div>
+          <% } %>
+        </div>
+
+        <div class="birthday-actions">
+          <a
+            href="/admin/birthdays/<%= b.id %>/edit"
+            class="btn-accent outline"
+          >
+            Edit
+          </a>
+
+          <form
+            action="/admin/birthdays/<%= b.id %>/delete"
+            method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this birthday?')"
+          >
+            <button type="submit" class="delete-birthday">
+              Delete
+            </button>
+          </form>
+        </div>
+
+      </div>
+    <% }) %>
+  </div>
+
+</div>
+
+<%- include("../partials/footer") %>

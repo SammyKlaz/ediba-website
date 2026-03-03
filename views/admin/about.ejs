@@ -1,0 +1,132 @@
+<%- include("../partials/header") %>
+
+<div class="admin-about-page admin-about">
+
+  <h1 class="admin-title">Admin About Page</h1>
+
+  <hr>
+
+  <!-- UPDATE MEMBERSHIP -->
+  <section class="admin-section centered-section">
+    <h2>Update Membership</h2>
+
+    <form class="admin-form" method="POST" action="/admin/about/membership">
+      <input type="number" name="membership_total" placeholder="Total Members" required>
+      <input type="number" name="membership_year" placeholder="Year" required>
+      <button type="submit" class="btn-accent">Save</button>
+    </form>
+
+    <% if (membership) { %>
+      <p class="current-info">
+        Current membership,
+        <strong><%= membership.membership_total %></strong>
+        members in
+        <strong><%= membership.membership_year %></strong>
+      </p>
+    <% } %>
+  </section>
+
+  <hr>
+
+  <!-- ADD MINISTER -->
+  <section class="admin-section centered-section">
+    <h2>Add Minister</h2>
+
+    <form
+      class="admin-form add-minister-form"
+      method="POST"
+      action="/admin/ministers/create"
+      enctype="multipart/form-data"
+    >
+      <input
+        type="text"
+        name="name"
+        placeholder="Minister Full Name"
+        required
+      >
+
+      <select name="position" required>
+        <option value="">Select Position</option>
+        <option value="Minister In Charge">Minister In Charge</option>
+        <option value="Associate Minister">Associate Minister</option>
+        <option value="Tent Maker">Tent Maker</option>
+      </select>
+
+      <textarea
+        name="short_intro"
+        placeholder="Short intro (Minister In Charge only)"
+      ></textarea>
+
+      <textarea
+        name="biography"
+        placeholder="Biography (Minister In Charge only)"
+      ></textarea>
+
+      <input
+        type="file"
+        name="photo"
+        accept="image/*"
+        required
+      >
+
+      <button type="submit" class="btn-accent">Add Minister</button>
+    </form>
+  </section>
+
+  <hr>
+
+  <!-- MINISTERS LIST -->
+  <section class="admin-section">
+    <h2>Ministers</h2>
+
+    <% if (ministers.length === 0) { %>
+      <p>No ministers added yet.</p>
+    <% } %>
+
+    <div class="minister-list">
+      <% ministers.forEach(minister => { %>
+        <div class="minister-card">
+
+          <h3><%= minister.name %></h3>
+
+          <p>Position, <%= minister.position %></p>
+          <p>Status, <%= minister.is_active ? "Active" : "Inactive" %></p>
+
+          <% if (minister.is_in_charge) { %>
+            <p class="in-charge">Minister In Charge</p>
+          <% } %>
+
+          <div class="minister-actions">
+            <form method="POST" action="/admin/ministers/<%= minister.id %>/toggle">
+              <button class="admin-btn danger" type="submit">
+                <%= minister.is_active ? "Deactivate" : "Activate" %>
+              </button>
+            </form>
+
+            <form method="GET" action="/admin/ministers/<%= minister.slug %>/edit">
+              <button class="admin-btn" type="submit">Edit</button>
+            </form>
+
+            <form
+              method="POST"
+              action="/admin/ministers/<%= minister.slug %>/delete"
+              onsubmit="return confirm('Are you sure you want to delete this minister?')"
+            >
+              <button class="admin-btn danger" type="submit">Delete</button>
+            </form>
+
+            <% if (!minister.is_in_charge) { %>
+              <form method="POST" action="/admin/ministers/<%= minister.id %>/set-in-charge">
+                <button class="admin-btn" type="submit">Set In Charge</button>
+              </form>
+            <% } %>
+          </div>
+
+        </div>
+      <% }) %>
+    </div>
+  </section>
+
+</div>
+
+<%- include("../partials/footer") %>

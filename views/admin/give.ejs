@@ -1,0 +1,126 @@
+<%- include("../partials/header") %>
+
+<div class="admin-give-page">
+
+  <h1>Admin Give Page</h1>
+
+  <!-- CREATE GIVE FORM -->
+  <form method="POST" action="/admin/give" class="admin-give-form">
+
+    <input
+      type="text"
+      name="title"
+      placeholder="Title"
+      required
+    >
+
+    <textarea
+      name="description"
+      placeholder="Description"
+    ></textarea>
+
+    <input
+      type="number"
+      name="year"
+      placeholder="Year"
+      value="<%= new Date().getFullYear() %>"
+    >
+
+    <input
+      type="text"
+      name="bank_name"
+      placeholder="Bank Name"
+    >
+
+    <input
+      type="text"
+      name="account_name"
+      placeholder="Account Name"
+    >
+
+    <input
+      type="text"
+      name="account_number"
+      placeholder="Account Number"
+    >
+
+    <label>
+      <input type="checkbox" name="is_main" value="true">
+      Set as main church account
+    </label>
+
+    <button type="submit">Save</button>
+
+  </form>
+
+  <h2>Existing Giving Records</h2>
+
+  <% if (gives.length === 0) { %>
+    <p>No giving records yet.</p>
+  <% } else { %>
+
+    <div class="give-records">
+
+      <!-- MAIN ACCOUNT -->
+      <% gives.forEach(give => { %>
+        <% if (give.is_main) { %>
+          <div class="give-main-card">
+            <h3><%= give.title %></h3>
+            <p><%= give.bank_name %></p>
+            <p><%= give.account_number %></p>
+
+            <% if (!give.is_active) { %>
+              <p>(Inactive)</p>
+            <% } %>
+
+            <% if (give.year) { %>
+              <p>Year: <%= give.year %></p>
+            <% } %>
+
+            <div class="give-actions">
+              <a href="/admin/give/edit/<%= give.slug %>" class = btn-accent>Edit</a>
+
+              <form method="POST" action="/admin/give/delete/<%= give.slug %>">
+                <button type="submit">Delete</button>
+              </form>
+            </div>
+          </div>
+        <% } %>
+      <% }) %>
+
+      <!-- OTHER ACCOUNTS -->
+      <div class="give-grid">
+        <% gives.forEach(give => { %>
+          <% if (!give.is_main) { %>
+            <div class="give-card">
+              <strong><%= give.title %></strong>
+              <p><%= give.bank_name %></p>
+              <p><%= give.account_number %></p>
+
+              <% if (!give.is_active) { %>
+                <p>(Inactive)</p>
+              <% } %>
+
+              <% if (give.year) { %>
+                <p>Year: <%= give.year %></p>
+              <% } %>
+
+              <div class="give-actions">
+                <a href="/admin/give/edit/<%= give.slug %>" class = btn-accent>Edit</a>
+
+                <form method="POST" action="/admin/give/delete/<%= give.slug %>">
+                  <button type="submit">Delete</button>
+                </form>
+              </div>
+            </div>
+          <% } %>
+        <% }) %>
+      </div>
+
+    </div>
+
+  <% } %>
+
+</div>
+
+<%- include("../partials/footer") %>

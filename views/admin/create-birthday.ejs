@@ -1,0 +1,46 @@
+<%- include("../partials/header") %>
+
+<div class="admin-birthday-create-page admin-birthday-create">
+  <div>
+    <h2>Create Birthday</h2>
+
+    <form
+      action="/admin/birthdays"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="text" name="name" placeholder="Full name" required>
+
+      <input type="date" name="birth_date" required>
+
+      <select name="arm" required>
+        <option value="">Select Arm or Department</option>
+        <option value="MCA">MCA</option>
+        <option value="Womens Guild">WOMENS GUILD</option>
+        <option value="CGIT">CGIT</option>
+        <option value="PYPAN">PYPAN</option>
+        <option value="Children Department">CHILDREN DEPARTMENT</option>
+      </select>
+
+      <select name="year" required>
+        <option value="">Select Birthday Year</option>
+        <option value="<%= new Date().getFullYear() %>">
+          <%= new Date().getFullYear() %>
+        </option>
+        <option value="<%= new Date().getFullYear() + 1 %>">
+          <%= new Date().getFullYear() + 1 %>
+        </option>
+      </select>
+
+
+      <input type="text" name="position" placeholder="Position (optional)">
+
+      <input type="file" name="photo" accept="image/*" required>
+
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>
+

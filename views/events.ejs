@@ -1,0 +1,140 @@
+<%- include("partials/header") %>
+
+<section class="events-page">
+
+  <!-- =====================
+       BIRTHDAYS SECTION
+  ====================== -->
+ <h3 class="section-title">🎉 Celebrants This Month 🎉</h3>
+
+<% if (!birthdays || birthdays.length === 0) { %>
+  <p class="no-birthday">No birthdays this month 🎂</p>
+<% } else { %>
+
+<div class="birthday-slider">
+  <% birthdays.forEach((b, index) => { %>
+    <div class="birthday-slide <%= index === 0 ? 'active' : '' %>">
+
+      <% if (b.is_today) { %>
+        <span class="birthday-badge today">Today 🎉</span>
+      <% } else if (b.is_upcoming) { %>
+        <span class="birthday-badge upcoming">Upcoming 🎈</span>
+      <% } else { %>
+        <span class="birthday-badge past">Celebrated 🎂</span>
+      <% } %>
+
+      <img
+        src="/uploads/birthdays/<%= b.photo %>"
+        alt="<%= b.name %>"
+      />
+
+      <h4><%= b.name %></h4>
+      <p class="arm"><%= b.arm %></p>
+
+      <% if (b.position) { %>
+        <p class="position"><%= b.position %></p>
+      <% } %>
+
+      <p class="date">
+        <%= new Date(b.birth_date).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) %>
+      </p>
+
+    </div>
+  <% }) %>
+</div>
+
+<% } %>
+
+
+  <!-- =====================
+       EVENTS SECTION
+  ====================== -->
+
+  <h1 class="section-title">Events</h1>
+
+  <% if (events.length === 0) { %>
+    <p class="text-center">No events available at the moment.</p>
+  <% } else { %>
+
+    <div class="events-grid">
+
+      <% events.forEach(event => { %>
+        <div class="event-card">
+
+          <% if (event.flyer) { %>
+            <a href="/events/<%= event.slug %>">
+              <img
+                src="/uploads/events/<%= event.flyer %>"
+                alt="<%= event.title %>"
+                class="event-img"
+              >
+            </a>
+          <% } %> 
+
+          <div class="event-body">
+            <h3>
+              <a href="/events/<%= event.slug %>">
+                <%= event.title %>
+              </a>
+            </h3>
+
+            <p class="event-date">
+              📅 <%= new Date(event.event_date).toDateString() %>
+            </p>
+
+            <p class="event-desc">
+              <%= event.description %>
+            </p>
+
+            <div class="event-engagement">
+              👍 <span><%= event.like_count || 0 %></span>
+              💬 <span><%= event.comment_count || 0 %></span>
+            </div>
+
+            <div class="event-actions">
+              <a href="/events/<%= event.slug %>" class="btn-accent">View Details</a>
+
+              <% if (user) { %>
+                <form method="POST" action="/events/<%= event.slug %>/like">
+                  <button type="submit" class="btn-like-small btn-small">👍Like</button>
+                </form>
+              <% } else { %>
+                <a href="/login" class="btn-like-small">Login to Like</a>
+              <% } %>
+            </div>
+
+          </div>
+        </div>
+      <% }) %>
+
+    </div>
+
+  <% } %>
+
+</section>
+
+<script>
+  const slides = document.querySelectorAll(".birthday-slide");
+  let current = 0;
+
+  if (slides.length > 1) {
+    setInterval(() => {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 4000);
+  }
+</script>
+
+<script>
+  document.querySelectorAll(".btn-small").forEach(btn => {
+    if (btn.tagName === "BUTTON") {
+      btn.addEventListener("click", () => {
+        btn.classList.add("liked");
+        btn.innerHTML = "❤️ Liked";
+      });
+    }
+  });
+</script>
+
+<%- include("partials/footer") %>

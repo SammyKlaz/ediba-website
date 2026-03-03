@@ -1,0 +1,90 @@
+
+
+<%- include("../partials/header") %>
+
+<% if (error && error.length) { %>
+  <p class="auth-error"><%= error[0] %></p>
+<% } %>
+<% if (success && success.length) { %>
+  <p class="auth-success"><%= success[0] %></p>
+<% } %>
+
+<div class="admin-give-edit">
+
+  <div class="admin-give-edit-inner">
+    <h1>Edit Giving Account</h1>
+
+    <form method="POST" action="/admin/give/edit/<%= give.slug %>">
+
+      <input
+        type="text"
+        name="title"
+        value="<%= give.title %>"
+        placeholder="Giving title"
+        required
+      >
+
+      <textarea
+        name="description"
+        placeholder="Description"
+      ><%= give.description %></textarea>
+
+      <input
+        type="number"
+        name="year"
+        value="<%= give.year %>"
+        placeholder="Year"
+        required
+      >
+
+      <input
+        type="text"
+        name="bank_name"
+        value="<%= give.bank_name %>"
+        placeholder="Bank name"
+      >
+
+      <input
+        type="text"
+        name="account_name"
+        value="<%= give.account_name %>"
+        placeholder="Account name"
+      >
+
+      <input
+        type="text"
+        name="account_number"
+        value="<%= give.account_number %>"
+        placeholder="Account number"
+      >
+
+      <div class="checkbox-group">
+        <label>
+          <input
+            type="checkbox"
+            name="is_main"
+            value="true"
+            <%= give.is_main ? "checked" : "" %>
+          >
+          Main church account
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="is_active"
+            value="true"
+            <%= give.is_active ? "checked" : "" %>
+          >
+          Active
+        </label>
+      </div>
+
+      <button type="submit">Update Giving</button>
+
+    </form>
+  </div>
+
+</div>
+
+<%- include("../partials/footer") %>

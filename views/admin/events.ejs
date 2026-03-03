@@ -1,0 +1,89 @@
+<%- include("../partials/header") %>
+
+<div class="admin-event-page admin-container">
+  <h1 class="section-title">📋 Manage Events</h1>
+
+  <!-- CREATE EVENT FORM -->
+  <div class="adminCard">
+    <h2 class="section-subtitle">➕ Add New Event</h2>
+    
+    <form method="POST" action="/admin/events" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="title">Event Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter event title" required maxlength="200">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Event Description</label>
+        <textarea id="description" name="description" placeholder="Enter event description" maxlength="1000"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="event_date">Event Date</label>
+        <input type="date" id="event_date" name="event_date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="flyer">Event Flyer (Image - Landscape Recommended)</label>
+        <input type="file" id="flyer" name="flyer" accept="image/*">
+        <small class="text-muted">Recommended: Landscape format (e.g., 1200x600px)</small>
+      </div>
+
+      <button type="submit" class="btn-accent">Add Event</button>
+    </form>
+  </div>
+
+  <hr class="my-5">
+
+  <!-- LIST OF EVENTS -->
+  <h2 class="section-subtitle">📋 Existing Events</h2>
+
+  <% if (events.length === 0) { %>
+    <div class="alert alert-info">
+      No events yet. <a href="#" onclick="document.querySelector('form').scrollIntoView()">Create one now</a>
+    </div>
+  <% } else { %>
+    <div class="admin-events-list">
+      <% events.forEach(event => { %>
+        <div class="admin-event-card">
+          <div class="admin-event-header">
+            <h3><a href="/events/<%= event.slug %>" target="_blank"><%= event.title %></a></h3>
+            <% if (event.flyer) { %>
+              <small class="flyer-badge">Has Flyer</small>
+            <% } %>
+          </div>
+
+          <p class="admin-event-date">
+            <strong>📅 Date:</strong> <%= new Date(event.event_date).toDateString() %>
+          </p>
+
+          <div class="admin-event-stats">
+            <span class="stat-badge">💬 <%= event.comment_count %> comments</span>
+            <span class="stat-badge">👍 <%= event.like_count %> likes</span>
+          </div>
+
+          <div class="admin-event-actions">
+            <!-- TOGGLE COMMENTS -->
+            <form action="/admin/events/<%= event.slug %>/toggle-comments" method="POST">
+              <button type="submit" class="btn-small btn-toggle">
+                <%= event.comment_enabled ? "🔒 Lock Comments" : "🔓 Unlock Comments" %>
+              </button>
+            </form>
+
+            <!-- EDIT -->
+            <a href="/admin/events/<%= event.slug %>/edit" class="btn-accent">✏️ Edit</a>
+
+            <!-- DELETE -->
+            <form action="/admin/events/<%= event.slug %>/delete" method="POST">
+              <button type="submit" class="btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this item?')">🗑️ Delete</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+
+
+
+<%- include("../partials/footer") %>

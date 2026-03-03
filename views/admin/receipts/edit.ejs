@@ -1,0 +1,33 @@
+<%- include("../../partials/header") %>
+
+<div class="receipt-form-container">
+  <h2 class="section-title">Edit Receipt</h2>
+
+  <form method="POST" action="/admin/receipts/<%= receipt.id %>" enctype="multipart/form-data" class="receipt-form">
+    <input
+      type="text"
+      name="title"
+      value="<%= receipt.title %>"
+      required
+    >
+
+    <input
+      type="number"
+      name="amount"
+      step="0.01"
+      value="<%= receipt.amount %>"
+    >
+
+    <textarea name="description"><%= receipt.description %></textarea>
+
+    <div class="image-preview">
+      <img src="/uploads/receipts/<%= receipt.image %>" alt="Receipt image">
+    </div>
+
+    <input type="file" name="image">
+
+    <button class="btn-accent">Update Receipt</button>
+  </form>
+</div>
+
+<%- include("../../partials/footer") %>

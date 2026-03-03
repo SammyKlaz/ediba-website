@@ -1,0 +1,141 @@
+
+
+<%- include("../partials/header") %>
+
+<% if (error && error.length) { %>
+  <p class="auth-error"><%= error[0] %></p>
+<% } %>
+<% if (success && success.length) { %>
+  <p class="auth-success"><%= success[0] %></p>
+<% } %>
+
+<div class="admin-event-page admin-event-edit">
+
+  <div class="admin-event-edit-inner">
+    <h1>Edit Event</h1>
+
+    <!-- ================= UPDATE EVENT FORM ================= -->
+    <form
+      method="POST"
+      action="/admin/events/<%= event.slug %>/edit"
+      enctype="multipart/form-data"
+      class="admin-event-update-form"
+    >
+
+      <input
+        type="text"
+        name="title"
+        value="<%= event.title %>"
+        placeholder="Event title"
+        required
+      >
+
+      <textarea
+        name="description"
+        placeholder="Event description"
+      ><%= event.description %></textarea>
+
+      <input
+        type="date"
+        name="event_date"
+        value="<%= event.event_date.toISOString().split('T')[0] %>"
+        required
+      >
+
+      <div class="current-flyer">
+        <p>Current flyer</p>
+
+        <% if (event.flyer) { %>
+          <img
+            src="/uploads/events/<%= event.flyer %>"
+            alt="Event flyer"
+          >
+        <% } else { %>
+          <span class="no-flyer">No flyer uploaded</span>
+        <% } %>
+      </div>
+
+      <input type="file" name="flyer" accept="image/*">
+
+      <button type="submit" class="btn-accent">
+        Update Event
+      </button>
+
+    </form>
+
+    <!-- ================= EVENT MEDIA UPLOAD ================= -->
+    <div class="admin-event-media-section">
+
+      <h3 class="evtmedia-upload-title">
+        Upload Event Moments (Images or Videos)
+      </h3>
+
+      <form
+        method="POST"
+        action="/admin/events/<%= event.id %>/media"
+        enctype="multipart/form-data"
+        class="evtmedia-upload-form"
+      >
+
+        <input
+          type="file"
+          name="media"
+          accept="image/*,video/*"
+          multiple
+          class="evtmedia-file-input"
+        >
+
+        <small class="evtmedia-upload-note">
+          You can upload up to 10 files at a time.
+        </small>
+
+        <button type="submit" class="btn-accent">
+          Upload Media
+        </button>
+
+      </form>
+
+      <!-- ================= EXISTING MEDIA ================= -->
+      <div class="evtmedia-current">
+        <% if (eventMedia && eventMedia.length > 0) { %>
+          <% eventMedia.forEach(item => { %>
+            <div class="evtmedia-item">
+              <% if (item.media_type === "image") { %>
+                <img
+                  src="/uploads/events/media/<%= item.file_name %>"
+                  class="evtmedia-thumb"
+                  alt="Event image"
+                >
+              <% } else { %>
+                <video
+                  src="/uploads/events/media/<%= item.file_name %>"
+                  controls
+                  class="evtmedia-thumb"
+                ></video>
+              <% } %>
+               <form
+                  method="POST"
+                  action="/admin/events/media/<%= item.id %>/delete"
+                  class="evtmedia-delete-form"
+                  onsubmit="return confirm('Delete this media?');"
+                >
+                  <button type="submit" class="evtmedia-delete-btn">
+                    ✕ Delete
+                  </button>
+                </form>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p class="evtmedia-no-media">
+            No media uploaded yet.
+          </p>
+        <% } %>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,100 @@
+<%- include("partials/header") %>
+
+<div class="centered">
+  <h1 class="section-title">SUPPORT OUR MINISTRY</h1>
+  <p>
+    Your generous contributions help us continue our spiritual mission.
+  </p>
+
+  <hr class="my-4">
+
+  <!-- Main Church Account Card -->
+  <% if (mainAccount) { %>
+    <h2 class="section-subtitle">MAIN CHURCH ACCOUNT</h2>
+
+    <div class="account-card main-account-card">
+      <div class="account-card-body">
+        <h3 class="account-title">GENERAL SUPPORT</h3>
+        <div class="account-details">
+          <div class="detail-row">
+            <span class="detail-label">ACCOUNT NAME:</span>
+            <span class="detail-value"><%= mainAccount.account_name %></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">BANK:</span>
+            <span class="detail-value"><%= mainAccount.bank_name %></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">ACCOUNT NUMBER:</span>
+            <span class="detail-value account-number"><%= mainAccount.account_number %></span>
+          </div>
+          
+        </div>
+        <p class="account-purpose"><%= mainAccount.account_purpose %></p>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="alert alert-warning">
+      <h5>Banking information is not yet available</h5>
+      <p>Please contact the church office for donation details.</p>
+    </div>
+  <% } %>
+
+  <% if (projects && projects.length > 0) { %>
+    <hr class="my-5">
+
+    <h2 class="section-subtitle">PROJECTS & INITIATIVES</h2>
+
+    <div class="grid-3">
+      <% projects.forEach((project, index) => { %>
+        <div class="account-card project-account-card">
+          <div class="account-card-body">
+            <h3 class="account-title"><%= project.title %></h3>
+            <% if (project.year) { %>
+              <p class="project-year"><strong><%= project.year %></strong></p>
+            <% } %>
+            <div class="account-details">
+              <div class="detail-row">
+                <span class="detail-label">BANK:</span>
+                <span class="detail-value"><%= project.bank_name %></span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">ACCOUNT NO:</span>
+                <span class="detail-value account-number"><%= project.account_number %></span>
+              </div>
+              <div class = "detail-row">
+                <span class="detail-label">ACCOUNT NAME:</span>
+                <span class="detail-value"><%= project.account_name %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <hr class="my-5">
+
+  <h2 class="section-subtitle">WHY GIVE?</h2>
+  <div class="grid-3">
+    <div class="reason-card">
+      <div class="reason-icon">🙏</div>
+      <h4>SPIRITUAL GROWTH</h4>
+      <p>Your giving helps us provide spiritual programs and resources for community growth.</p>
+    </div>
+
+    <div class="reason-card">
+      <div class="reason-icon">🤝</div>
+      <h4>COMMUNITY SERVICE</h4>
+      <p>Contributions support our outreach programs and charitable works in the community.</p>
+    </div>
+
+    <div class="reason-card">
+      <div class="reason-icon">⛪</div>
+      <h4>CHURCH OPERATIONS</h4>
+      <p>Your support helps maintain our facilities and conduct regular worship activities.</p>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>

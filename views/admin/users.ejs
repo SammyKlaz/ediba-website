@@ -1,0 +1,105 @@
+
+<%- include("../partials/header") %>
+
+<% if (error && error.length) { %>
+  <p class="auth-error"><%= error[0] %></p>
+<% } %>
+<% if (success && success.length) { %>
+  <p class="auth-success"><%= success[0] %></p>
+<% } %>
+
+<div class="admin-wrapper">
+
+  <div class="admin-card">
+
+
+    <h1 class="admin-title">Manage Users</h1>
+    <p class="admin-subtitle">Update roles and control user access.</p>
+
+    <form method="GET" action="/admin/users" class="admin-search-form">
+      <input
+        type="text"
+        name="q"
+        class="admin-search-input"
+        placeholder="Search by name or email..."
+        value="<%= typeof query !== 'undefined' ? query : '' %>"
+        autocomplete="off"
+      />
+      <button type="submit" class="btn btn-secondary">Search</button>
+    </form>
+
+
+    <div class="table-wrapper">
+      <% if (notFound) { %>
+        <div class="alert alert-danger" style="margin: 20px 0; text-align: center;">User not found.</div>
+      <% } %>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.first_name %></td>
+              <td><%= user.last_name %></td>
+              <td><%= user.email %></td>
+              <td>
+                <form
+                  method="POST"
+                  action="/admin/users/<%= user.id %>/role"
+                  class="inline-form"
+                >
+                  <select name="role" class="role-select">
+                    <option value="user" <%= user.role === "user" ? "selected" : "" %>>
+                      User
+                    </option>
+                    <option value="admin" <%= user.role === "admin" ? "selected" : "" %>>
+                      Admin
+                    </option>
+                    <option value="super_admin" <%= user.role === "super_admin" ? "selected" : "" %>>
+                      Super Admin
+                    </option>
+                  </select>
+                  <button type="submit" class="btn btn-primary">
+                    Update
+                  </button>
+                </form>
+              </td>
+              <td>
+                <span class="status <%= user.is_active ? "status-active" : "status-inactive" %>">
+                  <%= user.is_active ? "Active" : "Inactive" %>
+                </span>
+              </td>
+              <td>
+                <form
+                  method="POST"
+                  action="/admin/users/<%= user.id %>/toggle"
+                  onsubmit="return confirm('Are you sure?');"
+                >
+                  <button
+                    type="submit"
+                    class="btn <%= user.is_active ? "btn-danger" : "btn-success" %>"
+                  >
+                    <%= user.is_active ? "Deactivate" : "Activate" %>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<%- include("../partials/footer") %>
+<script src="/js/admin-users.js"></script>

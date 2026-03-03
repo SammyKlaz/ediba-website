@@ -1,0 +1,86 @@
+<%- include("../partials/header") %>
+
+
+<div class="admin-minister-edit">
+  <div class="admin-minister-edit-inner">
+  <h2>Edit Minister</h2>
+
+<form
+  action="/admin/ministers/<%= minister.slug %>/edit"
+  method="POST"
+  enctype="multipart/form-data"
+>
+
+  <!-- NAME -->
+  <label>Name</label><br>
+  <input
+    type="text"
+    name="name"
+    value="<%= minister.name %>"
+    required
+  >
+  <br><br>
+
+  <!-- POSITION -->
+  <label>Position</label><br>
+  <select name="position" required>
+    <option value="Minister-in-Charge"
+      <%= minister.position === "Minister-in-Charge" ? "selected" : "" %>>
+      Minister-in-Charge
+    </option>
+
+    <option value="Associate Minister"
+      <%= minister.position === "Associate Minister" ? "selected" : "" %>>
+      Associate Minister
+    </option>
+
+    <option value="Tent Maker"
+      <%= minister.position === "Tent Maker" ? "selected" : "" %>>
+      Tent Maker
+    </option>
+  </select>
+  <br><br>
+
+  <!-- SHORT INTRO -->
+  <label>Short Introduction</label><br>
+  <textarea
+    name="short_intro"
+    rows="4"
+  ><%= minister.short_intro || "" %></textarea>
+  <br><br>
+
+  <!-- BIOGRAPHY -->
+  <label>Biography</label><br>
+  <textarea
+    name="biography"
+    rows="6"
+  ><%= minister.biography || "" %></textarea>
+  <br><br>
+
+  <!-- CURRENT PHOTO -->
+  <label>Current Photo</label><br>
+  <img
+    src="/uploads/ministers/<%= minister.photo %>"
+    width="150"
+    alt="Current photo"
+  >
+  <br><br>
+
+  <!-- NEW PHOTO -->
+  <label>Replace Photo</label><br>
+  <input type="file" name="photo">
+  <br><br>
+
+  <button type="submit">Update Minister</button>
+
+</form>
+
+<br>
+
+<a href="/admin/about">Back</a>
+
+  </div>
+</div>
+
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCN Ediba Qua Parish</title>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+  <nav class="navbar">
+    <div class="nav-container">
+
+      <!-- Brand -->
+      <a href="/" class="nav-brand">PCN EDIBA QUA</a>
+
+      <!-- Toggle -->
+      <button class="nav-toggle" id="navToggle">
+        ☰
+      </button>
+
+      <!-- Menu -->
+      <ul class="nav-menu" id="navMenu">
+
+        <li><a href="/" class="nav-link">HOME</a></li>
+        <li><a href="/about" class="nav-link">ABOUT</a></li>
+        <li><a href="/events" class="nav-link">EVENTS</a></li>
+        <li><a href="/sermons" class="nav-link">SERMONS</a></li>
+        <li><a href="/give" class="nav-link">GIVE</a></li>
+
+        <% if (user) { %>
+          <li class="nav-user">
+            Welcome, <%= user.first_name %> <%= user.last_name %>
+          </li>
+
+          <li>
+            <form action="/logout" method="POST">
+              <button type="submit" class="btn-nav">Logout</button>
+            </form>
+          </li>
+
+          <% if (user.role === "admin" || user.role === "super_admin") { %>
+            <li><a href="/admin" class="nav-link">ADMIN</a></li>
+          <% } %>
+
+          <% if (user.role === "super_admin") { %>
+            <li><a href="/admin/users" class="nav-link">MANAGE ADMINS</a></li>
+          <% } %>
+
+        <% } else { %>
+          <li><a href="/login" class="btn-nav">LOGIN</a></li>
+          <li><a href="/register" class="btn-nav">REGISTER</a></li>
+        <% } %>
+
+      </ul>
+    </div>
+  </nav>
+</header>
+    <script>
+      const toggle = document.getElementById("navToggle");
+      const menu = document.getElementById("navMenu");
+
+      toggle.addEventListener("click", () => {
+        menu.classList.toggle("show");
+      });
+    </script>
+
+</body>
+</html>

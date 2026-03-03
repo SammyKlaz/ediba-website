@@ -1,0 +1,32 @@
+<%- include("partials/header") %>
+
+<section class="minister-profile">
+
+  <div class="minister-card-profile">
+
+    <img
+      src="/uploads/ministers/<%= minister.photo %>"
+      alt="<%= minister.name %>"
+      class="minister-photo"
+    />
+
+    <h1 class="minister-name"><%= minister.name %></h1>
+
+    <p class="minister-position">
+      (<%= minister.position %>)
+    </p>
+
+
+    <div class="minister-biography">
+      <p><%= minister.biography %></p>
+    </div>
+
+    <a href="/about" class="btn-accent">
+      ← Back to About Page
+    </a>
+
+  </div>
+
+</section>
+
+<%- include("partials/footer") %>

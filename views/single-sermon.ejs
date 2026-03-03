@@ -1,0 +1,176 @@
+
+
+<%- include("partials/header") %>
+
+<% if (error && error.length) { %>
+  <p class="auth-error"><%= error[0] %></p>
+<% } %>
+<% if (success && success.length) { %>
+  <p class="auth-success"><%= success[0] %></p>
+<% } %>
+
+<div class="single-content-container">
+  <div class="sermonHeader">
+  <h1><%= sermon.title %></h1>
+  <p class="sermon-date">
+    <strong>📅 Date:</strong> <%= new Date(sermon.sermon_date).toDateString() %>
+  </p>
+  <p class = "sermon-preacher"><strong>🎤 Preacher:</strong> <%= sermon.speaker %></p>
+  <p class="sermon-meta">
+    <strong>📖 Bible Passage:</strong> <%= sermon.bible_passage %>
+  </p>
+
+  <% if (sermon.video) { %>
+    <div class="sermon-video-container">
+      <video width="100%" controls class="sermon-video-player">
+        <source src="/uploads/sermons/<%= sermon.video %>" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+  <% } %>
+
+  <hr>
+
+  <!-- SERMON: Like and comment counts (engagement header) -->
+  <div class="engagement-section">
+    <div class="engagement-header">
+      <div class="engagement-stat">
+        👍 <span  class="engagement-count btn-like-small"><%= likeCount || 0 %> <%= (likeCount || 0) == 1 ? "like" : "likes" %></span>
+      </div>
+      <div class="engagement-stat">
+        💬 <span class="engagement-count"><%= commentCount || 0 %> <%= (commentCount || 0) == 1 ? "comment" : "comments" %></span>
+      </div>
+      <% if (user) { %>
+        <form method="POST" action="/sermons/<%= sermon.slug %>/like" id="like-form-sermon" class="like-form-inline">
+          <button type="button" class="btn-like-small" data-like-form="like-form-sermon">👍 Like</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn-like-small">👍 Like</a>
+      <% } %>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- SERMON: Comments section -->
+  <div class="comments-section">
+    <h3 class="comments-title">Comments</h3>
+
+    <div class="comment-list">
+      <% if (comments.filter(c => c.parent_comment_id === null).length === 0) { %>
+        <p class="no-comments">No comments yet. Be the first to comment!</p>
+      <% } %>
+
+      <% comments
+        .filter(c => c.parent_comment_id === null)
+        .forEach(comment => {
+
+          const replies = comments.filter(r => r.parent_comment_id === comment.id);
+      %>
+
+        <div class="comment-item">
+          <div class="comment-header">
+            <strong class="comment-name"><%= comment.first_name %> <%= comment.last_name %></strong>
+            <small class="comment-date"><%= new Date(comment.created_at).toDateString() %></small>
+          </div>
+
+          <p class="comment-text"><%= comment.comment %></p>
+
+          <div class="comment-footer">
+            <% if (user) { %>
+              <button type="button" onclick="toggleReplyForm('<%= comment.id %>')" class="btn-reply-small">Reply</button>
+            <% } %>
+            <% if (replies.length > 0) { %>
+              <span class="reply-count">💬 <%= replies.length %> <%= replies.length == 1 ? "reply" : "replies" %></span>
+            <% } %>
+          </div>
+
+          <!-- SERMON: Reply form -->
+          <% if (user) { %>
+            <form
+              id="reply-form-<%= comment.id %>"
+              method="POST"
+              action="/sermons/<%= sermon.slug %>/comments"
+              class="reply-form-inline"
+            >
+              <input type="hidden" name="parent_comment_id" value="<%= comment.id %>">
+              <div class="reply-input-group">
+                <textarea name="comment" maxlength="300" required placeholder="Write a reply..." class="reply-textarea"></textarea>
+                <button type="submit" class="btn-reply-submit">Send</button>
+              </div>
+            </form>
+          <% } %>
+
+          <!-- SERMON: Replies display -->
+          <% replies.forEach(reply => { %>
+            <div class="reply-item">
+              <div class="reply-header">
+                <strong class="reply-name"><%= reply.first_name %> <%= reply.last_name %></strong>
+                <small class="reply-date"><%= new Date(reply.created_at).toDateString() %></small>
+              </div>
+              <p class="reply-text"><%= reply.comment %></p>
+            </div>
+          <% }) %>
+        </div>
+
+      <% }) %>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- SERMON: Add comment section -->
+  <div class="add-comment-section">
+    <h4>Add a Comment</h4>
+
+    <div class="comment-form-container">
+      <% if (sermon.comment_enabled === true) { %>
+        <% if (user) { %>
+          <form method="POST" action="/sermons/<%= sermon.slug %>/comments" class="add-comment-form">
+            <textarea
+              name="comment"
+              maxlength="300"
+              placeholder="Write your comment here..."
+              required
+              class="comment-textarea-main"
+            ></textarea>
+            <div class="comment-form-footer">
+              <small class="char-count">0 / 300 characters</small>
+              <button type="submit" class="btn-comment-submit">Comment</button>
+            </div>
+          </form>
+        <% } else { %>
+          <p><a href="/login" class="login-link">Login</a> to add a comment</p>
+        <% } %>
+      <% } else { %>
+        <p class="comments-disabled">Comments are disabled for this sermon.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>
+
+<script>
+function toggleReplyForm(commentId) {
+  const form = document.getElementById(`reply-form-${commentId}`);
+  form.classList.toggle('show');
+}
+
+// Character counter for comments
+document.querySelectorAll('.comment-textarea-main').forEach(textarea => {
+  textarea.addEventListener('input', function() {
+    const counter = this.closest('.add-comment-form').querySelector('.char-count');
+    counter.textContent = `${this.value.length} / 300 characters`;
+  });
+});
+
+// Like form submission
+document.querySelectorAll('[data-like-form]').forEach(button => {
+  button.addEventListener('click', function() {
+    const formId = this.getAttribute('data-like-form');
+    document.getElementById(formId).submit();
+  });
+});
+</script>
