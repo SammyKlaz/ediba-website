@@ -154,7 +154,7 @@ export const deleteEvent = async (req, res) => {
     res.redirect("/admin/events");
   } catch (error) {
     console.log(error);
-    res.send("Error deleting event");
+    res.send("Error deleting sermon");
   }
 };
 
@@ -320,11 +320,11 @@ export const deleteSermon = async (req, res) => {
     const { slug } = req.params;
 
     await pool.query(
-      "DELETE FROM sermon WHERE slug = $1",
+      "DELETE FROM sermons WHERE slug = $1",
       [slug]
     );
 
-    res.redirect("/admin/sermon");
+    res.redirect("/admin/sermons");
   } catch (error) {
     console.log(error);
     res.send("Error deleting event");
