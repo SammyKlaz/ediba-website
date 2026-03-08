@@ -16,7 +16,7 @@ import adminHomepageImagesRoutes from "./routes/adminHomepageImages.js";
 import flash from "connect-flash";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.use(
   session({
@@ -59,13 +59,14 @@ app.use("/", sermonsRoute);
 app.use("/", giveRoute);
 app.use("/", adminRoute);
 app.use(authRoutes);
+app.use(authLoginRoutes);
 app.use("/", aboutRoute);
 app.use(adminUsersRoutes);
 app.use(adminHomepageImagesRoutes);
 
+import "./cronJobs.js";
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-import "./cronJobs.js";

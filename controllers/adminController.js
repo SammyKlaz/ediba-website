@@ -154,7 +154,7 @@ export const deleteEvent = async (req, res) => {
     res.redirect("/admin/events");
   } catch (error) {
     console.log(error);
-    res.send("Error deleting sermon");
+    res.send("Error deleting event");
   }
 };
 
