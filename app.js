@@ -59,7 +59,6 @@ app.use("/", sermonsRoute);
 app.use("/", giveRoute);
 app.use("/", adminRoute);
 app.use(authRoutes);
-app.use(authLoginRoutes);
 app.use("/", aboutRoute);
 app.use(adminUsersRoutes);
 app.use(adminHomepageImagesRoutes);
