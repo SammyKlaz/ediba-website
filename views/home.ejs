@@ -64,28 +64,28 @@
   <h2 class="section-title">Our Arms (Ministries)</h2>
   <div class="grid-4">
     <div class="arm-card">
-      <img src="<%= homepageImages.mca ? homepageImages.mca.file_path : '/images/debby-186.jpg' %>" alt="<%= homepageImages.mca ? homepageImages.mca.alt_text : 'MCA' %>" class="card-img">
+      <img src="<%= homepageImages.mca ? homepageImages.mca.file_path : '/images/mca_logo.jpeg' %>" alt="<%= homepageImages.mca ? homepageImages.mca.alt_text : 'MCA' %>" class="card-img">
       <div class="arm-card-body">
         <h3>MCA</h3>
         <p>Men Christian Association. This arm focuses on the spiritual growth and responsibility of men in the church.</p>
       </div>
     </div>
     <div class="arm-card">
-      <img src="<%= homepageImages.womens_guild ? homepageImages.womens_guild.file_path : '/images/debby-149.jpg' %>" alt="<%= homepageImages.womens_guild ? homepageImages.womens_guild.alt_text : 'Women\'s Guild' %>" class="card-img">
+      <img src="<%= homepageImages.womens_guild ? homepageImages.womens_guild.file_path : '/images/women_logo.jpg' %>" alt="<%= homepageImages.womens_guild ? homepageImages.womens_guild.alt_text : 'Women\'s Guild' %>" class="card-img">
       <div class="arm-card-body">
         <h3>Women's Guild</h3>
         <p>The Women's Guild is dedicated to nurturing godly women through prayer, service, and leadership.</p>
       </div>
     </div>
     <div class="arm-card">
-      <img src="<%= homepageImages.cgit ? homepageImages.cgit.file_path : '/images/debby-149.jpg' %>" alt="<%= homepageImages.cgit ? homepageImages.cgit.alt_text : 'C.G.I.T' %>" class="card-img">
+      <img src="<%= homepageImages.cgit ? homepageImages.cgit.file_path : '/images/cgit_logo.jpg' %>" alt="<%= homepageImages.cgit ? homepageImages.cgit.alt_text : 'C.G.I.T' %>" class="card-img">
       <div class="arm-card-body">
         <h3>C.G.I.T</h3>
         <p>Christian Girls in Training. This arm mentors young girls in Christian values, discipline, and faith.</p>
       </div>
     </div>
     <div class="arm-card">
-      <img src="<%= homepageImages.pypan ? homepageImages.pypan.file_path : '/images/miami.jpeg' %>" alt="<%= homepageImages.pypan ? homepageImages.pypan.alt_text : 'PYPAN' %>" class="card-img">
+      <img src="<%= homepageImages.pypan ? homepageImages.pypan.file_path : '/images/pypan_logo.jpg' %>" alt="<%= homepageImages.pypan ? homepageImages.pypan.alt_text : 'PYPAN' %>" class="card-img">
       <div class="arm-card-body">
         <h3>PYPAN</h3>
         <p>Presbyterian Young People Association of Nigeria. This group empowers youths spiritually, socially, and morally.</p>
@@ -121,7 +121,7 @@
 
           <% if (sermon.video) { %>
             <video class="sermon-video" controls>
-              <source src="/uploads/sermons/<%= sermon.video %>" type="video/mp4">
+              <source src="<%= sermon.video %>" type="video/mp4">
             </video>
           <% } %>
 
@@ -148,7 +148,7 @@
           <% if (event.flyer) { %>
             <a href="/events/<%= event.slug %>">
               <img
-                src="/uploads/events/<%= event.flyer %>"
+                src="<%= event.flyer %>"
                 alt="<%= event.title %>"
               >
             </a>

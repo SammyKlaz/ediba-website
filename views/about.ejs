@@ -101,7 +101,7 @@
     <div class="minister-incharge-row">
       <div class="minister-incharge-image">
         <img
-          src="/uploads/ministers/<%= ministerInCharge.photo %>"
+          src="<%= ministerInCharge.photo %>"
           alt="<%= ministerInCharge.name %>"
         >
       </div>
@@ -132,7 +132,7 @@
       <% otherMinisters.forEach(minister => { %>
         <div class="minister-card">
           <img
-            src="/uploads/ministers/<%= minister.photo %>"
+            src="<%= minister.photo %>"
             alt="<%= minister.name %>"
           >
           <h4><%= minister.name %></h4>

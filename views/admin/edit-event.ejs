@@ -47,7 +47,7 @@
 
         <% if (event.flyer) { %>
           <img
-            src="/uploads/events/<%= event.flyer %>"
+            src="<%= event.flyer %>"
             alt="Event flyer"
           >
         <% } else { %>
@@ -102,13 +102,13 @@
             <div class="evtmedia-item">
               <% if (item.media_type === "image") { %>
                 <img
-                  src="/uploads/events/media/<%= item.file_name %>"
+                  src="<%= item.file_name %>"
                   class="evtmedia-thumb"
                   alt="Event image"
                 >
               <% } else { %>
                 <video
-                  src="/uploads/events/media/<%= item.file_name %>"
+                  src="<%= item.file_name %>"
                   controls
                   class="evtmedia-thumb"
                 ></video>

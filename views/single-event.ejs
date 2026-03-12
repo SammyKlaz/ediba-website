@@ -17,7 +17,7 @@
 
   <% if (event.flyer) { %>
     <div class="event-flyer-container">
-      <img src="/uploads/events/<%= event.flyer %>" alt="<%= event.title %>" class="event-flyer">
+      <img src="<%= event.flyer %>" alt="<%= event.title %>" class="event-flyer">
     </div>
   <% } %>
 
@@ -41,14 +41,14 @@
 
             <% if (item.media_type === 'image') { %>
               <img
-                src="/uploads/events/media/<%= item.file_name %>"
+                src="<%= item.file_name %>"
                 alt="Event media"
                 class="evtmedia-image"
               >
             <% } else { %>
               <video controls class="evtmedia-video">
                 <source
-                  src="/uploads/events/media/<%= item.file_name %>"
+                  src="<%= item.file_name %>"
                   type="video/mp4"
                 >
                 Your browser does not support video playback.

@@ -23,7 +23,7 @@
   <% if (sermon.video) { %>
     <div class="sermon-video-container">
       <video width="100%" controls class="sermon-video-player">
-        <source src="/uploads/sermons/<%= sermon.video %>" type="video/mp4">
+        <source src="<%= sermon.video %>" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>

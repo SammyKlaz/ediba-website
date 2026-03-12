@@ -567,7 +567,7 @@ export const addEventMedia = async (req, res) => {
 
       return {
         event_id: eventId,
-        file_name: file.filename,
+        file_name: file.path,
         media_type: mediaType
       };
     });
@@ -620,25 +620,13 @@ export const deleteEventMedia = async (req, res) => {
 
     const media = result.rows[0];
 
-    // 2. Build file path
-    const mediaPath = path.join(
-      __dirname,
-      "../public/uploads/events/media",
-      media.file_name
-    );
-
-    // 3. Delete file from folder
-    if (fs.existsSync(mediaPath)) {
-      fs.unlinkSync(mediaPath);
-    }
-
-    // 4. Delete record from database
+    // Delete record from database (cloudinary-stored files are retained)
     await pool.query(
       "DELETE FROM event_media WHERE id = $1",
       [id]
     );
 
-  res.redirect(`/admin/events/${media.event_id}/edit`);
+    res.redirect(`/admin/events/${media.event_id}/edit`);
 
   } catch (error) {
     console.error(error);
