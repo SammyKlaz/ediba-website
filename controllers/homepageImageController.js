@@ -65,7 +65,7 @@ export const adminUpdateHomepageImage = async (req, res) => {
   try {
     const { section } = req.params;
     const { alt_text } = req.body;
-    const file_path = req.file ? `/uploads/home/${req.file.filename}` : req.body.current_file_path || null;
+    const file_path = req.file ? req.file.path : req.body.current_file_path || null;
 
     // Check if record exists
     const existing = await pool.query('SELECT id FROM homepage_images WHERE section = $1', [section]);

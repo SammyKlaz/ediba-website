@@ -40,7 +40,7 @@ export const createBirthdayPage = async (req, res) => {
 export const createBirthday = async (req, res) => {
   try {
     const { name, birth_date, arm, position, year } = req.body;
-    const photo = req.file ? req.file.filename : null;
+    const photo = req.file ? req.file.path : null;
 
     if (!name || !birth_date || !arm || !photo || !year) {
       return res.send("Missing required fields");
@@ -94,7 +94,7 @@ export const updateBirthday = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, birth_date, arm, position, is_active, year } = req.body;
-    const photo = req.file ? req.file.filename : null;
+    const photo = req.file ? req.file.path : null;
 
     if (photo) {
       await pool.query(

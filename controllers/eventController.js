@@ -77,7 +77,7 @@ function generateSlug(text) {
 export const createEvent = async (req, res) => {
   try {
     const { title, description, event_date } = req.body;
-    const flyer = req.file ? req.file.filename : null;
+    const flyer = req.file ? req.file.path : null;
 
     const slug = generateSlug(title);
 
@@ -328,7 +328,7 @@ export const editEvent = async (req, res) => {
   try {
     const { slug } = req.params;
     const { title, description, event_date } = req.body;
-    const flyer = req.file ? req.file.filename : null;
+    const flyer = req.file ? req.file.path : null;
 
     if (flyer) {
       await pool.query(

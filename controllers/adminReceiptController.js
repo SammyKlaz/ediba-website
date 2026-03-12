@@ -19,7 +19,7 @@ export const createReceiptPage = (req, res) => {
 /* STORE RECEIPT */
 export const storeReceipt = async (req, res) => {
   const { title, description, amount } = req.body;
-  const image = req.file.filename;
+  const image = req.file ? req.file.path : null;
 
   await pool.query(
     "INSERT INTO receipts (title, description, amount, image) VALUES ($1,$2,$3,$4)",
@@ -48,7 +48,7 @@ export const updateReceipt = async (req, res) => {
   if (req.file) {
     await pool.query(
       "UPDATE receipts SET title=$1, description=$2, amount=$3, image=$4 WHERE id=$5",
-      [title, description, amount, req.file.filename, req.params.id]
+      [title, description, amount, req.file.path, req.params.id]
     );
   } else {
     await pool.query(

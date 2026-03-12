@@ -107,7 +107,7 @@ export const updateEvent = async (req, res) => {
     const { slug } = req.params;
     const { title, description, event_date } = req.body;
 
-    const flyer = req.file ? req.file.filename : null;
+    const flyer = req.file ? req.file.path : null;
 
     if (flyer) {
       await pool.query(
@@ -172,7 +172,7 @@ export const createSermon = async (req, res) => {
       speaker
     } = req.body;
 
-    const video = req.file ? req.file.filename : null;
+    const video = req.file ? req.file.path : null;
 
     const slug = title
       .toLowerCase()
@@ -292,7 +292,7 @@ export const updateSermon = async (req, res) => {
     const { title, bible_passage, sermon_date, speaker } = req.body;
 
     // If a new file was uploaded, multer places it on req.file; otherwise keep existing filename from the hidden field
-    const videoFilename = req.file ? req.file.filename : req.body.video;
+    const videoFilename = req.file ? req.file.path : req.body.video;
 
     await pool.query(
       `
@@ -388,7 +388,7 @@ export const updateMembership = async (req, res) => {
 export const createMinister = async (req, res) => {
   try {
     const { name, position, short_intro, biography } = req.body;
-    const photo = req.file.filename;
+    const photo = req.file ? req.file.path : null;
 
     const slug = slugify(name, {
       lower: true,
@@ -507,7 +507,7 @@ export const updateMinister = async (req, res) => {
 
     if (req.file) {
       photoQuery = ", photo = $5";
-      values.push(req.file.filename);
+      values.push(req.file.path);
       values.push(slug);
     } else {
       values.push(slug);
