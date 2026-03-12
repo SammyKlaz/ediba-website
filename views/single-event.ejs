@@ -117,6 +117,12 @@
           <div class="comment-footer">
             <% if (user) { %>
               <button type="button" onclick="toggleReplyForm('<%= comment.id %>')" class="btn-reply-small">Reply</button>
+              <% if (user.id === comment.user_id || (user.role && (user.role === 'admin' || user.role === 'super_admin'))) { %>
+                <button type="button" onclick="toggleEditForm('<%= comment.id %>')" class="btn-edit-small">Edit</button>
+                <form method="POST" action="/events/<%= event.slug %>/comments/<%= comment.id %>/delete" style="display:inline"> 
+                  <button type="submit" class="btn-danger">Delete</button>
+                </form>
+              <% } %>
             <% } %>
             <% if (replies.length > 0) { %>
               <span class="reply-count">💬 <%= replies.length %> <%= replies.length == 1 ? "reply" : "replies" %></span>
@@ -136,6 +142,14 @@
                 <textarea name="comment" maxlength="300" required placeholder="Write a reply..." class="reply-textarea"></textarea>
                 <button type="submit" class="btn-reply-submit">Send</button>
               </div>
+            </form>
+          <% } %>
+
+          <!-- EDIT FORM -->
+          <% if (user && (user.id === comment.user_id || (user.role && (user.role === 'admin' || user.role === 'super_admin')))) { %>
+            <form id="edit-form-<%= comment.id %>" method="POST" action="/events/<%= event.slug %>/comments/<%= comment.id %>/edit" class="edit-form-inline" style="display:none;margin-top:8px;">
+              <textarea name="comment" required class="edit-textarea"><%= comment.comment %></textarea>
+              <div><button type="submit" class="btn-reply-submit">Save</button> <button type="button" onclick="toggleEditForm('<%= comment.id %>')" class="btn-cancel">Cancel</button></div>
             </form>
           <% } %>
 
@@ -213,6 +227,11 @@
 function toggleReplyForm(commentId) {
   const form = document.getElementById(`reply-form-${commentId}`);
   form.classList.toggle('show');
+}
+
+function toggleEditForm(commentId) {
+  const form = document.getElementById(`edit-form-${commentId}`);
+  form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
 }
 
 // Character counter for comments

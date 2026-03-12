@@ -163,8 +163,9 @@ export const singleEventPage = async (req, res) => {
         ec.comment,
         ec.parent_comment_id,
         ec.created_at,
-        u.first_name,
-        u.last_name
+          ec.user_id,
+          u.first_name,
+          u.last_name
       FROM event_comments ec
       JOIN users u ON ec.user_id = u.id
       WHERE ec.event_id = $1
@@ -204,6 +205,71 @@ export const singleEventPage = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.send("Error loading event");
+  }
+};
+
+/* =======================
+   UPDATE COMMENT
+======================= */
+export const updateComment = async (req, res) => {
+  try {
+    const { slug, id } = req.params;
+    const { comment } = req.body;
+    const userId = req.session.user.id;
+
+    // verify comment exists and ownership
+    const cRes = await pool.query('SELECT user_id FROM event_comments WHERE id = $1 AND is_deleted = FALSE', [id]);
+    if (cRes.rows.length === 0) {
+      req.flash('error', 'Comment not found.');
+      return res.redirect(`/events/${slug}`);
+    }
+
+    const ownerId = cRes.rows[0].user_id;
+    const isAdmin = req.session.user && (req.session.user.role === 'admin' || req.session.user.role === 'super_admin');
+    if (ownerId !== userId && !isAdmin) {
+      req.flash('error', 'You can only edit your own comments.');
+      return res.redirect(`/events/${slug}`);
+    }
+
+    await pool.query('UPDATE event_comments SET comment = $1 WHERE id = $2', [comment, id]);
+    req.flash('success', 'Comment updated.');
+    res.redirect(`/events/${slug}`);
+  } catch (error) {
+    console.log(error);
+    req.flash('error', 'Error updating comment.');
+    res.redirect(`/events/${req.params.slug}`);
+  }
+};
+
+/* =======================
+   DELETE COMMENT
+======================= */
+export const deleteComment = async (req, res) => {
+  try {
+    const { slug, id } = req.params;
+    const userId = req.session.user.id;
+
+    const cRes = await pool.query('SELECT user_id FROM event_comments WHERE id = $1 AND is_deleted = FALSE', [id]);
+    if (cRes.rows.length === 0) {
+      req.flash('error', 'Comment not found.');
+      return res.redirect(`/events/${slug}`);
+    }
+
+    const ownerId = cRes.rows[0].user_id;
+    const isAdmin = req.session.user && (req.session.user.role === 'admin' || req.session.user.role === 'super_admin');
+    if (ownerId !== userId && !isAdmin) {
+      req.flash('error', 'You can only delete your own comments.');
+      return res.redirect(`/events/${slug}`);
+    }
+
+    // soft delete
+    await pool.query('UPDATE event_comments SET is_deleted = TRUE WHERE id = $1', [id]);
+    req.flash('success', 'Comment deleted.');
+    res.redirect(`/events/${slug}`);
+  } catch (error) {
+    console.log(error);
+    req.flash('error', 'Error deleting comment.');
+    res.redirect(`/events/${req.params.slug}`);
   }
 };
 
