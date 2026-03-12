@@ -42,6 +42,17 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((err, req, res, next) => {
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.send("File too large");
+  }
+
+  if (err) {
+    return res.send(err.message);
+  }
+
+  next();
+});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(process.cwd(), "views"));
