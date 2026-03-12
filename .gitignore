@@ -2,3 +2,7 @@
 node_modules
 public/uploads
 *.sql
+public/uploads
+*.mp4
+*.mov
+*.avi
