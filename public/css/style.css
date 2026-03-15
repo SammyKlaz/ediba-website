@@ -431,8 +431,11 @@ hr {
 
 .card-img {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
+  height: 260px; /* increased to better accommodate portrait logos */
+  object-fit: contain; /* show full image without cropping */
+  object-position: center;
+  background: #fafafa; /* neutral background when aspect ratios differ */
+  display: block;
 }
 
 .arm-card-body {
@@ -534,8 +537,10 @@ hr {
 
 .event-card img {
   width: 240px;
-  height: 140px;
-  object-fit: cover;
+  height: 180px; /* slightly taller so portrait flyers fit better */
+  object-fit: contain; /* show entire flyer without cropping */
+  object-position: center;
+  background: #fafafa;
   border-radius: 12px;
   flex-shrink: 0;
 }
@@ -583,7 +588,9 @@ hr {
 
   .event-card img {
     width: 100%;
-    height: 190px;
+    height: auto; /* let image keep natural aspect ratio on small screens */
+    max-height: 420px; /* prevent extreme tall images from overflowing */
+    object-fit: contain;
   }
 }
 
@@ -664,8 +671,11 @@ hr {
 
 .arm-card img {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: 260px; /* align with .card-img */
+  object-fit: contain; /* ensure portrait images are fully visible */
+  object-position: center;
+  background: #fafafa;
+  display: block;
 }
 
 .arm-card-body {
