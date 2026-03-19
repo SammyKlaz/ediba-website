@@ -1,5 +1,6 @@
 import pool from "../config/db.js";
 import slugify from "slugify";
+import { getPublicIdFromFile, destroyPublicId } from "../utils/cloudinaryHelpers.js";
 
 export const adminDashboard = (req, res) => {
   res.render("admin/dashboard");
@@ -173,6 +174,7 @@ export const createSermon = async (req, res) => {
     } = req.body;
 
     const video = req.file ? req.file.path : null;
+    const video_public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
     const slug = title
       .toLowerCase()
@@ -183,8 +185,8 @@ export const createSermon = async (req, res) => {
     await pool.query(
       `
       INSERT INTO sermons
-      (title, slug, bible_passage, sermon_date, speaker, video)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      (title, slug, bible_passage, sermon_date, speaker, video, video_public_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
       `,
       [
         title,
@@ -192,7 +194,8 @@ export const createSermon = async (req, res) => {
         bible_passage,
         sermon_date,
         speaker,
-        video
+        video,
+        video_public_id
       ]
     );
 
@@ -292,20 +295,38 @@ export const updateSermon = async (req, res) => {
     const { title, bible_passage, sermon_date, speaker } = req.body;
 
     // If a new file was uploaded, multer places it on req.file; otherwise keep existing filename from the hidden field
-    const videoFilename = req.file ? req.file.path : req.body.video;
+    if (req.file) {
+      const videoFilename = req.file.path;
+      const video_public_id = getPublicIdFromFile(req.file);
 
-    await pool.query(
-      `
-      UPDATE sermons
-      SET title = $1,
-          bible_passage = $2,
-          sermon_date = $3,
-          speaker = $4,
-          video = $5
-      WHERE slug = $6
-      `,
-      [title, bible_passage, sermon_date, speaker, videoFilename, slug]
-    );
+      await pool.query(
+        `
+        UPDATE sermons
+        SET title = $1,
+            bible_passage = $2,
+            sermon_date = $3,
+            speaker = $4,
+            video = $5,
+            video_public_id = $6
+        WHERE slug = $7
+        `,
+        [title, bible_passage, sermon_date, speaker, videoFilename, video_public_id, slug]
+      );
+    } else {
+      const videoFilename = req.body.video;
+      await pool.query(
+        `
+        UPDATE sermons
+        SET title = $1,
+            bible_passage = $2,
+            sermon_date = $3,
+            speaker = $4,
+            video = $5
+        WHERE slug = $6
+        `,
+        [title, bible_passage, sermon_date, speaker, videoFilename, slug]
+      );
+    }
 
     res.redirect("/admin/sermons");
   } catch (error) {
@@ -318,6 +339,20 @@ export const updateSermon = async (req, res) => {
 export const deleteSermon = async (req, res) => {
   try {
     const { slug } = req.params;
+    // fetch sermon to get public id
+    const r = await pool.query('SELECT * FROM sermons WHERE slug = $1', [slug]);
+    if (r.rows.length > 0) {
+      const s = r.rows[0];
+      try {
+        if (s.video_public_id) await destroyPublicId(s.video_public_id, 'video');
+        else if (s.video) {
+          const parsed = getPublicIdFromFile({ path: s.video });
+          if (parsed) await destroyPublicId(parsed, 'video');
+        }
+      } catch (err) {
+        console.warn('Error deleting sermon video from Cloudinary', err);
+      }
+    }
 
     await pool.query(
       "DELETE FROM sermons WHERE slug = $1",
@@ -389,6 +424,7 @@ export const createMinister = async (req, res) => {
   try {
     const { name, position, short_intro, biography } = req.body;
     const photo = req.file ? req.file.path : null;
+    const photo_public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
     const slug = slugify(name, {
       lower: true,
@@ -406,13 +442,14 @@ export const createMinister = async (req, res) => {
     await pool.query(
       `
       INSERT INTO ministers
-      (name, slug, photo, position, short_intro, biography, is_in_charge, is_active)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,true)
+      (name, slug, photo, photo_public_id, position, short_intro, biography, is_in_charge, is_active)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,true)
       `,
       [
         name,
         slug,
         photo,
+        photo_public_id,
         position,
         isInCharge ? short_intro : null,
         isInCharge ? biography : null,
@@ -506,8 +543,10 @@ export const updateMinister = async (req, res) => {
     let values = [name, position, short_intro, biography];
 
     if (req.file) {
-      photoQuery = ", photo = $5";
+      const photo_public_id = getPublicIdFromFile(req.file);
+      photoQuery = ", photo = $5, photo_public_id = $6";
       values.push(req.file.path);
+      values.push(photo_public_id);
       values.push(slug);
     } else {
       values.push(slug);
@@ -540,12 +579,32 @@ export const updateMinister = async (req, res) => {
 export const deleteMinister = async (req, res) => {
   const { slug } = req.params;
 
-  await pool.query(
-    "DELETE FROM ministers WHERE slug = $1",
-    [slug]
-  );
+  // fetch minister to obtain public id
+  try {
+    const r = await pool.query('SELECT * FROM ministers WHERE slug = $1', [slug]);
+    if (r.rows.length > 0) {
+      const m = r.rows[0];
+      try {
+        if (m.photo_public_id) await destroyPublicId(m.photo_public_id, 'image');
+        else if (m.photo) {
+          const parsed = getPublicIdFromFile({ path: m.photo });
+          if (parsed) await destroyPublicId(parsed, 'image');
+        }
+      } catch (err) {
+        console.warn('Error deleting minister photo from Cloudinary', err);
+      }
+    }
 
-  res.redirect("/admin/about");
+    await pool.query(
+      "DELETE FROM ministers WHERE slug = $1",
+      [slug]
+    );
+
+    res.redirect("/admin/about");
+  } catch (err) {
+    console.error(err);
+    res.redirect('/admin/about');
+  }
 };
 
 /// EVENTS MEDIA ///
@@ -561,24 +620,25 @@ export const addEventMedia = async (req, res) => {
 
   try {
     const values = req.files.map(file => {
-      const mediaType = file.mimetype.startsWith("image")
+      const mediaType = file.mimetype && file.mimetype.startsWith("image")
         ? "image"
         : "video";
 
       return {
         event_id: eventId,
         file_name: file.path,
-        media_type: mediaType
+        media_type: mediaType,
+        public_id: getPublicIdFromFile(file)
       };
     });
 
     for (const media of values) {
       await pool.query(
         `
-        INSERT INTO event_media (event_id, file_name, media_type)
-        VALUES ($1, $2, $3)
+        INSERT INTO event_media (event_id, file_name, media_type, public_id)
+        VALUES ($1, $2, $3, $4)
         `,
-        [media.event_id, media.file_name, media.media_type]
+        [media.event_id, media.file_name, media.media_type, media.public_id]
       );
     }
 
@@ -620,7 +680,22 @@ export const deleteEventMedia = async (req, res) => {
 
     const media = result.rows[0];
 
-    // Delete record from database (cloudinary-stored files are retained)
+    // Attempt to delete the file from Cloudinary if we have a public_id
+    try {
+      if (media.public_id) {
+        const resourceType = media.media_type === 'video' ? 'video' : 'image';
+        await destroyPublicId(media.public_id, resourceType);
+      } else {
+        // If no public_id, try parsing from file_name (URL)
+        const parsed = getPublicIdFromFile({ path: media.file_name });
+        if (parsed) await destroyPublicId(parsed, media.media_type === 'video' ? 'video' : 'image');
+      }
+    } catch (err) {
+      console.warn('Error deleting media from Cloudinary', err);
+      // continue to delete DB record even if Cloudinary delete failed
+    }
+
+    // Delete record from database
     await pool.query(
       "DELETE FROM event_media WHERE id = $1",
       [id]

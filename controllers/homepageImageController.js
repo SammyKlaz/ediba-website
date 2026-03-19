@@ -1,6 +1,7 @@
 import pool from '../config/db.js';
 import path from 'path';
 import fs from 'fs';
+import { getPublicIdFromFile, destroyPublicId } from '../utils/cloudinaryHelpers.js';
 
 // Fetch all homepage images (for rendering on home page)
 export const getHomepageImages = async () => {
@@ -66,19 +67,20 @@ export const adminUpdateHomepageImage = async (req, res) => {
     const { section } = req.params;
     const { alt_text } = req.body;
     const file_path = req.file ? req.file.path : req.body.current_file_path || null;
+    const public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
     // Check if record exists
     const existing = await pool.query('SELECT id FROM homepage_images WHERE section = $1', [section]);
 
     if (existing.rows.length > 0) {
       await pool.query(
-        `UPDATE homepage_images SET file_path = $1, alt_text = $2, updated_at = NOW() WHERE section = $3`,
-        [file_path, alt_text, section]
+        `UPDATE homepage_images SET file_path = $1, alt_text = $2, public_id = $3, updated_at = NOW() WHERE section = $4`,
+        [file_path, alt_text, public_id, section]
       );
     } else {
       await pool.query(
-        `INSERT INTO homepage_images (section, file_path, alt_text) VALUES ($1, $2, $3)`,
-        [section, file_path, alt_text]
+        `INSERT INTO homepage_images (section, file_path, alt_text, public_id) VALUES ($1, $2, $3, $4)`,
+        [section, file_path, alt_text, public_id]
       );
     }
 
@@ -102,18 +104,16 @@ export const adminDeleteHomepageImage = async (req, res) => {
     }
 
     const img = result.rows[0];
-    if (img.file_path) {
-      // resolve possible legacy paths
-      let filename = '';
-      if (img.file_path.includes('/uploads/home/')) filename = path.basename(img.file_path);
-      else if (img.file_path.includes('/uploads/homepage/')) filename = path.basename(img.file_path);
-
-      if (filename) {
-        const fsPath = path.join(process.cwd(), 'public', 'uploads', 'home', filename);
-        if (fs.existsSync(fsPath)) {
-          try { fs.unlinkSync(fsPath); } catch (err) { console.warn('Could not delete file', fsPath, err); }
-        }
+    // If this image was uploaded to Cloudinary, remove it there too
+    try {
+      if (img.public_id) {
+        await destroyPublicId(img.public_id, 'image');
+      } else if (img.file_path) {
+        const parsed = getPublicIdFromFile({ path: img.file_path });
+        if (parsed) await destroyPublicId(parsed, 'image');
       }
+    } catch (err) {
+      console.warn('Error deleting homepage image from Cloudinary', err);
     }
 
     // remove DB record for that section

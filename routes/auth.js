@@ -152,6 +152,9 @@ router.post("/forgot-password", async (req, res) => {
 
   const resetLink = `${process.env.APP_URL}/reset-password/${token}`;
 
+  await transporter.verify();
+  console.log("Mail transporter is ready");
+
   await transporter.sendMail({
     from: `PCN Ediba Qua Parish <${process.env.EMAIL_USER}>`,
     to: email,

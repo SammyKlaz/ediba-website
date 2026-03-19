@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { getPublicIdFromFile, destroyPublicId } from '../utils/cloudinaryHelpers.js';
 
 
 /* =======================
@@ -78,15 +79,16 @@ export const createEvent = async (req, res) => {
   try {
     const { title, description, event_date } = req.body;
     const flyer = req.file ? req.file.path : null;
+    const flyer_public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
     const slug = generateSlug(title);
 
     await pool.query(
       `
-      INSERT INTO events (title, slug, description, event_date, flyer)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO events (title, slug, description, event_date, flyer, flyer_public_id)
+      VALUES ($1, $2, $3, $4, $5, $6)
       `,
-      [title, slug, description, event_date, flyer]
+      [title, slug, description, event_date, flyer, flyer_public_id]
     );
 
     res.redirect("/events");
@@ -329,13 +331,14 @@ export const editEvent = async (req, res) => {
     const { slug } = req.params;
     const { title, description, event_date } = req.body;
     const flyer = req.file ? req.file.path : null;
+    const flyer_public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
     if (flyer) {
       await pool.query(
         `UPDATE events 
-         SET title = $1, description = $2, event_date = $3, flyer = $4
-         WHERE slug = $5`,
-        [title, description, event_date, flyer, slug]
+         SET title = $1, description = $2, event_date = $3, flyer = $4, flyer_public_id = $5
+         WHERE slug = $6`,
+        [title, description, event_date, flyer, flyer_public_id, slug]
       );
     } else {
       await pool.query(
@@ -361,6 +364,21 @@ export const editEvent = async (req, res) => {
 export const deleteEvent = async (req, res) => {
   try {
     const { slug } = req.params;
+
+    // fetch event record so we can delete Cloudinary flyer if present
+    const r = await pool.query('SELECT * FROM events WHERE slug = $1', [slug]);
+    if (r.rows.length > 0) {
+      const ev = r.rows[0];
+      try {
+        if (ev.flyer_public_id) await destroyPublicId(ev.flyer_public_id, 'image');
+        else if (ev.flyer) {
+          const parsed = getPublicIdFromFile({ path: ev.flyer });
+          if (parsed) await destroyPublicId(parsed, 'image');
+        }
+      } catch (err) {
+        console.warn('Error deleting event flyer from Cloudinary', err);
+      }
+    }
 
     await pool.query("DELETE FROM events WHERE slug = $1", [slug]);
 
