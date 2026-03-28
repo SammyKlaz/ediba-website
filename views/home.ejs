@@ -99,11 +99,13 @@
 <section class="latest-content mb-5">
 
   <!-- SERMONS -->
-  <% if (!sermons || sermons.length === 0) { %>
-    <p>No Sermons Uploaded yet</p>
-  <% } else { %>
     <h2 class="section-title">Latest Sermon</h2>
 
+  <% if (!sermons || sermons.length === 0) { %>
+    <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+      <p class = "no-items">No Sermons Uploaded yet</p>
+    </div>
+  <% } else { %>
     <div class="latest-grid">
       <% sermons.forEach((sermon) => { %>
         <div class="card sermon-card">
@@ -137,10 +139,12 @@
 
 
   <!-- EVENTS -->
-  <% if (!events || events.length === 0) { %>
-    <p>No Events Uploaded yet</p>
-  <% } else { %>
     <h2 class="section-title">Upcoming Events</h2>
+  <% if (!events || events.length === 0) { %>
+    <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+      <p >No Events Uploaded yet</p>
+    </div>
+  <% } else { %>
 
     <div class="events-wrapper">
       <% events.forEach((event) => { %>
@@ -163,9 +167,11 @@
               <%= new Date(event.event_date).toDateString() %>
             </p>
 
-            <p>
-              <%= event.description.substring(0, 120) %>...
-            </p>
+           <p>
+              <%= event.description && event.description.length > 120 
+                    ? event.description.substring(0, 120) + "..." 
+                    : event.description %>
+          </p>
 
             <a href="/events/<%= event.slug %>" class="btn-accent">
               View Details

@@ -8,7 +8,9 @@
  <h3 class="section-title">🎉 Celebrants This Month 🎉</h3>
 
 <% if (!birthdays || birthdays.length === 0) { %>
-  <p class="no-birthday">No birthdays this month 🎂</p>
+    <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+      <p class="text-center">No birthdays this month 🎂</p>
+    </div>
 <% } else { %>
 
 <div class="birthday-slider">
@@ -53,7 +55,9 @@
   <h1 class="section-title">Events</h1>
 
   <% if (events.length === 0) { %>
-    <p class="text-center">No events available at the moment.</p>
+    <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+      <p class="text-center">No events available at the moment.</p>
+    </div>
   <% } else { %>
 
     <div class="events-grid">
