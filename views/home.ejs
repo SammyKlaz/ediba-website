@@ -98,12 +98,13 @@
 
 <section class="latest-content mb-5">
 
-  <!-- SERMON -->
-  <h2 class="section-title">Latest Sermon</h2>
+  <!-- SERMONS -->
+  <% if (!sermons || sermons.length === 0) { %>
+    <p>No Sermons Uploaded yet</p>
+  <% } else { %>
+    <h2 class="section-title">Latest Sermon</h2>
 
-  <div class="latest-grid">
-
-    <% if (sermons && sermons.length > 0) { %>
+    <div class="latest-grid">
       <% sermons.forEach((sermon) => { %>
         <div class="card sermon-card">
 
@@ -125,24 +126,24 @@
             </video>
           <% } %>
 
-          <a href="/sermons/<%= sermon.slug %>" class ="btn-accent">
+          <a href="/sermons/<%= sermon.slug %>" class="btn-accent">
             View Full Sermon
           </a>
 
         </div>
       <% }) %>
-    <% } %>
+    </div>
+  <% } %>
 
-  </div>
 
   <!-- EVENTS -->
-  <h2 class="section-title">Upcoming Events</h2>
+  <% if (!events || events.length === 0) { %>
+    <p>No Events Uploaded yet</p>
+  <% } else { %>
+    <h2 class="section-title">Upcoming Events</h2>
 
-  <div class="events-wrapper">
-
-    <% if (events && events.length > 0) { %>
+    <div class="events-wrapper">
       <% events.forEach((event) => { %>
-
         <div class="event-card">
 
           <% if (event.flyer) { %>
@@ -172,19 +173,17 @@
           </div>
 
         </div>
-
       <% }) %>
-    <% } %>
+    </div>
+  <% } %>
 
-  </div>
-
+  <!-- VIEW ALL BUTTONS -->
   <div class="text-center mt-4 btn-group-center">
     <a href="/sermons" class="btn-like-small">View All Sermons</a>
     <a href="/events" class="btn-like-small">View All Events</a>
   </div>
 
 </section>
-
 
 
 <%- include("partials/footer") %>
