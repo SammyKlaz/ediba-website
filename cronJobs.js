@@ -96,8 +96,8 @@ cron.schedule("0 6 * * 0", async () => {
     "Sunday Worship Invitation",
     (name) => `
       Welcome ${name},<br><br>
-      You are warmly invited to worship with us this today at PCN Ediba Qua Parish.<br><br>
-      <address>strong>Location:</strong> 25 Ediba Road, Calabar.<br>
+      You are warmly invited to worship with us today at PCN Ediba Qua Parish.<br><br>
+      <address><strong>Location:</strong> 25 Ediba Road, Calabar.<br>
       <strong>Sunday School:</strong> 8:00 AM<br>
       <strong>Main Service:</strong> 9:00 AM<br><br>
       Come and be blessed.
