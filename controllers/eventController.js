@@ -19,7 +19,7 @@ export const eventsPage = async (req, res) => {
       LEFT JOIN event_likes el
         ON el.event_id = e.id
       GROUP BY e.id
-      ORDER BY e.event_date DESC
+      ORDER BY e.event_date ASC
     `);
 
     const birthdaysResult = await pool.query(`

@@ -10,7 +10,7 @@ export const homePage = async (req, res) => {
 
     // Fetch last 2 events
     const eventsResult = await pool.query(
-      `SELECT * FROM events ORDER BY event_date DESC LIMIT 2`
+      `SELECT * FROM events WHERE event_date >= CURRENT_DATE ORDER BY event_date ASC LIMIT 2`
     );
 
     // Fetch homepage images
