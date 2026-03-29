@@ -8,6 +8,8 @@ import transporter from "./config/email.js";
 
 async function sendEmailToAllUsers(subject, messageBuilder) {
   try {
+    console.log(`[${new Date().toString()}] Starting email broadcast: ${subject}`);
+
     const result = await pool.query(
       "SELECT first_name, last_name, email FROM users"
     );
@@ -29,7 +31,7 @@ async function sendEmailToAllUsers(subject, messageBuilder) {
         });
 
       } catch (mailError) {
-        console.error("Email failed for:", user.email);
+        console.error("Email failed for:", user.email, mailError.message);
       }
     }
 
@@ -88,6 +90,8 @@ function churchAge() {
 /* ============================= */
 
 cron.schedule("0 6 * * 0", async () => {
+  console.log(`[${new Date().toString()}] Running Sunday Worship cron job`);
+
   await sendEmailToAllUsers(
     "Sunday Worship Invitation",
     (name) => `
@@ -109,6 +113,8 @@ cron.schedule("0 6 * * 0", async () => {
 /* ============================= */
 
 cron.schedule("0 6 1 * *", async () => {
+  console.log(`[${new Date().toString()}] Running New Month cron job`);
+
   await sendEmailToAllUsers(
     "Happy New Month",
     (name) => `
@@ -127,6 +133,8 @@ cron.schedule("0 6 1 * *", async () => {
 /* ============================= */
 
 cron.schedule("0 18 31 12 *", async () => {
+  console.log(`[${new Date().toString()}] Running Crossover Night cron job`);
+
   await sendEmailToAllUsers(
     "Crossover Night Service Invitation",
     (name) => `
@@ -147,6 +155,8 @@ cron.schedule("0 18 31 12 *", async () => {
 /* ============================= */
 
 cron.schedule("0 0 1 1 *", async () => {
+  console.log(`[${new Date().toString()}] Running New Year cron job`);
+
   await sendEmailToAllUsers(
     "Happy New Year",
     (name) => `
@@ -161,6 +171,8 @@ cron.schedule("0 0 1 1 *", async () => {
 
 
 cron.schedule("0 6 3 12 *", async () => {
+  console.log(`[${new Date().toString()}] Running Church Anniversary cron job`);
+
   const years = churchAge();
 
   await sendEmailToAllUsers(
