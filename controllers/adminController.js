@@ -1,5 +1,9 @@
 import pool from "../config/db.js";
 import slugify from "slugify";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import { getPublicIdFromFile, destroyPublicId } from "../utils/cloudinaryHelpers.js";
 
 export const adminDashboard = (req, res) => {
@@ -619,10 +623,22 @@ export const addEventMedia = async (req, res) => {
   }
 
   try {
+    const eventResult = await pool.query(
+      "SELECT id, slug FROM events WHERE id = $1",
+      [eventId]
+    );
+
+    if (eventResult.rows.length === 0) {
+      return res.status(404).send("Event not found");
+    }
+
+    const event = eventResult.rows[0];
+
     const values = req.files.map(file => {
-      const mediaType = file.mimetype && file.mimetype.startsWith("image")
-        ? "image"
-        : "video";
+      const mediaType =
+        file.mimetype && file.mimetype.startsWith("image")
+          ? "image"
+          : "video";
 
       return {
         event_id: eventId,
@@ -643,22 +659,20 @@ export const addEventMedia = async (req, res) => {
     }
 
     res.send(`
-    <script>
-      alert("Event media uploaded successfully");
-      window.location.href = "/admin/events/${eventId}/edit";
-    </script>
-  `); 
+      <script>
+        alert("Event media uploaded successfully");
+        window.location.href = "/admin/events/${event.slug}/edit";
+      </script>
+    `);
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Failed to upload media"
     });
   }
 };
 
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -668,9 +682,13 @@ export const deleteEventMedia = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // 1. Get media from database
     const result = await pool.query(
-      "SELECT * FROM event_media WHERE id = $1",
+      `
+      SELECT event_media.*, events.slug
+      FROM event_media
+      JOIN events ON event_media.event_id = events.id
+      WHERE event_media.id = $1
+      `,
       [id]
     );
 
@@ -680,33 +698,24 @@ export const deleteEventMedia = async (req, res) => {
 
     const media = result.rows[0];
 
-    // Attempt to delete the file from Cloudinary if we have a public_id
     try {
       if (media.public_id) {
-        const resourceType = media.media_type === 'video' ? 'video' : 'image';
+        const resourceType = media.media_type === "video" ? "video" : "image";
         await destroyPublicId(media.public_id, resourceType);
-      } else {
-        // If no public_id, try parsing from file_name (URL)
-        const parsed = getPublicIdFromFile({ path: media.file_name });
-        if (parsed) await destroyPublicId(parsed, media.media_type === 'video' ? 'video' : 'image');
       }
     } catch (err) {
-      console.warn('Error deleting media from Cloudinary', err);
-      // continue to delete DB record even if Cloudinary delete failed
+      console.warn("Error deleting media from Cloudinary", err);
     }
 
-    // Delete record from database
     await pool.query(
       "DELETE FROM event_media WHERE id = $1",
       [id]
     );
 
-    res.redirect(`/admin/events/${media.event_id}/edit`);
+    res.redirect(`/admin/events/${media.slug}/edit`);
 
   } catch (error) {
     console.error(error);
     res.redirect("back");
   }
 };
-
-

@@ -64,7 +64,7 @@ router.post("/admin/ministers/:slug/edit", isSuperAdmin, isAdmin,uploadMinister.
 
 router.post("/admin/ministers/:slug/delete", isSuperAdmin, deleteMinister);
 router.post("/admin/events/:eventId/media", isAdmin, isSuperAdmin, uploadEventMedia.array("media", 10), addEventMedia);
-router.post("/admin/events/media/:id/delete",isAdmin, isSuperAdmin, deleteEventMedia);
+router.post("/admin/events/media/:id/delete", isAdmin, isSuperAdmin, deleteEventMedia);
 
 
 
