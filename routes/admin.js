@@ -33,34 +33,34 @@ import {
 
 const router = express.Router();
 
-router.get("/admin", isAdmin, adminDashboard);
-router.get("/admin/events", isAdmin, adminEvents);
-router.get("/admin/sermons", isAdmin, adminSermons);
+router.get("/admin", isAdmin, isSuperAdmin, adminDashboard);
+router.get("/admin/events", isAdmin, isSuperAdmin, adminEvents);
+router.get("/admin/sermons", isAdmin, isSuperAdmin, adminSermons);
 
 // handle event creation with flyer upload
 router.post("/admin/events", isAdmin, uploadEvent.single("flyer"), createEvent);
-router.post("/admin/events/:slug/toggle-comments", isAdmin, toggleComments);
-router.post("/admin/events/:slug/delete", isAdmin, deleteEvent);
-router.get("/admin/events/:slug/edit", isAdmin, editEventPage);
-router.post("/admin/events/:slug/edit", isAdmin, uploadEvent.single("flyer"), updateEvent);
-router.post("/admin/sermons", isAdmin, uploadSermonVideo.single("video"), createSermon);
-router.post("/admin/sermons/:slug/toggleSermonComments", isAdmin, toggleSermonComments);
-router.post("/admin/sermons/:slug/delete", isAdmin, deleteSermon);
-router.get("/admin/sermons/:slug/edit", isAdmin, editSermonPage);
-router.post("/admin/sermons/:slug/edit", isAdmin,  uploadSermonVideo.single("video"), updateSermon);
+router.post("/admin/events/:slug/toggle-comments", isAdmin, isSuperAdmin, toggleComments);
+router.post("/admin/events/:slug/delete", isAdmin, isSuperAdmin, deleteEvent);
+router.get("/admin/events/:slug/edit", isAdmin, isSuperAdmin, editEventPage);
+router.post("/admin/events/:slug/edit", isAdmin, isSuperAdmin, uploadEvent.single("flyer"), updateEvent);
+router.post("/admin/sermons", isAdmin, isSuperAdmin, uploadSermonVideo.single("video"), createSermon);
+router.post("/admin/sermons/:slug/toggleSermonComments", isAdmin, isSuperAdmin, toggleSermonComments);
+router.post("/admin/sermons/:slug/delete", isSuperAdmin, isAdmin, deleteSermon);
+router.get("/admin/sermons/:slug/edit", isAdmin, isSuperAdmin, editSermonPage);
+router.post("/admin/sermons/:slug/edit", isAdmin, isSuperAdmin, uploadSermonVideo.single("video"), updateSermon);
 
-router.get("/admin/about", isSuperAdmin, adminAboutPage);
+router.get("/admin/about", isSuperAdmin, isAdmin, adminAboutPage,);
 
-router.post("/admin/about/membership", isSuperAdmin, updateMembership);
+router.post("/admin/about/membership", isSuperAdmin, isAdmin, updateMembership);
 
-router.post("/admin/ministers/create", isSuperAdmin, uploadMinister.single("photo"), createMinister);
+router.post("/admin/ministers/create", isSuperAdmin, isAdmin, uploadMinister.single("photo"), createMinister);
 
-router.post("/admin/ministers/:id/toggle", isSuperAdmin, toggleMinisterStatus);
+router.post("/admin/ministers/:id/toggle", isSuperAdmin, isAdmin, toggleMinisterStatus);
 
 router.post("/admin/ministers/:id/set-in-charge", isSuperAdmin, setMinisterInCharge);
 
-router.get("/admin/ministers/:slug/edit", isSuperAdmin, adminEditMinisterPage);
-router.post("/admin/ministers/:slug/edit", isSuperAdmin, uploadMinister.single("photo"), updateMinister);
+router.get("/admin/ministers/:slug/edit", isSuperAdmin, isAdmin, adminEditMinisterPage);
+router.post("/admin/ministers/:slug/edit", isSuperAdmin, isAdmin,uploadMinister.single("photo"), updateMinister);
 
 router.post("/admin/ministers/:slug/delete", isSuperAdmin, deleteMinister);
 router.post("/admin/events/:eventId/media", uploadEventMedia.array("media", 10), isAdmin, isSuperAdmin, addEventMedia);
