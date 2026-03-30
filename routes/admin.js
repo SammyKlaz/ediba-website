@@ -63,7 +63,7 @@ router.get("/admin/ministers/:slug/edit", isSuperAdmin, isAdmin, adminEditMinist
 router.post("/admin/ministers/:slug/edit", isSuperAdmin, isAdmin,uploadMinister.single("photo"), updateMinister);
 
 router.post("/admin/ministers/:slug/delete", isSuperAdmin, deleteMinister);
-router.post("/admin/events/:eventId/media", uploadEventMedia.array("media", 10), isAdmin, isSuperAdmin, addEventMedia);
+router.post("/admin/events/:eventId/media", isAdmin, isSuperAdmin, uploadEventMedia.array("media", 10), addEventMedia);
 router.post("/admin/events/media/:id/delete",isAdmin, isSuperAdmin, deleteEventMedia);
 
 
