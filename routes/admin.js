@@ -38,7 +38,22 @@ router.get("/admin/events", isAdmin, isSuperAdmin, adminEvents);
 router.get("/admin/sermons", isAdmin, isSuperAdmin, adminSermons);
 
 // handle event creation with flyer upload
-router.post("/admin/events", isAdmin, uploadEvent.single("flyer"), createEvent);
+router.post(
+  "/admin/events",
+  isAdmin,
+  (req, res, next) => {
+    uploadEvent.single("flyer")(req, res, function (err) {
+      if (err) {
+        console.error("uploadEvent create error:", err);
+        req.flash("error", err.message || "Flyer upload failed.");
+        return res.redirect("/admin/events");
+      }
+      next();
+    });
+  },
+  createEvent
+);
+
 router.post("/admin/events/:slug/toggle-comments", isAdmin, isSuperAdmin, toggleComments);
 router.post("/admin/events/:slug/delete", isAdmin, isSuperAdmin, deleteEvent);
 router.get("/admin/events/:slug/edit", isAdmin, isSuperAdmin, editEventPage);

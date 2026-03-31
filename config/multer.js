@@ -20,17 +20,33 @@ export const uploadHomeImages = multer({ storage: homeStorage });
 /* =======================
    EVENT IMAGE UPLOAD
 ======================= */
+/* =======================
+   EVENT IMAGE UPLOAD
+======================= */
 
 const eventStorage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "church/events",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+  params: async (req, file) => {
+    return {
+      folder: "church/events",
+      resource_type: "image",
+      allowed_formats: ["jpg", "png", "jpeg", "webp"]
+    };
   }
 });
 
-export const uploadEvent = multer({ storage: eventStorage });
-
+export const uploadEvent = multer({
+  storage: eventStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      return cb(new Error("Only image files are allowed for event flyers"));
+    }
+    cb(null, true);
+  }
+});
 
 /* =======================
    SERMON VIDEO UPLOAD

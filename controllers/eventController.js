@@ -92,10 +92,13 @@ export const createEvent = async (req, res) => {
     );
 
     res.redirect("/events");
-  } catch (error) {
-    console.log(error);
-    res.send("Error creating event");
-  }
+  }  catch (error) {
+  console.error("createEvent error:", error);
+  console.error("req.file:", req.file);
+  console.error("req.body:", req.body);
+  res.status(500).send("Error creating event");
+
+};
 };
 
 /* =======================
