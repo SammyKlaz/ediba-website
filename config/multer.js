@@ -83,13 +83,35 @@ export const uploadBirthday = multer({ storage: birthdayStorage });
 
 const eventMediaStorage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "church/event-media",
-    resource_type: "auto"
+  params: async (req, file) => {
+    const isVideo = file.mimetype && file.mimetype.startsWith("video/");
+    return {
+      folder: "church/event-media",
+      resource_type: isVideo ? "video" : "image",
+      allowed_formats: isVideo
+        ? ["mp4", "mov", "webm", "mkv"]
+        : ["jpg", "png", "jpeg", "webp"]
+    };
   }
 });
 
-export const uploadEventMedia = multer({ storage: eventMediaStorage });
+export const uploadEventMedia = multer({
+  storage: eventMediaStorage,
+  limits: {
+    fileSize: 20 * 1024 * 1024
+  },
+  fileFilter: (req, file, cb) => {
+    const ok =
+      file.mimetype.startsWith("image/") ||
+      file.mimetype.startsWith("video/");
+
+    if (!ok) {
+      return cb(new Error("Only image and video files are allowed"));
+    }
+
+    cb(null, true);
+  }
+});
 
 
 /* =======================
