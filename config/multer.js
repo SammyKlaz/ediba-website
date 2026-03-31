@@ -41,7 +41,8 @@ export const uploadEvent = multer({
     fileSize: 5 * 1024 * 1024
   },
   fileFilter: (req, file, cb) => {
-    if (!file.mimetype.startsWith("image/")) {
+    const ok = file.mimetype && file.mimetype.startsWith("image/");
+    if (!ok) {
       return cb(new Error("Only image files are allowed for event flyers"));
     }
     cb(null, true);
