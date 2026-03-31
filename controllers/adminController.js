@@ -111,8 +111,8 @@ export const updateEvent = async (req, res) => {
   try {
     const { slug } = req.params;
     const { title, description, event_date } = req.body;
-
     const flyer = req.file ? req.file.path : null;
+    const flyer_public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
     if (flyer) {
       await pool.query(
@@ -121,10 +121,11 @@ export const updateEvent = async (req, res) => {
         SET title = $1,
             description = $2,
             event_date = $3,
-            flyer = $4
-        WHERE slug = $5
+            flyer = $4,
+            flyer_public_id = $5
+        WHERE slug = $6
         `,
-        [title, description, event_date, flyer, slug]
+        [title, description, event_date, flyer, flyer_public_id, slug]
       );
     } else {
       await pool.query(
@@ -141,8 +142,10 @@ export const updateEvent = async (req, res) => {
 
     res.redirect("/admin/events");
   } catch (error) {
-    console.log(error);
-    res.send("Error updating event");
+    console.error("admin updateEvent error:", error);
+    console.error("req.file:", req.file);
+    console.error("req.body:", req.body);
+    res.status(500).send("Error updating event");
   }
 };
 
