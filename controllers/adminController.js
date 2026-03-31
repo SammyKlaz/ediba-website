@@ -701,24 +701,14 @@ export const deleteEventMedia = async (req, res) => {
 
     const media = result.rows[0];
 
-    try {
-      if (media.public_id) {
-        const resourceType = media.media_type === "video" ? "video" : "image";
-        await destroyPublicId(media.public_id, resourceType);
-      }
-    } catch (err) {
-      console.warn("Error deleting media from Cloudinary", err);
-    }
-
     await pool.query(
       "DELETE FROM event_media WHERE id = $1",
       [id]
     );
 
     res.redirect(`/admin/events/${media.slug}/edit`);
-
   } catch (error) {
-    console.error(error);
+    console.error("deleteEventMedia error:", error);
     res.redirect("back");
   }
 };
