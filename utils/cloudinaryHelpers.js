@@ -36,7 +36,16 @@ export const destroyPublicId = async (publicId, resourceType = 'image') => {
     const res = await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
     return res;
   } catch (err) {
-    // bubble up but caller should handle
+    // Log a bit more context for debugging timeouts/Cloudinary errors, then rethrow.
+    console.error('cloudinary destroyPublicId error', {
+      timestamp: new Date().toISOString(),
+      publicId,
+      resourceType,
+      message: err && err.message,
+      name: err && err.name,
+      http_code: err && err.http_code,
+      stack: err && err.stack
+    });
     throw err;
   }
 };

@@ -153,6 +153,20 @@ export const updateEvent = async (req, res) => {
 export const deleteEvent = async (req, res) => {
   try {
     const { slug } = req.params;
+    // fetch event record so we can delete Cloudinary flyer if present
+    const r = await pool.query('SELECT * FROM events WHERE slug = $1', [slug]);
+    if (r.rows.length > 0) {
+      const ev = r.rows[0];
+      try {
+        if (ev.flyer_public_id) await destroyPublicId(ev.flyer_public_id, 'image');
+        else if (ev.flyer) {
+          const parsed = getPublicIdFromFile({ path: ev.flyer });
+          if (parsed) await destroyPublicId(parsed, 'image');
+        }
+      } catch (err) {
+        console.warn('Error deleting event flyer from Cloudinary', err);
+      }
+    }
 
     await pool.query(
       "DELETE FROM events WHERE slug = $1",
@@ -700,6 +714,19 @@ export const deleteEventMedia = async (req, res) => {
     }
 
     const media = result.rows[0];
+
+    // attempt to delete the Cloudinary asset if possible
+    try {
+      const resourceType = media.media_type === 'video' ? 'video' : 'image';
+      if (media.public_id) {
+        await destroyPublicId(media.public_id, resourceType);
+      } else if (media.file_name) {
+        const parsed = getPublicIdFromFile({ path: media.file_name });
+        if (parsed) await destroyPublicId(parsed, resourceType);
+      }
+    } catch (err) {
+      console.warn('Error deleting event media from Cloudinary', err);
+    }
 
     await pool.query(
       "DELETE FROM event_media WHERE id = $1",

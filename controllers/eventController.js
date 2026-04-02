@@ -93,12 +93,35 @@ export const createEvent = async (req, res) => {
 
     res.redirect("/events");
   }  catch (error) {
-  console.error("createEvent error:", error);
-  console.error("req.file:", req.file);
-  console.error("req.body:", req.body);
-  res.status(500).send("Error creating event");
+    // Structured logging to help diagnose Cloudinary timeouts and upload problems
+    const fileInfo = req.file
+      ? {
+          originalname: req.file.originalname,
+          size: req.file.size,
+          mimetype: req.file.mimetype,
+          path: req.file.path,
+          filename: req.file.filename || req.file.public_id || null
+        }
+      : null;
 
-};
+    const errInfo = {
+      message: error && error.message,
+      name: error && error.name,
+      http_code: error && error.http_code,
+      storageErrors: Array.isArray(error && error.storageErrors) ? error.storageErrors : undefined,
+      stack: error && error.stack
+    };
+
+    console.error("createEvent error", {
+      timestamp: new Date().toISOString(),
+      error: errInfo,
+      file: fileInfo,
+      body: req.body
+    });
+
+    res.status(500).send("Error creating event");
+
+  };
 };
 
 /* =======================
@@ -355,7 +378,31 @@ export const editEvent = async (req, res) => {
     req.flash('success', 'Event updated successfully!');
     res.redirect(`/events/${slug}`);
   } catch (error) {
-    console.log(error);
+    const fileInfo = req.file
+      ? {
+          originalname: req.file.originalname,
+          size: req.file.size,
+          mimetype: req.file.mimetype,
+          path: req.file.path,
+          filename: req.file.filename || req.file.public_id || null
+        }
+      : null;
+
+    const errInfo = {
+      message: error && error.message,
+      name: error && error.name,
+      http_code: error && error.http_code,
+      storageErrors: Array.isArray(error && error.storageErrors) ? error.storageErrors : undefined,
+      stack: error && error.stack
+    };
+
+    console.error('editEvent error', {
+      timestamp: new Date().toISOString(),
+      error: errInfo,
+      file: fileInfo,
+      body: req.body
+    });
+
     req.flash('error', 'Error updating event.');
     res.redirect(`/admin/events/${req.params.slug}/edit`);
   }
