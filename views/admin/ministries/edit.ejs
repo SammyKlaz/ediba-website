@@ -1,0 +1,60 @@
+<%- include("../../partials/header") %>
+
+<section class="container my-5">
+  <div class="admin-page-header">
+    <h1 class="section-title">Edit Ministry</h1>
+    <p>Update this ministry and save your changes.</p>
+  </div>
+
+  <div class="admin-form-wrapper">
+    <form action="/admin/ministries/<%= ministry.slug %>/edit" method="POST" class="admin-form">
+      <div class="form-group">
+        <label for="name">Ministry Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          value="<%= ministry.name %>"
+          placeholder="Enter ministry name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+          placeholder="Write a short description of the ministry"
+        ><%= ministry.description || "" %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="display_order">Display Order</label>
+        <input
+          type="number"
+          id="display_order"
+          name="display_order"
+          value="<%= ministry.display_order %>"
+          min="0"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="is_active">Status</label>
+        <select id="is_active" name="is_active">
+          <option value="true" <%= ministry.is_active ? "selected" : "" %>>Active</option>
+          <option value="false" <%= !ministry.is_active ? "selected" : "" %>>Inactive</option>
+        </select>
+      </div>
+
+      <div class="admin-card-actions">
+        <button type="submit" class="btn-accent">Update Ministry</button>
+        <a href="/admin/ministries" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include("../../partials/footer") %>

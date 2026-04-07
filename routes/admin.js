@@ -1,13 +1,11 @@
 import express from "express";
-import { uploadEvent, uploadSermonVideo, uploadMinister, uploadBirthday, uploadEventMedia } from "../config/multer.js";
-import { adminDashboard, adminEvents, adminSermons } from "../controllers/adminController.js";
+import { uploadEvent, uploadMinister, uploadBirthday, uploadEventMedia } from "../config/multer.js";
+import { adminDashboard, adminEvents } from "../controllers/adminController.js";
 import { createEvent } from "../controllers/eventController.js";
-import { toggleComments, toggleSermonComments } from "../controllers/adminController.js";
+import { toggleComments } from "../controllers/adminController.js";
 import { isAdmin, isSuperAdmin } from "../middleware/adminMiddleware.js";
 import { isLoggedIn } from "../middleware/authMiddleware.js";
 import { deleteEvent, editEventPage, updateEvent } from "../controllers/adminController.js";
-import { createSermon } from "../controllers/adminController.js";
-import { deleteSermon, editSermonPage, updateSermon } from "../controllers/adminController.js";
 import { addEventMedia, deleteEventMedia } from "../controllers/adminController.js";
 
 import {
@@ -31,11 +29,33 @@ import {
 } from "../controllers/birthdayController.js";
 
 
+import { uploadContactPortrait } from "../config/multer.js";
+import {
+  adminMinistriesPage,
+  newMinistryPage,
+  createMinistry,
+  editMinistryPage,
+  updateMinistry,
+  deleteMinistry,
+  adminChurchContactsPage,
+  newChurchContactPage,
+  createChurchContact,
+  editChurchContactPage,
+  updateChurchContact,
+  deleteChurchContact,
+  adminMinistryContactsPage,
+  newMinistryContactPage,
+  createMinistryContact,
+  editMinistryContactPage,
+  updateMinistryContact,
+  deleteMinistryContact
+} from "../controllers/ministryAdminController.js";
+
 const router = express.Router();
 
 router.get("/admin", isAdmin, isSuperAdmin, adminDashboard);
 router.get("/admin/events", isAdmin, isSuperAdmin, adminEvents);
-router.get("/admin/sermons", isAdmin, isSuperAdmin, adminSermons);
+// Sermons admin removed (replaced with Contacts/Get Involved)
 
 // handle event creation with flyer upload
 router.post(
@@ -68,11 +88,7 @@ router.post("/admin/events/:slug/edit", isAdmin, isSuperAdmin, (req, res, next) 
   });
 }, updateEvent);
 
-router.post("/admin/sermons", isAdmin, isSuperAdmin, uploadSermonVideo.single("video"), createSermon);
-router.post("/admin/sermons/:slug/toggleSermonComments", isAdmin, isSuperAdmin, toggleSermonComments);
-router.post("/admin/sermons/:slug/delete", isSuperAdmin, isAdmin, deleteSermon);
-router.get("/admin/sermons/:slug/edit", isAdmin, isSuperAdmin, editSermonPage);
-router.post("/admin/sermons/:slug/edit", isAdmin, isSuperAdmin, uploadSermonVideo.single("video"), updateSermon);
+// Sermon admin routes removed (sermons deleted)
 
 router.get("/admin/about", isSuperAdmin, isAdmin, adminAboutPage,);
 
@@ -196,6 +212,29 @@ router.post(
 router.post("/admin/receipts/:id/delete", deleteReceipt);
 
 
+/* ======================= MINISTRIES ======================= */
+router.get("/ministries", adminMinistriesPage);
+router.get("/ministries/new", newMinistryPage);
+router.post("/ministries", createMinistry);
+router.get("/ministries/:slug/edit", editMinistryPage);
+router.post("/ministries/:slug/edit", updateMinistry);
+router.post("/ministries/:slug/delete", deleteMinistry);
 
+/* ======================= CHURCH CONTACTS ======================= */
+router.get("/church-contacts", adminChurchContactsPage);
+router.get("/church-contacts/new", newChurchContactPage);
+router.post("/church-contacts", uploadContactPortrait.single("portrait"), createChurchContact);
+router.get("/church-contacts/:id/edit", editChurchContactPage);
+router.post("/church-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateChurchContact);
+router.post("/church-contacts/:id/delete", deleteChurchContact);
+
+/* ======================= MINISTRY CONTACTS ======================= */
+router.get("/ministry-contacts", adminMinistryContactsPage);
+router.get("/ministry-contacts/new", newMinistryContactPage);
+router.post("/ministry-contacts", uploadContactPortrait.single("portrait"), createMinistryContact);
+router.get("/ministry-contacts/:id/edit", editMinistryContactPage);
+router.post("/ministry-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateMinistryContact);
+router.post("/ministry-contacts/:id/delete", deleteMinistryContact);
+```
 
 export default router;

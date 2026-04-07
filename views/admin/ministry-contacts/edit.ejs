@@ -1,0 +1,139 @@
+<%- include("../../partials/header") %>
+
+<section class="container my-5">
+  <div class="admin-page-header">
+    <h1 class="section-title">Edit Ministry Contact</h1>
+    <p>Update this ministry contact and save your changes.</p>
+  </div>
+
+  <div class="admin-form-wrapper">
+    <form action="/admin/ministry-contacts/<%= contact.id %>/edit" method="POST" enctype="multipart/form-data" class="admin-form">
+      <div class="form-group">
+        <label for="ministry_id">Ministry</label>
+        <select id="ministry_id" name="ministry_id" required>
+          <option value="">Select ministry</option>
+          <% ministries.forEach(ministry => { %>
+            <option value="<%= ministry.id %>" <%= Number(contact.ministry_id) === Number(ministry.id) ? "selected" : "" %>>
+              <%= ministry.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="role_title">Role Title</label>
+        <input
+          type="text"
+          id="role_title"
+          name="role_title"
+          required
+          value="<%= contact.role_title %>"
+          placeholder="Example: President, Secretary, Choir Mistress"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="full_name">Full Name</label>
+        <input
+          type="text"
+          id="full_name"
+          name="full_name"
+          required
+          value="<%= contact.full_name %>"
+          placeholder="Enter full name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input
+          type="text"
+          id="phone"
+          name="phone"
+          value="<%= contact.phone || '' %>"
+          placeholder="Enter phone number"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp Number</label>
+        <input
+          type="text"
+          id="whatsapp"
+          name="whatsapp"
+          value="<%= contact.whatsapp || '' %>"
+          placeholder="Enter WhatsApp number"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= contact.email || '' %>"
+          placeholder="Enter email address"
+        >
+      </div>
+
+      <% if (contact.portrait_url) { %>
+        <div class="form-group">
+          <label>Current Portrait</label>
+          <div>
+            <img
+              src="<%= contact.portrait_url %>"
+              alt="<%= contact.full_name %>"
+              class="contact-photo"
+            >
+          </div>
+        </div>
+      <% } %>
+
+      <div class="form-group">
+        <label for="portrait">Replace Portrait Image</label>
+        <input type="file" id="portrait" name="portrait" accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea
+          id="notes"
+          name="notes"
+          rows="4"
+          placeholder="Optional notes"
+        ><%= contact.notes || "" %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="display_order">Display Order</label>
+        <input
+          type="number"
+          id="display_order"
+          name="display_order"
+          value="<%= contact.display_order %>"
+          min="0"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="is_active">Status</label>
+        <select id="is_active" name="is_active">
+          <option value="true" <%= contact.is_active ? "selected" : "" %>>Active</option>
+          <option value="false" <%= !contact.is_active ? "selected" : "" %>>Inactive</option>
+        </select>
+      </div>
+
+      <div class="admin-card-actions">
+        <button type="submit" class="btn-accent">Update Contact</button>
+        <a href="/admin/ministry-contacts" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+
+    <form action="/admin/ministry-contacts/<%= contact.id %>/delete" method="POST" class="mt-3" onsubmit="return confirm('Are you sure you want to delete this ministry contact?');">
+      <button type="submit" class="btn-danger">Delete Contact</button>
+    </form>
+  </div>
+</section>
+
+<%- include("../../partials/footer") %>

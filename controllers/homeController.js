@@ -3,11 +3,6 @@ import { getHomepageImages } from "./homepageImageController.js";
 
 export const homePage = async (req, res) => {
   try {
-    // Fetch last 2 sermons
-    const sermonsResult = await pool.query(
-      `SELECT * FROM sermons ORDER BY created_at DESC LIMIT 1`
-    );
-
     // Fetch last 2 events
     const eventsResult = await pool.query(
       `SELECT * FROM events WHERE event_date >= CURRENT_DATE ORDER BY event_date ASC LIMIT 2`
@@ -16,13 +11,14 @@ export const homePage = async (req, res) => {
     // Fetch homepage images
     const homepageImages = await getHomepageImages();
 
+    // no sermons passed to template anymore
     res.render("home", {
-      sermons: sermonsResult.rows,
+      sermons: [],
       events: eventsResult.rows,
       homepageImages
     });
   } catch (error) {
-    console.log(error);
-    res.send("Error loading home page");
+    console.error('homePage error', error && (error.stack || error));
+    res.status(500).send("Error loading home page: " + (error && error.message ? error.message : String(error)));
   }
 };

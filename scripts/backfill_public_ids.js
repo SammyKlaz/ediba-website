@@ -11,7 +11,6 @@ const commit = args.includes('--commit');
 
 const targets = [
   { table: 'events', urlCol: 'flyer', publicCol: 'flyer_public_id', idCol: 'id' },
-  { table: 'sermons', urlCol: 'video', publicCol: 'video_public_id', idCol: 'id' },
   { table: 'ministers', urlCol: 'photo', publicCol: 'photo_public_id', idCol: 'id' },
   { table: 'homepage_images', urlCol: 'file_path', publicCol: 'public_id', idCol: 'id' },
   { table: 'birthdays', urlCol: 'photo', publicCol: 'photo_public_id', idCol: 'id' },

@@ -1,0 +1,75 @@
+<%- include("../../partials/header") %>
+
+<section class="container my-5">
+  <div class="admin-page-header">
+    <h1 class="section-title">Manage Church Contacts</h1>
+    <p>Manage the main church officers and their contact details.</p>
+  </div>
+
+  <div class="admin-actions mb-4">
+    <a href="/admin/church-contacts/new" class="btn-accent">Add Church Contact</a>
+    <a href="/admin/ministries" class="btn-accent">Manage Ministries</a>
+    <a href="/admin/ministry-contacts" class="btn-accent">Manage Ministry Contacts</a>
+  </div>
+
+  <% if (contacts.length === 0) { %>
+    <div class="empty-state">
+      <p>No church contacts have been added yet.</p>
+    </div>
+  <% } else { %>
+    <div class="admin-list">
+      <% contacts.forEach(contact => { %>
+        <div class="admin-card">
+          <div class="admin-card-body">
+            <% if (contact.portrait_url) { %>
+              <img
+                src="<%= contact.portrait_url %>"
+                alt="<%= contact.full_name %>"
+                class="contact-photo"
+              >
+            <% } %>
+
+            <h3><%= contact.role_title %></h3>
+            <p><strong>Name:</strong> <%= contact.full_name %></p>
+
+            <% if (contact.phone) { %>
+              <p><strong>Phone:</strong> <%= contact.phone %></p>
+            <% } %>
+
+            <% if (contact.whatsapp) { %>
+              <p><strong>WhatsApp:</strong> <%= contact.whatsapp %></p>
+            <% } %>
+
+            <% if (contact.email) { %>
+              <p><strong>Email:</strong> <%= contact.email %></p>
+            <% } %>
+
+            <p>
+              <strong>Order:</strong>
+              <%= contact.display_order %>
+            </p>
+
+            <p>
+              <strong>Status:</strong>
+              <%= contact.is_active ? "Active" : "Inactive" %>
+            </p>
+
+            <% if (contact.notes) { %>
+              <p><%= contact.notes %></p>
+            <% } %>
+
+            <div class="admin-card-actions">
+              <a href="/admin/church-contacts/<%= contact.id %>/edit" class="btn-accent">Edit</a>
+
+              <form action="/admin/church-contacts/<%= contact.id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this contact?');">
+                <button type="submit" class="btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../../partials/footer") %>

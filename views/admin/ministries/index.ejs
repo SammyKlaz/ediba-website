@@ -1,0 +1,59 @@
+<%- include("../../partials/header") %>
+
+<section class="container my-5">
+  <div class="admin-page-header">
+    <h1 class="section-title">Manage Ministries</h1>
+    <p>View all ministries, add new ones, edit existing ones, or remove them.</p>
+  </div>
+
+  <div class="admin-actions mb-4">
+    <a href="/admin/ministries/new" class="btn-accent">Add New Ministry</a>
+    <a href="/admin/church-contacts" class="btn-accent">Manage Church Contacts</a>
+    <a href="/admin/ministry-contacts" class="btn-accent">Manage Ministry Contacts</a>
+  </div>
+
+  <% if (ministries.length === 0) { %>
+    <div class="empty-state">
+      <p>No ministries have been added yet.</p>
+    </div>
+  <% } else { %>
+    <div class="admin-list">
+      <% ministries.forEach(ministry => { %>
+        <div class="admin-card">
+          <div class="admin-card-body">
+            <h3><%= ministry.name %></h3>
+
+            <p>
+              <strong>Slug:</strong>
+              <%= ministry.slug %>
+            </p>
+
+            <p>
+              <strong>Order:</strong>
+              <%= ministry.display_order %>
+            </p>
+
+            <p>
+              <strong>Status:</strong>
+              <%= ministry.is_active ? "Active" : "Inactive" %>
+            </p>
+
+            <% if (ministry.description) { %>
+              <p><%= ministry.description %></p>
+            <% } %>
+
+            <div class="admin-card-actions">
+              <a href="/admin/ministries/<%= ministry.slug %>/edit" class="btn-accent">Edit</a>
+
+              <form action="/admin/ministries/<%= ministry.slug %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this ministry? This will also remove its ministry contacts.');">
+                <button type="submit" class="btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include("../../partials/footer") %>

@@ -1,0 +1,30 @@
+<%- include("partials/header") %>
+
+<section class="container my-5">
+  <div class="page-intro text-center mb-5">
+    <h1 class="section-title">Get Involved</h1>
+    <p class="lead-text">
+      There is a place for you to serve, grow, and belong. Explore the ministries and groups below, learn what they do, and connect with their leaders to get involved.
+    </p>
+  </div>
+
+  <div class="involvement-grid">
+    <% if (ministries.length === 0) { %>
+      <div class="empty-state">
+        <p>No ministries have been added yet.</p>
+      </div>
+    <% } %>
+
+    <% ministries.forEach(ministry => { %>
+      <div class="team-card">
+        <div class="team-card-body">
+          <h3><%= ministry.name %></h3>
+          <p><%= ministry.description %></p>
+          <a href="/contact?team=<%= ministry.slug %>" class="btn-accent">View Contacts</a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

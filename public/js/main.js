@@ -3,7 +3,7 @@
    SCROLL ANIMATION
 ========================= */
 const animatedItems = document.querySelectorAll(
-  ".service-card, .arm-card, .event-card, .sermon-card"
+  ".service-card, .arm-card, .event-card"
 );
 
 const observer = new IntersectionObserver(entries => {

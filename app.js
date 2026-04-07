@@ -6,7 +6,8 @@ import bodyParser from "body-parser";
 import path from "path";
 import indexRoute from "./routes/index.js";
 import eventsRoute from "./routes/events.js";
-import sermonsRoute from "./routes/sermons.js";
+// sermons removed: replaced with get-involved/contact pages
+import getInvolvedRoute from "./routes/getInvolved.js";
 import giveRoute from "./routes/give.js";
 import adminRoute from "./routes/admin.js";
 import authRoutes from "./routes/auth.js";
@@ -67,7 +68,8 @@ app.use(express.static("public"));
 
 app.use("/", indexRoute);
 app.use("/", eventsRoute);
-app.use("/", sermonsRoute);
+// replace sermons route with get-involved
+app.use("/", getInvolvedRoute);
 app.use("/", giveRoute);
 app.use("/", adminRoute);
 app.use(authRoutes);

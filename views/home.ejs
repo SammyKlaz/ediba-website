@@ -6,7 +6,7 @@
     <h1>Welcome to PCN Ediba Qua Parish</h1>
     <p>A place of worship, fellowship, and spiritual growth</p>
     <div class="hero-buttons">
-      <a href="/sermons" class="btn-secondary">Watch Sermon</a>
+      <a href="/get-involved" class="btn-secondary">Get Involved</a>
       <a href="/events" class="btn-secondary">See Events</a>
     </div>
   </div>
@@ -98,44 +98,12 @@
 
 <section class="latest-content mb-5">
 
-  <!-- SERMONS -->
-    <h2 class="section-title">Latest Sermon</h2>
-
-  <% if (!sermons || sermons.length === 0) { %>
-    <div class="alert alert-info" style="margin-bottom: 1.5rem;">
-      <p class = "no-items">No Sermons Uploaded yet</p>
-    </div>
-  <% } else { %>
-    <div class="latest-grid">
-      <% sermons.forEach((sermon) => { %>
-        <div class="card sermon-card">
-
-          <h3><%= sermon.title %></h3>
-
-          <p><strong>📖 Bible Passage:</strong> <%= sermon.bible_passage %></p>
-
-          <p><strong>📅 Date:</strong>
-            <%= new Date(sermon.sermon_date).toDateString() %>
-          </p>
-
-          <% if (sermon.speaker) { %>
-            <p><strong>🎤 Speaker:</strong> <%= sermon.speaker %></p>
-          <% } %>
-
-          <% if (sermon.video) { %>
-            <video class="sermon-video" controls>
-              <source src="<%= sermon.video %>" type="video/mp4">
-            </video>
-          <% } %>
-
-          <a href="/sermons/<%= sermon.slug %>" class="btn-accent">
-            View Full Sermon
-          </a>
-
-        </div>
-      <% }) %>
-    </div>
-  <% } %>
+  <!-- GET INVOLVED CALLOUT -->
+    <section class="get-involved-callout">
+      <h2 class="section-title">Get Involved</h2>
+      <p>Join a team or ministry — media, choir, MCA, Women's Guild, CGIT, PYPAN and more. Click below to see roles and contact details.</p>
+      <a href="/get-involved" class="btn-accent">Join a Team</a>
+    </section>
 
 
   <!-- EVENTS -->
@@ -185,7 +153,7 @@
 
   <!-- VIEW ALL BUTTONS -->
   <div class="text-center mt-4 btn-group-center">
-    <a href="/sermons" class="btn-like-small">View All Sermons</a>
+    <a href="/get-involved" class="btn-like-small">Get Involved</a>
     <a href="/events" class="btn-like-small">View All Events</a>
   </div>
 

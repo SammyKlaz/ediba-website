@@ -1,0 +1,46 @@
+nohup: ignoring input
+[dotenv@17.2.3] injecting env (13) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server running on port 10000
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async eventsPage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/eventController.js:10:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async eventsPage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/eventController.js:10:26)
+Error: Connection terminated unexpectedly
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26)
+Error: getaddrinfo ENOTFOUND dpg-d6jg5kbuibrs73alcn40-a.oregon-postgres.render.com
+    at C:\Users\SAMUEL\Videos\Videos\WEB DEVELOPMENT PROJECTS\Backend Projects\EDIBA WEBSITE\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async homePage (file:///C:/Users/SAMUEL/Videos/Videos/WEB%20DEVELOPMENT%20PROJECTS/Backend%20Projects/EDIBA%20WEBSITE/controllers/homeController.js:7:26) {
+  errno: -3008,
+  code: 'ENOTFOUND',
+  syscall: 'getaddrinfo',
+  hostname: 'dpg-d6jg5kbuibrs73alcn40-a.oregon-postgres.render.com'
+}

@@ -1,0 +1,124 @@
+<%- include("partials/header") %>
+
+<section class="container my-5">
+  <div class="page-intro text-center mb-5">
+    <h1 class="section-title">Contact</h1>
+    <p class="lead-text">
+      Reach the right people for guidance, enquiries, and ministry involvement. You can contact church officers directly or connect with leaders of any ministry or arm.
+    </p>
+  </div>
+
+  <% if (selectedTeam) { %>
+    <div class="alert-box mb-4">
+      <p>
+        You are viewing contact details for one selected ministry.
+        <a href="/contact">View all contacts</a>
+      </p>
+    </div>
+  <% } %>
+
+  <section class="section-group mb-5">
+    <h2>Church Contacts</h2>
+
+    <div class="contact-grid">
+      <% if (churchContacts.length === 0) { %>
+        <div class="empty-state">
+          <p>No church contacts have been added yet.</p>
+        </div>
+      <% } %>
+
+      <% churchContacts.forEach(contact => { %>
+        <div class="contact-card">
+          <% if (contact.portrait_url) { %>
+            <img src="<%= contact.portrait_url %>" alt="<%= contact.full_name %>" class="contact-photo">
+          <% } %>
+
+          <h3><%= contact.role_title %></h3>
+          <p class="contact-name"><%= contact.full_name %></p>
+
+          <% if (contact.phone) { %>
+            <p><strong>Phone:</strong> <%= contact.phone %></p>
+          <% } %>
+
+          <% if (contact.whatsapp) { %>
+            <p><strong>WhatsApp:</strong> <%= contact.whatsapp %></p>
+          <% } %>
+
+          <% if (contact.email) { %>
+            <p><strong>Email:</strong> <%= contact.email %></p>
+          <% } %>
+
+          <% if (contact.notes) { %>
+            <p><%= contact.notes %></p>
+          <% } %>
+
+          <div class="contact-actions">
+            <% if (contact.phone) { %>
+              <a href="tel:<%= contact.phone %>">Call</a>
+            <% } %>
+
+            <% if (contact.whatsapp) { %>
+              <a href="https://wa.me/<%= contact.whatsapp.replace(/\D/g, '') %>" target="_blank">WhatsApp</a>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+
+  <% ministries.forEach(ministry => { %>
+    <section class="section-group mb-5" id="<%= ministry.slug %>">
+      <div class="ministry-section-header">
+        <h2><%= ministry.name %></h2>
+        <p><%= ministry.description %></p>
+      </div>
+
+      <div class="contact-grid">
+        <% if (ministry.contacts.length === 0) { %>
+          <div class="empty-state">
+            <p>No contacts have been added for this ministry yet.</p>
+          </div>
+        <% } %>
+
+        <% ministry.contacts.forEach(contact => { %>
+          <div class="contact-card">
+            <% if (contact.portrait_url) { %>
+              <img src="<%= contact.portrait_url %>" alt="<%= contact.full_name %>" class="contact-photo">
+            <% } %>
+
+            <h3><%= contact.role_title %></h3>
+            <p class="contact-name"><%= contact.full_name %></p>
+
+            <% if (contact.phone) { %>
+              <p><strong>Phone:</strong> <%= contact.phone %></p>
+            <% } %>
+
+            <% if (contact.whatsapp) { %>
+              <p><strong>WhatsApp:</strong> <%= contact.whatsapp %></p>
+            <% } %>
+
+            <% if (contact.email) { %>
+              <p><strong>Email:</strong> <%= contact.email %></p>
+            <% } %>
+
+            <% if (contact.notes) { %>
+              <p><%= contact.notes %></p>
+            <% } %>
+
+            <div class="contact-actions">
+              <% if (contact.phone) { %>
+                <a href="tel:<%= contact.phone %>">Call</a>
+              <% } %>
+
+              <% if (contact.whatsapp) { %>
+                <a href="https://wa.me/<%= contact.whatsapp.replace(/\D/g, '') %>" target="_blank">WhatsApp</a>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+  <% }) %>
+</section>
+
+<%- include("partials/footer") %>

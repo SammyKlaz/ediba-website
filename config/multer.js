@@ -53,15 +53,9 @@ export const uploadEvent = multer({
    SERMON VIDEO UPLOAD
 ======================= */
 
-const sermonStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "church/sermons",
-    resource_type: "video"
-  }
-});
-
-export const uploadSermonVideo = multer({ storage: sermonStorage });
+// Sermon video upload removed — sermons replaced by Contact/Get Involved pages.
+// If you later want to re-enable sermon video uploads, recreate a CloudinaryStorage
+// with resource_type: 'video' and export uploadSermonVideo.
 
 
 /* =======================
@@ -140,6 +134,30 @@ const receiptStorage = new CloudinaryStorage({
   params: {
     folder: "church/receipts",
     allowed_formats: ["jpg", "png", "jpeg"]
+  }
+});
+
+/*CHURCH CONTACTS AND MINISTRIES*/
+const contactPortraitStorage = new CloudinaryStorage({
+  cloudinary,
+  params: async () => {
+    return {
+      folder: "church/contacts",
+      resource_type: "image",
+      allowed_formats: ["jpg", "png", "jpeg", "webp"]
+    };
+  }
+});
+
+export const uploadContactPortrait = multer({
+  storage: contactPortraitStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const ok = file.mimetype && file.mimetype.startsWith("image/");
+    if (!ok) {
+      return cb(new Error("Only image files are allowed for contact portraits"));
+    }
+    cb(null, true);
   }
 });
 
