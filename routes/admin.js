@@ -213,27 +213,27 @@ router.post("/admin/receipts/:id/delete", deleteReceipt);
 
 
 /* ======================= MINISTRIES ======================= */
-router.get("/ministries", adminMinistriesPage);
-router.get("/ministries/new", newMinistryPage);
-router.post("/ministries", createMinistry);
-router.get("/ministries/:slug/edit", editMinistryPage);
-router.post("/ministries/:slug/edit", updateMinistry);
-router.post("/ministries/:slug/delete", deleteMinistry);
+router.get("/admin/ministries", adminMinistriesPage);
+router.get("/admin/ministries/new", newMinistryPage);
+router.post("/admin/ministries", createMinistry);
+router.get("/admin/ministries/:slug/edit", editMinistryPage);
+router.post("/admin/ministries/:slug/edit", updateMinistry);
+router.post("/admin/ministries/:slug/delete", deleteMinistry);
 
 /* ======================= CHURCH CONTACTS ======================= */
-router.get("/church-contacts", adminChurchContactsPage);
-router.get("/church-contacts/new", newChurchContactPage);
-router.post("/church-contacts", uploadContactPortrait.single("portrait"), createChurchContact);
-router.get("/church-contacts/:id/edit", editChurchContactPage);
-router.post("/church-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateChurchContact);
-router.post("/church-contacts/:id/delete", deleteChurchContact);
+router.get("/admin/church-contacts", adminChurchContactsPage);
+router.get("/admin/church-contacts/new", newChurchContactPage);
+router.post("/admin/church-contacts", uploadContactPortrait.single("portrait"), createChurchContact);
+router.get("/admin/church-contacts/:id/edit", editChurchContactPage);
+router.post("/admin/church-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateChurchContact);
+router.post("/admin/church-contacts/:id/delete", deleteChurchContact);
 
 /* ======================= MINISTRY CONTACTS ======================= */
-router.get("/ministry-contacts", adminMinistryContactsPage);
-router.get("/ministry-contacts/new", newMinistryContactPage);
-router.post("/ministry-contacts", uploadContactPortrait.single("portrait"), createMinistryContact);
-router.get("/ministry-contacts/:id/edit", editMinistryContactPage);
-router.post("/ministry-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateMinistryContact);
-router.post("/ministry-contacts/:id/delete", deleteMinistryContact);
+router.get("/admin/ministry-contacts", adminMinistryContactsPage);
+router.get("/admin/ministry-contacts/new", newMinistryContactPage);
+router.post("/admin/ministry-contacts", uploadContactPortrait.single("portrait"), createMinistryContact);
+router.get("/admin/ministry-contacts/:id/edit", editMinistryContactPage);
+router.post("/admin/ministry-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateMinistryContact);
+router.post("/admin/ministry-contacts/:id/delete", deleteMinistryContact);
 
 export default router;

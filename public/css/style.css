@@ -4242,6 +4242,47 @@ hr {
   margin-bottom: 16px;
 }
 
+/* neatly arrange multiple action links inside dashboard cards */
+.admin-dashboard-page .admin-dashboard-links {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+/* contact and get-involved pages layout improvements */
+.get-involved-page .involvement-grid {
+  gap: 26px;
+}
+
+.get-involved-page .team-card-body {
+  padding: 26px;
+}
+
+.contact-page .contact-grid {
+  gap: 22px;
+}
+
+.contact-page .contact-card {
+  padding: 22px;
+}
+
+.contact-page .contact-photo {
+  max-width: 160px;
+  height: 160px;
+}
+
+.contact-page .contact-actions {
+  margin-top: 16px;
+}
+
+/* section group spacing */
+.contact-page .section-group,
+.get-involved-page .page-intro {
+  margin-bottom: 2.5rem;
+}
+
 /* =======================
    ADMIN PAGES ONLY
 ======================= */
