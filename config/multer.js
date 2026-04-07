@@ -109,8 +109,10 @@ const eventMediaStorage = new CloudinaryStorage({
 export const uploadEventMedia = multer({
   storage: eventMediaStorage,
   limits: {
-    fileSize: 20 * 1024 * 1024
+    // Allow larger event media (videos). Controlled by env var EVENT_MEDIA_MAX_BYTES (defaults to 200 MB)
+    fileSize:  100 * 1024 * 1024
   },
+  
   fileFilter: (req, file, cb) => {
     const ok =
       file.mimetype.startsWith("image/") ||
