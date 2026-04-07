@@ -451,5 +451,3 @@ window.validateForm = validateForm;
 window.showAlert = showAlert;
 window.formatDate = formatDate;
 window.formatCurrency = formatCurrency;
-
-*/

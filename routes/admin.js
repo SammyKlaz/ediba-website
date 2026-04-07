@@ -235,6 +235,5 @@ router.post("/ministry-contacts", uploadContactPortrait.single("portrait"), crea
 router.get("/ministry-contacts/:id/edit", editMinistryContactPage);
 router.post("/ministry-contacts/:id/edit", uploadContactPortrait.single("portrait"), updateMinistryContact);
 router.post("/ministry-contacts/:id/delete", deleteMinistryContact);
-```
 
 export default router;
