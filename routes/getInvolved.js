@@ -1,5 +1,5 @@
 import express from "express";
-import { getInvolvedPage, contactPage } from "../controllers/contactController.js";
+import { getInvolvedPage, contactPage } from "../controllers/ministryController.js";
 
 const router = express.Router();
 
