@@ -23,20 +23,26 @@ export const contactPage = async (req, res) => {
   try {
     const selectedTeam = req.query.team || null;
 
-    const churchContactsResult = await pool.query(`
-      SELECT
-        id,
-        role_title,
-        full_name,
-        phone,
-        whatsapp,
-        email,
-        portrait_url,
-        notes
-      FROM church_contacts
-      WHERE is_active = TRUE
-      ORDER BY display_order ASC, role_title ASC
-    `);
+    // Only load church contacts when not filtering for a specific ministry/team.
+    // If the user requested a specific team, we should show only that ministry's
+    // contacts and hide the global church contacts (per UI requirement).
+    let churchContactsResult = { rows: [] };
+    if (!selectedTeam) {
+      churchContactsResult = await pool.query(`
+        SELECT
+          id,
+          role_title,
+          full_name,
+          phone,
+          whatsapp,
+          email,
+          portrait_url,
+          notes
+        FROM church_contacts
+        WHERE is_active = TRUE
+        ORDER BY display_order ASC, role_title ASC
+      `);
+    }
 
     let ministryQuery = `
       SELECT

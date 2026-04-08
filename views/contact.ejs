@@ -86,7 +86,7 @@
               <img src="<%= contact.portrait_url %>" alt="<%= contact.full_name %>" class="contact-photo">
             <% } %>
 
-            <h3><%= contact.role_title %></h3>
+            <h3><%= ministry.name %> <%= contact.role_title %></h3>
             <p class="contact-name"><%= contact.full_name %></p>
 
             <% if (contact.phone) { %>

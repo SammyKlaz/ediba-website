@@ -9,9 +9,9 @@
   <div class="admin-form-wrapper">
     <form action="/admin/ministry-contacts/<%= contact.id %>/edit" method="POST" enctype="multipart/form-data" class="admin-form">
       <div class="form-group">
-        <label for="ministry_id">Ministry</label>
+        <label for="ministry_id">Arm/Service-group</label>
         <select id="ministry_id" name="ministry_id" required>
-          <option value="">Select ministry</option>
+          <option value="">Select Arm/Service-group</option>
           <% ministries.forEach(ministry => { %>
             <option value="<%= ministry.id %>" <%= Number(contact.ministry_id) === Number(ministry.id) ? "selected" : "" %>>
               <%= ministry.name %>

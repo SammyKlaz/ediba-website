@@ -4870,3 +4870,111 @@ footer .col-md-4 {
 }
 
 
+/* =======================
+   CENTERING AND EVEN CARD OVERRIDES
+======================= */
+
+/* keep these pages centered on laptop */
+.get-involved-page,
+.contact-page,
+.admin-feature-page {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* center page headings and intro text */
+.get-involved-page .page-intro,
+.contact-page .page-intro,
+.contact-page .ministry-section-header,
+.admin-feature-page .admin-page-header {
+  text-align: center;
+}
+
+.contact-page .ministry-section-header p,
+.admin-feature-page .admin-page-header p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* make grids look balanced and centered */
+.get-involved-page .involvement-grid,
+.contact-page .contact-grid,
+.admin-feature-page .admin-list {
+  justify-content: center;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+}
+
+/* make all cards even and neat */
+.get-involved-page .team-card,
+.contact-page .contact-card,
+.admin-feature-page .admin-card {
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+}
+
+/* make inner card content stack properly */
+.get-involved-page .team-card-body,
+.contact-page .contact-card,
+.admin-feature-page .admin-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+}
+
+/* keep buttons sitting neatly at the bottom area */
+.get-involved-page .team-card .btn-accent,
+.contact-page .contact-actions,
+.admin-feature-page .admin-card-actions {
+  margin-top: auto;
+}
+
+/* center action buttons */
+.contact-page .contact-actions,
+.admin-feature-page .admin-card-actions,
+.admin-feature-page .admin-actions {
+  justify-content: center;
+}
+
+/* use one consistent image style everywhere */
+.contact-page .contact-photo,
+.admin-feature-page .contact-photo {
+  width: 150px;
+  height: 150px;
+  max-width: 150px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin: 0 auto 16px;
+  display: block;
+}
+
+/* center the forms properly */
+.admin-feature-page .admin-form-wrapper {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* center the separate delete form under edit pages */
+.admin-feature-page form.mt-3 {
+  text-align: center;
+}
+
+/* keep contact text neat inside cards */
+.contact-page .contact-card p,
+.admin-feature-page .admin-card p,
+.get-involved-page .team-card p {
+  word-break: break-word;
+}
+
+/* keep alert box nicely centered too */
+.contact-page .alert-box {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
