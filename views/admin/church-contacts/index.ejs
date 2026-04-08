@@ -1,6 +1,6 @@
 <%- include("../../partials/header") %>
 
-<section class="container my-5">
+<section class="admin-feature-page container my-5">
   <div class="admin-page-header">
     <h1 class="section-title">Manage Church Contacts</h1>
     <p>Manage the main church officers and their contact details.</p>
@@ -44,10 +44,7 @@
               <p><strong>Email:</strong> <%= contact.email %></p>
             <% } %>
 
-            <p>
-              <strong>Order:</strong>
-              <%= contact.display_order %>
-            </p>
+            <!-- display_order removed from admin listing per UI preference -->
 
             <p>
               <strong>Status:</strong>

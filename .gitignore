@@ -6,3 +6,4 @@ public/uploads
 *.mp4
 *.mov
 *.avi
+routes/screenshot_pages.js
