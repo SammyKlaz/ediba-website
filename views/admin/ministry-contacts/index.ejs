@@ -53,7 +53,10 @@
               <p><strong>Email:</strong> <%= contact.email %></p>
             <% } %>
 
-            <!-- display_order removed from admin listing per UI preference -->
+            <p>
+              <strong>Display order:</strong>
+              <%= typeof contact.display_order !== 'undefined' ? contact.display_order : 0 %>
+            </p>
 
             <p>
               <strong>Status:</strong>

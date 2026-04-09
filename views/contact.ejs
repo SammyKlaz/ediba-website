@@ -4,14 +4,14 @@
   <div class="page-intro text-center mb-5">
     <h1 class="section-title">Contact</h1>
     <p class="lead-text">
-      Reach the right people for guidance, enquiries, and ministry involvement. You can contact church officers directly or connect with leaders of any ministry or arm.
+      Reach the right people for guidance, enquiries, and Arms/groups involvement. You can contact church officers directly or connect with leaders of any ministry or arm.
     </p>
   </div>
 
   <% if (selectedTeam) { %>
     <div class="alert-box mb-4">
       <p>
-        You are viewing contact details for one selected ministry.
+        You are viewing contact details for one selected Arm/Service-group.
         <a href="/contact">View all contacts</a>
       </p>
     </div>
@@ -78,7 +78,7 @@
       <div class="contact-grid">
         <% if (ministry.contacts.length === 0) { %>
           <div class="empty-state">
-            <p>No contacts have been added for this ministry yet.</p>
+            <p>No contacts have been added for this Arm yet.</p>
           </div>
         <% } %>
 
