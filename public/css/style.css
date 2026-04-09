@@ -4979,6 +4979,11 @@ footer .col-md-4 {
   margin-right: auto;
 }
 
-#get-involved-link{
+#get-involved-callout {
   text-align: center;
+}
+
+#get-involved-link{
+  display: inline-block;
+  margin-top: 12px;
 }
