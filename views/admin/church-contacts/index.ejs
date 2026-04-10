@@ -2,14 +2,14 @@
 
 <section class="admin-feature-page container my-5">
   <div class="admin-page-header">
-    <h1 class="section-title">Manage Church Contacts</h1>
+    <h1 class="section-title">Manage Church Principal Officers</h1>
     <p>Manage the main church officers and their contact details.</p>
   </div>
 
   <div class="admin-actions mb-4">
-    <a href="/admin/church-contacts/new" class="btn-accent">Add Church Contact</a>
-    <a href="/admin/ministries" class="btn-accent">Manage Ministries</a>
-    <a href="/admin/ministry-contacts" class="btn-accent">Manage Ministry Contacts</a>
+    <a href="/admin/church-contacts/new" class="btn-accent">Add Church Principal Officer</a>
+    <a href="/admin/ministries" class="btn-accent">Manage Arms</a>
+    <a href="/admin/ministry-contacts" class="btn-accent">Manage Arms Contacts</a>
   </div>
 
   <% if (contacts.length === 0) { %>
@@ -44,7 +44,7 @@
               <p><strong>Email:</strong> <%= contact.email %></p>
             <% } %>
 
-            <!-- display_order removed from admin listing per UI preference -->
+            
 
             <p>
               <strong>Status:</strong>
