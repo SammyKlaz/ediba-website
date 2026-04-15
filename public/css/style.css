@@ -4987,3 +4987,28 @@ footer .col-md-4 {
   display: inline-block;
   margin-top: 12px;
 }
+
+/* Center the "Join a Team" callout and keep the button auto-width
+   (overrides generic .btn-accent full-width mobile rule for this block) */
+.get-involved-callout {
+  text-align: center;
+}
+.get-involved-callout .btn-accent,
+.get-involved-callout #get-involved-link {
+  display: inline-block;
+  margin: 12px auto 0;
+  width: auto;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  /* on small screens make the callout button full width for better tap target */
+  .get-involved-callout .btn-accent,
+  .get-involved-callout #get-involved-link {
+    display: block;
+    width: 100%;
+    margin: 12px 0 0;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
