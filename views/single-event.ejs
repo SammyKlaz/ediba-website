@@ -120,8 +120,8 @@
               <% 
                 // robust ownership/admin check: coerce to string to avoid type mismatches
                 const isOwner = (String(user.id) === String(comment.user_id));
-                const isAdmin = (user.role && (user.role === 'admin' || user.role === 'super_admin'));
-                if (isOwner || isAdmin) { %>
+                const isSuperAdmin = (user.role && (user.role === 'super_admin'));
+                if (isOwner || isSuperAdmin) { %>
                 <button type="button" onclick="toggleEditForm('<%= comment.id %>')" class="btn-edit-small">Edit</button>
                 <form method="POST" action="/events/<%= event.slug %>/comments/<%= comment.id %>/delete" style="display:inline"> 
                   <button type="submit" class="btn-danger">Delete</button>
@@ -152,8 +152,8 @@
           <!-- EDIT FORM -->
           <% if (user) {
                const isOwnerForm = (String(user.id) === String(comment.user_id));
-               const isAdminForm = (user.role && (user.role === 'admin' || user.role === 'super_admin'));
-               if (isOwnerForm || isAdminForm) { %>
+               const isSuperAdminForm = (user.role && (user.role === 'super_admin'));
+               if (isOwnerForm || isSuperAdminForm) { %>
             <form id="edit-form-<%= comment.id %>" method="POST" action="/events/<%= event.slug %>/comments/<%= comment.id %>/edit" class="edit-form-inline" style="display:none;margin-top:8px;">
               <textarea name="comment" required class="edit-textarea"><%= comment.comment %></textarea>
               <div><button type="submit" class="btn-reply-submit">Save</button> <button type="button" onclick="toggleEditForm('<%= comment.id %>')" class="btn-cancel">Cancel</button></div>

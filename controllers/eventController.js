@@ -253,8 +253,8 @@ export const updateComment = async (req, res) => {
     }
 
     const ownerId = cRes.rows[0].user_id;
-    const isAdmin = req.session.user && (req.session.user.role === 'admin' || req.session.user.role === 'super_admin');
-    if (ownerId !== userId && !isAdmin) {
+    const isSuperAdmin = req.session.user && req.session.user.role === 'super_admin';
+    if (ownerId !== userId && !isSuperAdmin) {
       req.flash('error', 'You can only edit your own comments.');
       return res.redirect(`/events/${slug}`);
     }
@@ -284,8 +284,8 @@ export const deleteComment = async (req, res) => {
     }
 
     const ownerId = cRes.rows[0].user_id;
-    const isAdmin = req.session.user && (req.session.user.role === 'admin' || req.session.user.role === 'super_admin');
-    if (ownerId !== userId && !isAdmin) {
+    const isSuperAdmin = req.session.user && req.session.user.role === 'super_admin';
+    if (ownerId !== userId && !isSuperAdmin) {
       req.flash('error', 'You can only delete your own comments.');
       return res.redirect(`/events/${slug}`);
     }
