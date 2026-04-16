@@ -117,7 +117,11 @@
           <div class="comment-footer">
             <% if (user) { %>
               <button type="button" onclick="toggleReplyForm('<%= comment.id %>')" class="btn-reply-small">Reply</button>
-              <% if (user.id === comment.user_id || (user.role && (user.role === 'admin' || user.role === 'super_admin'))) { %>
+              <% 
+                // robust ownership/admin check: coerce to string to avoid type mismatches
+                const isOwner = (String(user.id) === String(comment.user_id));
+                const isAdmin = (user.role && (user.role === 'admin' || user.role === 'super_admin'));
+                if (isOwner || isAdmin) { %>
                 <button type="button" onclick="toggleEditForm('<%= comment.id %>')" class="btn-edit-small">Edit</button>
                 <form method="POST" action="/events/<%= event.slug %>/comments/<%= comment.id %>/delete" style="display:inline"> 
                   <button type="submit" class="btn-danger">Delete</button>
@@ -146,12 +150,15 @@
           <% } %>
 
           <!-- EDIT FORM -->
-          <% if (user && (user.id === comment.user_id || (user.role && (user.role === 'admin' || user.role === 'super_admin')))) { %>
+          <% if (user) {
+               const isOwnerForm = (String(user.id) === String(comment.user_id));
+               const isAdminForm = (user.role && (user.role === 'admin' || user.role === 'super_admin'));
+               if (isOwnerForm || isAdminForm) { %>
             <form id="edit-form-<%= comment.id %>" method="POST" action="/events/<%= event.slug %>/comments/<%= comment.id %>/edit" class="edit-form-inline" style="display:none;margin-top:8px;">
               <textarea name="comment" required class="edit-textarea"><%= comment.comment %></textarea>
               <div><button type="submit" class="btn-reply-submit">Save</button> <button type="button" onclick="toggleEditForm('<%= comment.id %>')" class="btn-cancel">Cancel</button></div>
             </form>
-          <% } %>
+          <%   } } %>
 
           <!-- EVENT: Replies display -->
           <% replies.forEach(reply => { %>

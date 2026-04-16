@@ -17,8 +17,8 @@ export const adminEvents = async (req, res) => {
  `
       SELECT 
         e.*,
-        COUNT(ec.id) AS comment_count,
-        COUNT(el.id) AS like_count
+        COUNT(DISTINCT ec.id) AS comment_count,
+        COUNT(DISTINCT el.id) AS like_count
       FROM events e
       LEFT JOIN event_comments ec
         ON ec.event_id = e.id
