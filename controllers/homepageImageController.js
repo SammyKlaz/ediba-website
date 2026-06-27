@@ -8,18 +8,28 @@ export const getHomepageImages = async () => {
   try {
     const result = await pool.query('SELECT * FROM homepage_images');
     const images = {};
+
     result.rows.forEach(img => {
-      // normalize old '/uploads/homepage/...' to '/uploads/home/...' if file exists in home
+      // normalize old '/uploads/homepage/...' to '/uploads/home/...'
       if (img.file_path && img.file_path.includes('/uploads/homepage/')) {
         const filename = path.basename(img.file_path);
         const altPath = `/uploads/home/${filename}`;
-        const altFsPath = path.join(process.cwd(), 'public', 'uploads', 'home', filename);
+        const altFsPath = path.join(
+          process.cwd(),
+          'public',
+          'uploads',
+          'home',
+          filename
+        );
+
         if (fs.existsSync(altFsPath)) {
           img.file_path = altPath;
         }
       }
+
       images[img.section] = img;
     });
+
     return images;
   } catch (error) {
     console.error('Error fetching homepage images:', error);
@@ -30,11 +40,13 @@ export const getHomepageImages = async () => {
 // Admin: Get all images for management
 export const adminGetHomepageImages = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM homepage_images ORDER BY section');
+    const result = await pool.query(
+      'SELECT * FROM homepage_images ORDER BY section'
+    );
 
-    // Ensure all expected sections are present for admin convenience
     const sections = ['hero', 'about', 'mca', 'womens_guild', 'cgit', 'pypan'];
     const rows = result.rows;
+
     const displayRows = sections.map(sec => {
       const found = rows.find(r => r.section === sec);
       return found || { section: sec, file_path: null, alt_text: '' };
@@ -52,10 +64,21 @@ export const adminGetHomepageImages = async (req, res) => {
 export const adminEditHomepageImagePage = async (req, res) => {
   try {
     const { section } = req.params;
-    const result = await pool.query('SELECT * FROM homepage_images WHERE section = $1', [section]);
-    res.render('admin/edit-homepage-image', { image: result.rows[0], section });
+    const result = await pool.query(
+      'SELECT * FROM homepage_images WHERE section = $1',
+      [section]
+    );
+
+    res.render('admin/edit-homepage-image', {
+      image: result.rows[0],
+      section
+    });
   } catch (error) {
-    console.error('Error loading edit page for section', req.params.section, error);
+    console.error(
+      'Error loading edit page for section',
+      req.params.section,
+      error
+    );
     req.flash('error', 'Unable to load edit page.');
     res.redirect('/admin/homepage-images');
   }
@@ -63,23 +86,52 @@ export const adminEditHomepageImagePage = async (req, res) => {
 
 // Admin: Update/upload image for a section
 export const adminUpdateHomepageImage = async (req, res) => {
+  console.log("CONTROLLER HIT");
+  console.log("req.file =", req.file);
+  console.log("req.body =", req.body);
+
+  const columns = await pool.query(`
+  SELECT column_name
+  FROM information_schema.columns
+  WHERE table_name = 'homepage_images'
+`);
+
+console.log("COLUMNS:", columns.rows);
+
   try {
     const { section } = req.params;
     const { alt_text } = req.body;
-    const file_path = req.file ? req.file.path : req.body.current_file_path || null;
-    const public_id = req.file ? getPublicIdFromFile(req.file) : null;
 
-    // Check if record exists
-    const existing = await pool.query('SELECT id FROM homepage_images WHERE section = $1', [section]);
+    const existing = await pool.query(
+      'SELECT * FROM homepage_images WHERE section = $1',
+      [section]
+    );
+
+    const oldRecord = existing.rows[0];
+
+    const file_path = req.file
+      ? req.file.path
+      : oldRecord?.file_path || null;
+
+    const public_id = req.file
+      ? getPublicIdFromFile(req.file)
+      : oldRecord?.public_id || null;
 
     if (existing.rows.length > 0) {
       await pool.query(
-        `UPDATE homepage_images SET file_path = $1, alt_text = $2, public_id = $3, updated_at = NOW() WHERE section = $4`,
+        `UPDATE homepage_images
+         SET file_path = $1,
+             alt_text = $2,
+             public_id = $3,
+             updated_at = NOW()
+         WHERE section = $4`,
         [file_path, alt_text, public_id, section]
       );
     } else {
       await pool.query(
-        `INSERT INTO homepage_images (section, file_path, alt_text, public_id) VALUES ($1, $2, $3, $4)`,
+        `INSERT INTO homepage_images
+         (section, file_path, alt_text, public_id)
+         VALUES ($1, $2, $3, $4)`,
         [section, file_path, alt_text, public_id]
       );
     }
@@ -93,31 +145,40 @@ export const adminUpdateHomepageImage = async (req, res) => {
   }
 };
 
-// Admin: Delete image (remove file from disk and delete DB record)
+// Admin: Delete image
 export const adminDeleteHomepageImage = async (req, res) => {
   try {
     const { section } = req.params;
-    const result = await pool.query('SELECT * FROM homepage_images WHERE section = $1', [section]);
+
+    const result = await pool.query(
+      'SELECT * FROM homepage_images WHERE section = $1',
+      [section]
+    );
+
     if (result.rows.length === 0) {
       req.flash('error', 'No image found to delete.');
       return res.redirect('/admin/homepage-images');
     }
 
     const img = result.rows[0];
-    // If this image was uploaded to Cloudinary, remove it there too
+
     try {
       if (img.public_id) {
         await destroyPublicId(img.public_id, 'image');
       } else if (img.file_path) {
         const parsed = getPublicIdFromFile({ path: img.file_path });
-        if (parsed) await destroyPublicId(parsed, 'image');
+        if (parsed) {
+          await destroyPublicId(parsed, 'image');
+        }
       }
     } catch (err) {
       console.warn('Error deleting homepage image from Cloudinary', err);
     }
 
-    // remove DB record for that section
-    await pool.query('DELETE FROM homepage_images WHERE section = $1', [section]);
+    await pool.query(
+      'DELETE FROM homepage_images WHERE section = $1',
+      [section]
+    );
 
     req.flash('success', 'Image deleted successfully.');
     res.redirect('/admin/homepage-images');

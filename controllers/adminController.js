@@ -142,7 +142,8 @@ export const updateEvent = async (req, res) => {
 
     res.redirect("/admin/events");
   } catch (error) {
-    console.error("admin updateEvent error:", error);
+    console.error("❌ ERROR in updateEvent:", error.message);
+    console.error("Stack:", error.stack);
     console.error("req.file:", req.file);
     console.error("req.body:", req.body);
     res.status(500).send("Error updating event");
@@ -356,6 +357,7 @@ export const updateMinister = async (req, res) => {
   try {
     const { slug } = req.params;
     const { name, position, short_intro, biography } = req.body;
+    const isInCharge = position === "Minister In Charge" || position === "Minister-in-Charge";
 
     let photoQuery = "";
     let values = [name, position, short_intro, biography];
@@ -384,11 +386,32 @@ export const updateMinister = async (req, res) => {
       values
     );
 
+    if (isInCharge) {
+      await pool.query(`UPDATE ministers SET is_in_charge = false`);
+      await pool.query(
+        `
+        UPDATE ministers
+        SET is_in_charge = true
+        WHERE slug = $1
+        `,
+        [slug]
+      );
+    } else {
+      await pool.query(
+        `
+        UPDATE ministers
+        SET is_in_charge = false
+        WHERE slug = $1
+        `,
+        [slug]
+      );
+    }
+
     res.redirect("/admin/about");
 
   } catch (error) {
-    console.log(error);
-    res.send("Error updating minister");
+    console.error("updateMinister error:", error);
+    res.status(500).send("Error updating minister");
   }
 };
 

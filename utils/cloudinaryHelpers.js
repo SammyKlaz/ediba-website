@@ -11,6 +11,18 @@ export const getPublicIdFromFile = (file) => {
   return null;
 };
 
+export const getImageUrl = (url, publicId) => {
+  if (url && /^https?:\/\//i.test(url)) {
+    return url;
+  }
+
+  if (publicId) {
+    return cloudinary.url(publicId, { secure: true });
+  }
+
+  return url || null;
+};
+
 export const parsePublicIdFromUrl = (url) => {
   if (!url) return null;
   try {
@@ -53,5 +65,6 @@ export const destroyPublicId = async (publicId, resourceType = 'image') => {
 export default {
   getPublicIdFromFile,
   parsePublicIdFromUrl,
+  getImageUrl,
   destroyPublicId
 };

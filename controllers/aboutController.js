@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { getImageUrl } from "../utils/cloudinaryHelpers.js";
 
 export const aboutPage = async (req, res) => {
   try {
@@ -15,7 +16,7 @@ export const aboutPage = async (req, res) => {
 
     const ministerInChargeResult = await pool.query(
       `
-      SELECT name, slug, photo, short_intro
+      SELECT name, slug, photo, photo_public_id, short_intro
       FROM ministers
       WHERE is_in_charge = true
         AND is_active = true
@@ -24,10 +25,13 @@ export const aboutPage = async (req, res) => {
     );
 
     const ministerInCharge = ministerInChargeResult.rows[0] || null;
+    if (ministerInCharge) {
+      ministerInCharge.photo = getImageUrl(ministerInCharge.photo, ministerInCharge.photo_public_id);
+    }
 
     const otherMinistersResult = await pool.query(
       `
-      SELECT name, photo, position
+      SELECT name, photo, photo_public_id, position
       FROM ministers
       WHERE is_in_charge = false
         AND is_active = true
@@ -35,10 +39,15 @@ export const aboutPage = async (req, res) => {
       `
     );
 
+    const otherMinisters = otherMinistersResult.rows.map((minister) => ({
+      ...minister,
+      photo: getImageUrl(minister.photo, minister.photo_public_id)
+    }));
+
     res.render("about", {
       membership,
       ministerInCharge,
-      otherMinisters: otherMinistersResult.rows
+      otherMinisters
     });
 
   } catch (error) {
@@ -57,6 +66,7 @@ export const ministerProfile = async (req, res) => {
       SELECT
         name,
         photo,
+        photo_public_id,
         biography,
         position
       FROM ministers
@@ -71,8 +81,11 @@ export const ministerProfile = async (req, res) => {
       return res.status(404).send("Minister not found");
     }
 
+    const minister = result.rows[0];
+    minister.photo = getImageUrl(minister.photo, minister.photo_public_id);
+
     res.render("minister-bio", {
-      minister: result.rows[0],
+      minister,
       user: req.session.user
     });
 

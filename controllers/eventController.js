@@ -48,13 +48,16 @@ export const eventsPage = async (req, res) => {
       is_past: Number(b.birth_day) < today
     }));
 
+
+
     res.render("events", {
       events: eventsResult.rows,
       birthdays,
       user: req.session.user
     });
   } catch (error) {
-    console.log(error);
+    console.error("❌ ERROR in eventsPage:", error.message);
+    console.error("Stack:", error.stack);
     res.send("Error loading events");
   }
 };

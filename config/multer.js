@@ -49,13 +49,7 @@ export const uploadEvent = multer({
   }
 });
 
-/* =======================
-   SERMON VIDEO UPLOAD
-======================= */
 
-// Sermon video upload removed — sermons replaced by Contact/Get Involved pages.
-// If you later want to re-enable sermon video uploads, recreate a CloudinaryStorage
-// with resource_type: 'video' and export uploadSermonVideo.
 
 
 /* =======================
@@ -110,7 +104,7 @@ export const uploadEventMedia = multer({
   storage: eventMediaStorage,
   limits: {
     // Allow larger event media (videos). Controlled by env var EVENT_MEDIA_MAX_BYTES (defaults to 200 MB)
-    fileSize:  100 * 1024 * 1024
+    fileSize:  50 * 1024 * 1024
   },
   
   fileFilter: (req, file, cb) => {

@@ -24,9 +24,9 @@
   <!-- POSITION -->
   <label>Position</label><br>
   <select name="position" required>
-    <option value="Minister-in-Charge"
-      <%= minister.position === "Minister-in-Charge" ? "selected" : "" %>>
-      Minister-in-Charge
+    <option value="Minister In Charge"
+      <%= minister.position === "Minister In Charge" || minister.position === "Minister-in-Charge" ? "selected" : "" %>>
+      Minister In Charge
     </option>
 
     <option value="Associate Minister"

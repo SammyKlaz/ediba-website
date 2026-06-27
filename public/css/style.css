@@ -5012,3 +5012,17 @@ footer .col-md-4 {
     text-align: center;
   }
 }
+
+#engagement-like{
+  border: 1px solid var(--green-dark);
+  color: var(--gray-dark);
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#engagement-like:hover{
+  background: var(--green-dark);
+  color: var(--white);
+}

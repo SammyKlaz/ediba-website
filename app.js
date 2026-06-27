@@ -44,6 +44,10 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  process.stderr.write("❌ ERROR MIDDLEWARE CAUGHT:\n");
+  process.stderr.write("Path: " + req.path + "\n");
+  process.stderr.write("Error: " + (err && err.message) + "\n");
+  process.stderr.write("Stack: " + (err && err.stack) + "\n");
   if (err.code === "LIMIT_FILE_SIZE") {
     return res.send("File too large");
   }
@@ -64,6 +68,11 @@ app.set("view cache", false);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// DEBUG: Log all requests
+app.use((req, res, next) => {
+  console.log(`➡️  ${req.method} ${req.path}`);
+  next();
+});
 
 
 app.use("/", indexRoute);

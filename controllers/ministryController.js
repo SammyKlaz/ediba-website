@@ -20,8 +20,10 @@ export const getInvolvedPage = async (req, res) => {
 };
 
 export const contactPage = async (req, res) => {
+  process.stderr.write("✅ contactPage called\n");
   try {
     const selectedTeam = req.query.team || null;
+    process.stderr.write("selectedTeam: " + selectedTeam + "\n");
 
     // Only load church contacts when not filtering for a specific ministry/team.
     // If the user requested a specific team, we should show only that ministry's
@@ -119,7 +121,8 @@ export const contactPage = async (req, res) => {
       user: req.session.user
     });
   } catch (error) {
-    console.log(error);
+    console.error("❌ ERROR in contactPage:", error.message);
+    console.error("Stack:", error.stack);
     res.send("Error loading contact page");
   }
 };

@@ -76,14 +76,14 @@
         👍 <span class="engagement-count"><%= likeCount || 0 %> <%= (likeCount || 0) == 1 ? "like" : "likes" %></span>
       </div>
       <div class="engagement-stat">
-        💬 <span class="engagement-count"><%= commentCount || 0 %> <%= (commentCount || 0) == 1 ? "comment" : "comments" %></span>
+        💬 <span class="engagement-count" ><%= commentCount || 0 %> <%= (commentCount || 0) == 1 ? "comment" : "comments" %></span>
       </div>
       <% if (user) { %>
         <form method="POST" action="/events/<%= event.slug %>/like" id="like-form-event" class="like-form-inline">
           <button type="button" class="btn-like-small" data-like-form="like-form-event">👍 Like</button>
         </form>
       <% } else { %>
-        <a href="/login" class="btn-like-small btn-small">👍 Like</a>
+        <a href="/login"  id="engagement-like">👍 Like</a>
       <% } %>
     </div>
   </div>
