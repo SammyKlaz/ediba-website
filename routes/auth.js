@@ -104,7 +104,18 @@ router.post("/login", async (req, res) => {
       role: user.role
     };
 
-    res.redirect("/");
+    
+
+    req.session.save((err) => {
+      if (err) {
+        console.error("Session save error:", err);
+        return res.redirect("/login?error=Session error");
+      }
+
+      res.redirect("/");
+    });
+
+    
   } catch (error) {
     console.error(error);
     res.redirect("/login");
