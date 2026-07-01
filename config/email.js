@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: true,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
@@ -13,7 +13,4 @@ const transporter = nodemailer.createTransport({
   socketTimeout: 10000
 });
 
-console.log("Testing SMTP...");
-await transporter.verify();
-console.log("SMTP connected");
 export default transporter;
