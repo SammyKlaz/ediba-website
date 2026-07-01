@@ -24,25 +24,26 @@ const PORT = process.env.PORT || 10000;
 const PgSession = connectPgSimple(session);
 
 
-
+app.set("trust proxy", 1);
 
 
 app.use(
   session({
     store: new PgSession({
-      pool: pool,
+      pool,
       tableName: "user_sessions"
     }),
     secret: process.env.SESSION_SECRET || "church_secret_key",
     resave: false,
     saveUninitialized: false,
     cookie: {
-    maxAge: 1000 * 60 * 60 * 24,
-    secure: false
-}
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax"
+    }
   })
 );
-
 
 app.use((req, res, next) => {
   console.log("SESSION:", req.session);
