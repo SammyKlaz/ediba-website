@@ -4600,6 +4600,28 @@ footer p {
   color: var(--cream); 
   line-height: 1.6; 
 } 
+
+footer .footer-email {
+  display: inline-block;
+  max-width: 100%;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border: 1px solid rgba(247, 244, 238, 0.4);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+footer .footer-email:hover,
+footer .footer-email:focus-visible {
+  background: var(--green-light);
+  color: var(--white);
+  outline: none;
+}
   
 footer ul { 
   list-style: none; 

@@ -20,10 +20,10 @@ export const getInvolvedPage = async (req, res) => {
 };
 
 export const contactPage = async (req, res) => {
-  process.stderr.write("✅ contactPage called\n");
+  console.log("✅ contactPage called");
   try {
     const selectedTeam = req.query.team || null;
-    process.stderr.write("selectedTeam: " + selectedTeam + "\n");
+    console.log("selectedTeam:", selectedTeam);
 
     // Only load church contacts when not filtering for a specific ministry/team.
     // If the user requested a specific team, we should show only that ministry's

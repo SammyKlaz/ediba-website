@@ -1,8 +1,5 @@
-import session from "express-session";
 import dotenv from "dotenv";
 dotenv.config();
-import connectPgSimple from "connect-pg-simple";
-import pool from "./config/db.js";
 
 import express from "express";
 import bodyParser from "body-parser";
@@ -14,6 +11,7 @@ import getInvolvedRoute from "./routes/getInvolved.js";
 import giveRoute from "./routes/give.js";
 import adminRoute from "./routes/admin.js";
 import authRoutes from "./routes/auth.js";
+import session from "express-session";
 import aboutRoute from "./routes/about.js";
 import adminUsersRoutes from "./routes/adminUsers.js";
 import adminHomepageImagesRoutes from "./routes/adminHomepageImages.js";
@@ -21,34 +19,18 @@ import flash from "connect-flash";
 
 const app = express();
 const PORT = process.env.PORT || 10000;
-const PgSession = connectPgSimple(session);
-
-
-app.set("trust proxy", 1);
-
 
 app.use(
   session({
-    store: new PgSession({
-      pool,
-      tableName: "user_sessions"
-    }),
-    secret: process.env.SESSION_SECRET || "church_secret_key",
+    secret: "church_secret_key",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      sameSite: "lax"
+     cookie: {
+      maxAge: 1000 * 60 * 60 * 24
     }
   })
 );
 
-app.use((req, res, next) => {
-  console.log("SESSION:", req.session);
-  next();
-});
 // Flash middleware
 app.use(flash());
 
@@ -62,10 +44,6 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  process.stderr.write("❌ ERROR MIDDLEWARE CAUGHT:\n");
-  process.stderr.write("Path: " + req.path + "\n");
-  process.stderr.write("Error: " + (err && err.message) + "\n");
-  process.stderr.write("Stack: " + (err && err.stack) + "\n");
   if (err.code === "LIMIT_FILE_SIZE") {
     return res.send("File too large");
   }
